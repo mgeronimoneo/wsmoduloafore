@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns2="urn:wsModuloAfore">
+ <SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns2:ConsultarSaldoVolResponse>
+   <outParam>
+    <EstadoProc>
+     <Estado>0</Estado>
+     <DescripcionEstado></DescripcionEstado>
+    </EstadoProc>
+    <ListaSaldoVol SOAP-ENC:arrayType="ns2:DatosCtaSaldoVol[1]">
+     <Saldovol>
+      <iFolio>0</iFolio>
+      <iConsecutivoLote>0</iConsecutivoLote>
+      <cNss></cNss>
+      <iSiefore>0</iSiefore>
+      <iSubCuenta>0</iSubCuenta>
+      <cFechaValor></cFechaValor>
+      <cFechaConversion></cFechaConversion>
+      <iMontoEnPesos></iMontoEnPesos>
+      <iMontoEnAcciones></iMontoEnAcciones>
+      <iSaldoAcciones></iSaldoAcciones>
+      <cFechaSaldo></cFechaSaldo>
+      <cUsuario></cUsuario>
+     </Saldovol>
+    
+     <Saldovol>
+      <iFolio>0</iFolio>
+      <iConsecutivoLote>0</iConsecutivoLote>
+      <cNss></cNss>
+      <iSiefore>0</iSiefore>
+      <iSubCuenta>0</iSubCuenta>
+      <cFechaValor></cFechaValor>
+      <cFechaConversion></cFechaConversion>
+      <iMontoEnPesos></iMontoEnPesos>
+      <iMontoEnAcciones></iMontoEnAcciones>
+      <iSaldoAcciones></iSaldoAcciones>
+      <cFechaSaldo></cFechaSaldo>
+      <cUsuario></cUsuario>
+     </Saldovol>
+    </ListaSaldoVol>
+   </outParam>
+  </ns2:ConsultarSaldoVolResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

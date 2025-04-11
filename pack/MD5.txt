@@ -1,0 +1,33 @@
+Folio: 1158
+Empleado: Héctor Gastélum
+N° de Empleado: 98445871
+Fecha: 22/06/2020
+
+f8e45848c1fb853b1c51d2ddd3290aa4	fn_afop_valida_marcas.sql
+
+----------------------------------------------------------------------------
+Folio: 991
+Empleado: Eduardo Chavez
+N° de Empleado: 92919235
+Fecha: 22/11/2019
+
+69f5cc8a9feb68409910515aef53d4bb	\fn_obtenerinfo_saldovol.sql
+a90096406daa2ab3de902888a0e7ff45	\cconsultarctasaldovol.so
+
+----------------------------------------------------------------------------
+Folio: 1171/887
+Empleado: Jose Frias
+N° de Empleado: 97211206
+Fecha: 21/11/2019
+
+dac5c5300cf29a5713eedd4121bd6382	fnconvivenciamarcaoperativa.sql
+a729f75ef75cb17ddc6724e2b6347259	fn_afop_valida_marcas.sql
+
+----------------------------------------------------------------------------
+Folio: 948
+Empleado: Pedro Elizalde
+N° de Empleado: 90012354
+Fecha: 17/10/2019
+
+
+1ced929b30c579732e41ff72220ab455	fn_afop_crear_saldos_dis_cuenta_split.sql

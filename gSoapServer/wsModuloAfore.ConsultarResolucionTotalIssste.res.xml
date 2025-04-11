@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns2="urn:wsModuloAfore">
+ <SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns2:ConsultarResolucionTotalIsssteResponse>
+   <outParam>
+    <EstadoProc>
+     <Estado>0</Estado>
+     <DescripcionEstado></DescripcionEstado>
+    </EstadoProc>
+    <RespResolucionTotalIssste>
+     <Nss></Nss>
+     <NssIssste></NssIssste>
+     <Curp></Curp>
+     <SecPension></SecPension>
+     <NombreDatamart></NombreDatamart>
+     <PaternoDatamart></PaternoDatamart>
+     <MaternoDatamart></MaternoDatamart>
+     <NumConcesion></NumConcesion>
+     <TipoRetiro></TipoRetiro>
+     <Regimen></Regimen>
+     <TipoSeguro></TipoSeguro>
+     <TipoPension></TipoPension>
+     <CvePension></CvePension>
+     <FechaInicioPen></FechaInicioPen>
+     <FechaResolucion></FechaResolucion>
+     <Delegacion>0</Delegacion>
+     <TipoMovimiento>0</TipoMovimiento>
+     <TipoPrestacion>0</TipoPrestacion>
+     <SemanasCotizadas>0</SemanasCotizadas>
+     <DiagDatamart>0</DiagDatamart>
+     <Estadoregistro>0</Estadoregistro>
+     <Folio>0</Folio>
+    </RespResolucionTotalIssste>
+   </outParam>
+  </ns2:ConsultarResolucionTotalIsssteResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

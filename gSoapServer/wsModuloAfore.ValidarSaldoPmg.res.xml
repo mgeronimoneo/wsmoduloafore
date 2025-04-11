@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns2="urn:wsModuloAfore">
+ <SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns2:ValidarSaldoPmgResponse>
+   <outParam>
+    <EstadoProc>
+     <Estado>0</Estado>
+     <DescripcionEstado></DescripcionEstado>
+    </EstadoProc>
+    <ResolSaldoPmg>
+     <Mensaje></Mensaje>
+     <EstatusDat></EstatusDat>
+     <EstatusCap></EstatusCap>
+     <Codigo>0</Codigo>
+    </ResolSaldoPmg>
+   </outParam>
+  </ns2:ValidarSaldoPmgResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

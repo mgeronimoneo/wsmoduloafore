@@ -1,0 +1,1 @@
+INSERT INTO gloFechaCorte (corte, fecha_corte) VALUES(4, '2008-03-31');

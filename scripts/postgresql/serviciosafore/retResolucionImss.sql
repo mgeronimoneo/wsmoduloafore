@@ -1,0 +1,32 @@
+create table retResolucionImss
+(
+	keyx					serial not null,
+	fechaalta				date not null default now(),
+	folioTramiteProcesar	char(50) not null default '',
+	folio					int not null default 0,
+	entidadOrigen			char(3) not null default '',
+	tipoTramite				char(3) not null default '',
+	nss						char(11) not null default '',
+	nombreimss				char(50) not null default '',
+	nombreprocanase 		char(50) not null default '',
+	nombrebdnsar			char(40) not null default '',
+	paternobdnsar			char(40) not null default '',
+	maternobdnsar			char(40) not null default '',
+	tipoprestacion			smallint not null default 0,
+	fechaMatrimonioDesempleo	date not null default '19000101',
+	fechaInicioVigencia			date not null default '19000101',
+	fechaFinVigencia			date not null default '19000101',
+	numResolucion				int not null default 0,
+	diagnosticoProcesar			char(3) not null default '',
+	idAportacionCS				smallint not null default 0,
+	salarioBaseA				double precision not null default 0,
+	salarioBaseB				double precision not null default 0,
+	idComplemento				smallint not null default 0,
+	montoPagado					double precision not null default 0,
+	saldoRcvAnt					double precision not null default 0,
+	fechaCargaAfore				timestamp not null default '19000101 00:00:00',
+	numConsecutivoProcesar		int not null default 0,
+	totalResolProcesar			int not null default 0,
+	estadoRegistro				smallint not null default 0
+)without oids;
+alter table retResolucionImss owner to sysserviciosafore;

@@ -1,0 +1,40 @@
+﻿folio : 1729
+Empleado: Alexis Aispuro
+N° de Empleado: 98623885
+Fecha: 19/12/2020
+
+c15d05cf380afa7b4c49dd4c51ddc065	fn_obtenerinfo_saldovol.sql
+*********************************************************************************************
+folio : 991
+Empleado: Eduardo Chavez
+N° de Empleado: 92919235
+Fecha: 22/11/2019
+
+7404bb623faf6b8e3e9b08cedd16ee2d	\CConsultarCtaSaldoVol\CConsultarCtaSaldoVol.cpp
+a90096406daa2ab3de902888a0e7ff45	\CConsultarCtaSaldoVol\bin\cconsultarctasaldovol.so
+
+*********************************************************************************************
+folio : 806.1
+Empleado: Gustavo Me-Vi
+N° de Empleado: 97922821
+Fecha: 08/07/2019
+
+818e754c4c0a1c5da7cc0215f714cfc2	fnsaldodiario.sql
+abafe61330ab8134fdcdd1bf4a5fac91	fn_afop_saldo_viv_ret_e.sql
+8e6e5ea49569b33ab5b96df2decae727	fnobtenersaldovivret_e.sql
+
+*********************************************************************************************
+Folio: 521.1
+Empleado: Jose Carlos Lopez Villegas
+N° de Empleado: 96638648
+Fecha: 15/03/2019
+
+
+a85f2aeb802f4aeabe937a09528d8a44	.cproject
+7e51231ff614d879afaf5f94b882a0c0	.project
+4c0b9cb2e2dd26af6bffab783e2ba23f	definiciones.hpp
+9b99320da6c34075c7dab5cfb84ea158	estructuras.hpp
+5a4240ea22c0a03380ea1984ba769508	includeStd.hpp
+a203ec6c73f50e6da2b0936a4284c7fc	makefile
+1169f62840344a82e76460d0a85ef389	wsModuloAfore.cpp
+6d4eb1c8dd32111cc041a523297ad8d8	wsModuloAfore.hpp

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <schema targetNamespace="urn:wsModuloAfore"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:wsModuloAfore"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="ClasificacionServicio"><!-- ns1__ClasificacionServicio -->
+
+   <restriction base="xsd:string">
+    <enumeration value="O"/><!-- ns1__ClasificacionServicio::O -->
+    <!-- = 0 -->
+    <enumeration value="A"/><!-- ns1__ClasificacionServicio::A -->
+    <!-- = 1 -->
+    <enumeration value="C"/><!-- ns1__ClasificacionServicio::C -->
+    <!-- = 2 -->
+    <enumeration value="N"/><!-- ns1__ClasificacionServicio::N -->
+    <!-- = 3 -->
+    <enumeration value="P"/><!-- ns1__ClasificacionServicio::P -->
+    <!-- = 4 -->
+    <enumeration value="Q"/><!-- ns1__ClasificacionServicio::Q -->
+    <!-- = 5 -->
+    <enumeration value="S"/><!-- ns1__ClasificacionServicio::S -->
+    <!-- = 6 -->
+   </restriction>
+  </simpleType>
+  <simpleType name="TipoTrabajador"><!-- ns1__TipoTrabajador -->
+
+   <restriction base="xsd:string">
+    <enumeration value="Imss"/><!-- ns1__TipoTrabajador::Imss -->
+    <!-- = 1 -->
+    <enumeration value="Issste"/><!-- ns1__TipoTrabajador::Issste -->
+    <!-- = 2 -->
+   </restriction>
+  </simpleType>
+  <simpleType name="TipoRetiroParcial"><!-- ns1__TipoRetiroParcial -->
+
+   <restriction base="xsd:string">
+    <enumeration value="Desempleo"/><!-- ns1__TipoRetiroParcial::Desempleo -->
+    <!-- = 1024 -->
+    <enumeration value="Matrimonio"/><!-- ns1__TipoRetiroParcial::Matrimonio -->
+    <!-- = 1025 -->
+   </restriction>
+  </simpleType>
+ </schema>
+

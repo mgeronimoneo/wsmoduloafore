@@ -1,0 +1,1 @@
+update FoliadorServicios set tiposervicio = 'Q' where tiposervicio = 'R';

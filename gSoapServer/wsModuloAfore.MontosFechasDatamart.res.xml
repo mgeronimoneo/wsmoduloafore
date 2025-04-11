@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns2="urn:wsModuloAfore">
+ <SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns2:MontosFechasDatamartResponse>
+   <outParam>
+    <EstadoProc>
+     <Estado>0</Estado>
+     <DescripcionEstado></DescripcionEstado>
+    </EstadoProc>
+    <MontosFechaDat>
+     <Nss></Nss>
+     <FechaMatrimonioDesempleo></FechaMatrimonioDesempleo>
+     <FechaInicioVigencia></FechaInicioVigencia>
+     <SalarioBaseA></SalarioBaseA>
+     <SalarioBaseB></SalarioBaseB>
+     <UltimoSalarioBaseCotizado></UltimoSalarioBaseCotizado>
+     <Ultimas250SemanasSBC></Ultimas250SemanasSBC>
+    </MontosFechaDat>
+   </outParam>
+  </ns2:MontosFechasDatamartResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

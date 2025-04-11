@@ -1,0 +1,9 @@
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(1,'SERVIDOR SAFRE_AF', '10.26.54.136');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(100,'Replica safre[cta_convivencia]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(101,'Replica safre[cta_act_marca]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(102,'Replica safre[glo_valor_accion]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(103,'Replica safre[ret_parcial_resol]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(104,'Replica safre[ret_parcial]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(105,'Replica safre[ret_datamart_par_issste]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(106,'Replica safre[tab_feriado]', '19000101');
+insert into controlwsmoduloafore(idcontrol,descripcion,valor) values(107,'Replica safre[ret_resol_comp]', '19000101');

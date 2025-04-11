@@ -1,0 +1,1173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="wsModuloAfore"
+ targetNamespace="urn:wsModuloAfore/wsModuloAfore.wsdl"
+ xmlns:tns="urn:wsModuloAfore/wsModuloAfore.wsdl"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns1="urn:wsModuloAfore"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:HTTP="http://schemas.xmlsoap.org/wsdl/http/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:wsModuloAfore"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns1="urn:wsModuloAfore"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <simpleType name="ClasificacionServicio"><!-- ns1__ClasificacionServicio -->
+
+   <restriction base="xsd:string">
+    <enumeration value="O"/><!-- ns1__ClasificacionServicio::O -->
+    <!-- = 0 -->
+    <enumeration value="A"/><!-- ns1__ClasificacionServicio::A -->
+    <!-- = 1 -->
+    <enumeration value="C"/><!-- ns1__ClasificacionServicio::C -->
+    <!-- = 2 -->
+    <enumeration value="N"/><!-- ns1__ClasificacionServicio::N -->
+    <!-- = 3 -->
+    <enumeration value="P"/><!-- ns1__ClasificacionServicio::P -->
+    <!-- = 4 -->
+    <enumeration value="Q"/><!-- ns1__ClasificacionServicio::Q -->
+    <!-- = 5 -->
+    <enumeration value="S"/><!-- ns1__ClasificacionServicio::S -->
+    <!-- = 6 -->
+   </restriction>
+  </simpleType>
+  <simpleType name="TipoTrabajador"><!-- ns1__TipoTrabajador -->
+
+   <restriction base="xsd:string">
+    <enumeration value="Imss"/><!-- ns1__TipoTrabajador::Imss -->
+    <!-- = 1 -->
+    <enumeration value="Issste"/><!-- ns1__TipoTrabajador::Issste -->
+    <!-- = 2 -->
+   </restriction>
+  </simpleType>
+  <simpleType name="TipoRetiroParcial"><!-- ns1__TipoRetiroParcial -->
+
+   <restriction base="xsd:string">
+    <enumeration value="Desempleo"/><!-- ns1__TipoRetiroParcial::Desempleo -->
+    <!-- = 1024 -->
+    <enumeration value="Matrimonio"/><!-- ns1__TipoRetiroParcial::Matrimonio -->
+    <!-- = 1025 -->
+   </restriction>
+  </simpleType>
+  <complexType name="EstadoProceso"><!-- EstadoProceso -->
+
+   <sequence>
+     <element name="Estado" type="xsd:short" minOccurs="1" maxOccurs="1"/><!-- EstadoProceso::Estado -->
+     <element name="DescripcionEstado" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- EstadoProceso::DescripcionEstado -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamConsultarAfiliado"><!-- ParamConsultarAfiliado -->
+
+   <sequence>
+     <element name="iFolioServicio" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamConsultarAfiliado::iFolioServicio -->
+   </sequence>
+  </complexType>
+  <complexType name="ParametroNss"><!-- ParametroNss -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroNss::Nss -->
+   </sequence>
+  </complexType>
+  <complexType name="ParametroSaldoPmg"><!-- ParametroSaldoPmg -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroSaldoPmg::Nss -->
+     <element name="Secuencia" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroSaldoPmg::Secuencia -->
+     <element name="EstadoViv" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParametroSaldoPmg::EstadoViv -->
+   </sequence>
+  </complexType>
+  <complexType name="ParametroNssTipoRetiro"><!-- ParametroNssTipoRetiro -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroNssTipoRetiro::Nss -->
+     <element name="TipoRetiro" type="ns1:TipoRetiroParcial" minOccurs="1" maxOccurs="1"/><!-- ParametroNssTipoRetiro::TipoRetiro -->
+   </sequence>
+  </complexType>
+  <complexType name="Afiliado"><!-- Afiliado -->
+
+   <sequence>
+     <element name="cApellidoPaterno" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cApellidoPaterno -->
+     <element name="cApellidoMaterno" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cApellidoMaterno -->
+     <element name="cNombre" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cNombre -->
+     <element name="cCurp" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cCurp -->
+     <element name="cNss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cNss -->
+     <element name="cFechaServicio" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cFechaServicio -->
+     <element name="cFechaNacimiento" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cFechaNacimiento -->
+     <element name="cEntidadNacimiento" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- Afiliado::cEntidadNacimiento -->
+     <element name="iSexo" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- Afiliado::iSexo -->
+   </sequence>
+  </complexType>
+  <complexType name="RespConsultarAfiliado"><!-- RespConsultarAfiliado -->
+
+   <sequence>
+     <element name="datosAfiliado" type="ns1:Afiliado" minOccurs="1" maxOccurs="1"/><!-- RespConsultarAfiliado::datosAfiliado -->
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespConsultarAfiliado::EstadoProc -->
+   </sequence>
+  </complexType>
+  <complexType name="SaldoSubCuenta"><!-- SaldoSubCuenta -->
+
+   <sequence>
+     <element name="SubCuenta" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SaldoSubCuenta::SubCuenta -->
+     <element name="Siefore" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SaldoSubCuenta::Siefore -->
+     <element name="SaldoAccion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- SaldoSubCuenta::SaldoAccion -->
+     <element name="SaldoPesos" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- SaldoSubCuenta::SaldoPesos -->
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfSaldoSubCuenta">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="Saldo" type="ns1:SaldoSubCuenta" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:SaldoSubCuenta[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="SaldoPorSubcuenta"><!-- SaldoPorSubcuenta -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- SaldoPorSubcuenta::EstadoProc -->
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- SaldoPorSubcuenta::Nss -->
+     <element name="ListaSaldos" type="ns1:ArrayOfSaldoSubCuenta" minOccurs="0" maxOccurs="1" nillable="true"/><!-- SaldoPorSubcuenta::ListaSaldos -->
+   </sequence>
+  </complexType>
+  <complexType name="SaldosCuentasPmg"><!-- SaldosCuentasPmg -->
+
+   <sequence>
+     <element name="Retroactivo" type="xsd:double" minOccurs="1" maxOccurs="1"/><!-- SaldosCuentasPmg::Retroactivo -->
+     <element name="Devengado" type="xsd:double" minOccurs="1" maxOccurs="1"/><!-- SaldosCuentasPmg::Devengado -->
+     <element name="SaldoDia" type="xsd:double" minOccurs="1" maxOccurs="1"/><!-- SaldosCuentasPmg::SaldoDia -->
+     <element name="Suficiencia" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SaldosCuentasPmg::Suficiencia -->
+     <element name="Registros" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SaldosCuentasPmg::Registros -->
+   </sequence>
+  </complexType>
+  <complexType name="SaldoPorSubcuentaPmg"><!-- SaldoPorSubcuentaPmg -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- SaldoPorSubcuentaPmg::EstadoProc -->
+     <element name="SaldosPmg" type="ns1:SaldosCuentasPmg" minOccurs="1" maxOccurs="1"/><!-- SaldoPorSubcuentaPmg::SaldosPmg -->
+   </sequence>
+  </complexType>
+  <complexType name="FoliadorServicio"><!-- FoliadorServicio -->
+
+   <sequence>
+     <element name="TipoServicio" type="ns1:ClasificacionServicio" minOccurs="1" maxOccurs="1"/><!-- FoliadorServicio::TipoServicio -->
+   </sequence>
+  </complexType>
+  <complexType name="FolioServicio"><!-- FolioServicio -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- FolioServicio::EstadoProc -->
+     <element name="Folio" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- FolioServicio::Folio -->
+   </sequence>
+  </complexType>
+  <complexType name="ConvivenciaMarcas"><!-- ConvivenciaMarcas -->
+
+   <sequence>
+     <element name="TipoTrabajador" type="ns1:TipoTrabajador" minOccurs="1" maxOccurs="1"/><!-- ConvivenciaMarcas::TipoTrabajador -->
+     <element name="Opcion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ConvivenciaMarcas::Opcion -->
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ConvivenciaMarcas::Nss -->
+     <element name="TipoRetiro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ConvivenciaMarcas::TipoRetiro -->
+   </sequence>
+  </complexType>
+  <complexType name="ValidaConvivenciaMarcas"><!-- ValidaConvivenciaMarcas -->
+
+   <sequence>
+     <element name="Codigo" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ValidaConvivenciaMarcas::Codigo -->
+     <element name="Descripcion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ValidaConvivenciaMarcas::Descripcion -->
+     <element name="TieneMarca" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ValidaConvivenciaMarcas::TieneMarca -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaConvivenciaMarca"><!-- RespuestaConvivenciaMarca -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaConvivenciaMarca::EstadoProc -->
+     <element name="ConvivenciaMarca" type="ns1:ValidaConvivenciaMarcas" minOccurs="1" maxOccurs="1"/><!-- RespuestaConvivenciaMarca::ConvivenciaMarca -->
+   </sequence>
+  </complexType>
+  <complexType name="TipoSolicitante"><!-- TipoSolicitante -->
+
+   <sequence>
+     <element name="iTipoSolicitante" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- TipoSolicitante::iTipoSolicitante -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaTipoSolicitante"><!-- RespuestaTipoSolicitante -->
+
+   <sequence>
+     <element name="Solicitante" type="ns1:TipoSolicitante" minOccurs="1" maxOccurs="1"/><!-- RespuestaTipoSolicitante::Solicitante -->
+   </sequence>
+  </complexType>
+  <complexType name="ConsultaSaldoDiarioRetiroParcial"><!-- ConsultaSaldoDiarioRetiroParcial -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ConsultaSaldoDiarioRetiroParcial::Nss -->
+     <element name="TipoRetiro" type="ns1:TipoRetiroParcial" minOccurs="1" maxOccurs="1"/><!-- ConsultaSaldoDiarioRetiroParcial::TipoRetiro -->
+   </sequence>
+  </complexType>
+  <complexType name="SaldoDiarioRetiroParcial"><!-- SaldoDiarioRetiroParcial -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- SaldoDiarioRetiroParcial::EstadoProc -->
+     <element name="SaldoPesos" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- SaldoDiarioRetiroParcial::SaldoPesos -->
+   </sequence>
+  </complexType>
+  <complexType name="ValidarResolucionImss"><!-- ValidarResolucionImss -->
+
+   <sequence>
+     <element name="FechaVigencia" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ValidarResolucionImss::FechaVigencia -->
+     <element name="FechaVigenciaAnterior" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ValidarResolucionImss::FechaVigenciaAnterior -->
+     <element name="FechaProximaSolicitud" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ValidarResolucionImss::FechaProximaSolicitud -->
+     <element name="Retorno" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ValidarResolucionImss::Retorno -->
+     <element name="Descripcion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ValidarResolucionImss::Descripcion -->
+     <element name="DiagnosticoProcesar" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ValidarResolucionImss::DiagnosticoProcesar -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaValidarResolucionImss"><!-- RespuestaValidarResolucionImss -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaValidarResolucionImss::EstadoProc -->
+     <element name="ResolucionImss" type="ns1:ValidarResolucionImss" minOccurs="1" maxOccurs="1"/><!-- RespuestaValidarResolucionImss::ResolucionImss -->
+   </sequence>
+  </complexType>
+  <complexType name="MontosFechasDatamart"><!-- MontosFechasDatamart -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::Nss -->
+     <element name="FechaMatrimonioDesempleo" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::FechaMatrimonioDesempleo -->
+     <element name="FechaInicioVigencia" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::FechaInicioVigencia -->
+     <element name="SalarioBaseA" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::SalarioBaseA -->
+     <element name="SalarioBaseB" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::SalarioBaseB -->
+     <element name="UltimoSalarioBaseCotizado" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::UltimoSalarioBaseCotizado -->
+     <element name="Ultimas250SemanasSBC" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- MontosFechasDatamart::Ultimas250SemanasSBC -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaMontosFechasDatamart"><!-- RespuestaMontosFechasDatamart -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaMontosFechasDatamart::EstadoProc -->
+     <element name="MontosFechaDat" type="ns1:MontosFechasDatamart" minOccurs="1" maxOccurs="1"/><!-- RespuestaMontosFechasDatamart::MontosFechaDat -->
+   </sequence>
+  </complexType>
+  <complexType name="DatosResolucion"><!-- DatosResolucion -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosResolucion::Nss -->
+     <element name="FechaInicioVigencia" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosResolucion::FechaInicioVigencia -->
+     <element name="FechaFinVigencia" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosResolucion::FechaFinVigencia -->
+     <element name="NumeroResolucion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- DatosResolucion::NumeroResolucion -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaDatosResolucion"><!-- RespuestaDatosResolucion -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaDatosResolucion::EstadoProc -->
+     <element name="Resolucion" type="ns1:DatosResolucion" minOccurs="1" maxOccurs="1"/><!-- RespuestaDatosResolucion::Resolucion -->
+   </sequence>
+  </complexType>
+  <complexType name="ComplementoResolucion"><!-- ComplementoResolucion -->
+
+   <sequence>
+     <element name="IdentificadorComplemento" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ComplementoResolucion::IdentificadorComplemento -->
+     <element name="NumeroResolucion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ComplementoResolucion::NumeroResolucion -->
+     <element name="MontoPagado" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ComplementoResolucion::MontoPagado -->
+     <element name="MontoPagadoComplemento" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ComplementoResolucion::MontoPagadoComplemento -->
+     <element name="SaldoRCV" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ComplementoResolucion::SaldoRCV -->
+     <element name="SaldoRCVAnterior" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ComplementoResolucion::SaldoRCVAnterior -->
+     <element name="RespuestaOtroDatamart" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ComplementoResolucion::RespuestaOtroDatamart -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaComplementoResolucion"><!-- RespuestaComplementoResolucion -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaComplementoResolucion::EstadoProc -->
+     <element name="ResolucionComplemento" type="ns1:ComplementoResolucion" minOccurs="1" maxOccurs="1"/><!-- RespuestaComplementoResolucion::ResolucionComplemento -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamResolucionTotalImss"><!-- ParamResolucionTotalImss -->
+
+   <sequence>
+     <element name="Opcion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamResolucionTotalImss::Opcion -->
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamResolucionTotalImss::Nss -->
+     <element name="Curp" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamResolucionTotalImss::Curp -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamResolucionTotalImssRI"><!-- ParamResolucionTotalImssRI -->
+
+   <sequence>
+     <element name="Opcion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamResolucionTotalImssRI::Opcion -->
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamResolucionTotalImssRI::Nss -->
+     <element name="Curp" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamResolucionTotalImssRI::Curp -->
+     <element name="Documento" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamResolucionTotalImssRI::Documento -->
+   </sequence>
+  </complexType>
+  <complexType name="ResolucionTotalImss"><!-- ResolucionTotalImss -->
+
+   <sequence>
+     <element name="ExisteResolucion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::ExisteResolucion -->
+     <element name="ExisteAfiliado" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::ExisteAfiliado -->
+     <element name="Regimen" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::Regimen -->
+     <element name="TipoSeguro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::TipoSeguro -->
+     <element name="TipoPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::TipoPension -->
+     <element name="TipoPrestacion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::TipoPrestacion -->
+     <element name="NombreDatamart" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::NombreDatamart -->
+     <element name="Folio" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::Folio -->
+     <element name="SecPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::SecPension -->
+     <element name="FechaInicio" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::FechaInicio -->
+     <element name="FechaPago" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::FechaPago -->
+     <element name="SemanasCotizadas" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::SemanasCotizadas -->
+     <element name="DiagDatamart" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::DiagDatamart -->
+     <element name="EstadoSubViv" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::EstadoSubViv -->
+     <element name="FechaResolucion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::FechaResolucion -->
+     <element name="DescRegimen" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::DescRegimen -->
+     <element name="DescTipoPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::DescTipoPension -->
+     <element name="DescTipoPrestacion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::DescTipoPrestacion -->
+     <element name="DescTipoRetiro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::DescTipoRetiro -->
+     <element name="DescTipoSeguro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::DescTipoSeguro -->
+     <element name="DescEdoSubViv" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalImss::DescEdoSubViv -->
+     <element name="IdMovimiento" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalImss::IdMovimiento -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaResolucionTotalImss"><!-- RespuestaResolucionTotalImss -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaResolucionTotalImss::EstadoProc -->
+     <element name="ResolTotalImss" type="ns1:ResolucionTotalImss" minOccurs="1" maxOccurs="1"/><!-- RespuestaResolucionTotalImss::ResolTotalImss -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamOperacionPmgImss"><!-- ParamOperacionPmgImss -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamOperacionPmgImss::Nss -->
+     <element name="Secuencia" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamOperacionPmgImss::Secuencia -->
+     <element name="Folio" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamOperacionPmgImss::Folio -->
+     <element name="iOpcion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamOperacionPmgImss::iOpcion -->
+   </sequence>
+  </complexType>
+  <complexType name="ResolucionOperacionPmg"><!-- ResolucionOperacionPmg -->
+
+   <sequence>
+     <element name="Mensaje" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionOperacionPmg::Mensaje -->
+     <element name="Codigo" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionOperacionPmg::Codigo -->
+     <element name="Importe" type="xsd:double" minOccurs="1" maxOccurs="1"/><!-- ResolucionOperacionPmg::Importe -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaCOperacionesPmgImss"><!-- RespuestaCOperacionesPmgImss -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaCOperacionesPmgImss::EstadoProc -->
+     <element name="ResolOperacionPmg" type="ns1:ResolucionOperacionPmg" minOccurs="1" maxOccurs="1"/><!-- RespuestaCOperacionesPmgImss::ResolOperacionPmg -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamMovimientosCuentas"><!-- ParamMovimientosCuentas -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamMovimientosCuentas::Nss -->
+   </sequence>
+  </complexType>
+  <complexType name="MovimientosCuentas"><!-- MovimientosCuentas -->
+
+   <sequence>
+     <element name="Movimientos" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- MovimientosCuentas::Movimientos -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaMovimientosCuentas"><!-- RespuestaMovimientosCuentas -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaMovimientosCuentas::EstadoProc -->
+     <element name="RespMovimientosCuentas" type="ns1:MovimientosCuentas" minOccurs="1" maxOccurs="1"/><!-- RespuestaMovimientosCuentas::RespMovimientosCuentas -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamResolucionTotalIssste"><!-- ParamResolucionTotalIssste -->
+
+   <sequence>
+     <element name="Curp" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamResolucionTotalIssste::Curp -->
+     <element name="TipoRetiro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamResolucionTotalIssste::TipoRetiro -->
+   </sequence>
+  </complexType>
+  <complexType name="ResolucionTotalIssste"><!-- ResolucionTotalIssste -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::Nss -->
+     <element name="NssIssste" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::NssIssste -->
+     <element name="Curp" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::Curp -->
+     <element name="SecPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::SecPension -->
+     <element name="NombreDatamart" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::NombreDatamart -->
+     <element name="PaternoDatamart" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::PaternoDatamart -->
+     <element name="MaternoDatamart" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::MaternoDatamart -->
+     <element name="NumConcesion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::NumConcesion -->
+     <element name="TipoRetiro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::TipoRetiro -->
+     <element name="Regimen" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::Regimen -->
+     <element name="TipoSeguro" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::TipoSeguro -->
+     <element name="TipoPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::TipoPension -->
+     <element name="CvePension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::CvePension -->
+     <element name="FechaInicioPen" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::FechaInicioPen -->
+     <element name="FechaResolucion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ResolucionTotalIssste::FechaResolucion -->
+     <element name="Delegacion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::Delegacion -->
+     <element name="TipoMovimiento" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::TipoMovimiento -->
+     <element name="TipoPrestacion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::TipoPrestacion -->
+     <element name="SemanasCotizadas" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::SemanasCotizadas -->
+     <element name="DiagDatamart" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::DiagDatamart -->
+     <element name="Estadoregistro" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::Estadoregistro -->
+     <element name="Folio" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ResolucionTotalIssste::Folio -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaResolucionTotalIssste"><!-- RespuestaResolucionTotalIssste -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaResolucionTotalIssste::EstadoProc -->
+     <element name="RespResolucionTotalIssste" type="ns1:ResolucionTotalIssste" minOccurs="1" maxOccurs="1"/><!-- RespuestaResolucionTotalIssste::RespResolucionTotalIssste -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamAportacionesPosteriores"><!-- ParamAportacionesPosteriores -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamAportacionesPosteriores::Nss -->
+     <element name="FechaIniPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamAportacionesPosteriores::FechaIniPension -->
+     <element name="iOpcion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParamAportacionesPosteriores::iOpcion -->
+   </sequence>
+  </complexType>
+  <complexType name="AportacionesPosteriores"><!-- AportacionesPosteriores -->
+
+   <sequence>
+     <element name="Aportacion" type="xsd:double" minOccurs="1" maxOccurs="1"/><!-- AportacionesPosteriores::Aportacion -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaAportacionesPosteriores"><!-- RespuestaAportacionesPosteriores -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaAportacionesPosteriores::EstadoProc -->
+     <element name="RespAportacionesPosteriores" type="ns1:AportacionesPosteriores" minOccurs="1" maxOccurs="1"/><!-- RespuestaAportacionesPosteriores::RespAportacionesPosteriores -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamNssCtaRegimen"><!-- ParamNssCtaRegimen -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamNssCtaRegimen::Nss -->
+   </sequence>
+  </complexType>
+  <complexType name="SieforeCtaRegimen"><!-- SieforeCtaRegimen -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- SieforeCtaRegimen::Nss -->
+     <element name="subCuenta" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SieforeCtaRegimen::subCuenta -->
+     <element name="Siefore" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SieforeCtaRegimen::Siefore -->
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfSieforeCtaRegimen">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="Siefore" type="ns1:SieforeCtaRegimen" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:SieforeCtaRegimen[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="RespuestaSieforeCtaRegimen"><!-- RespuestaSieforeCtaRegimen -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaSieforeCtaRegimen::EstadoProc -->
+     <element name="ListaSiefore" type="ns1:ArrayOfSieforeCtaRegimen" minOccurs="0" maxOccurs="1" nillable="true"/><!-- RespuestaSieforeCtaRegimen::ListaSiefore -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamNssCtaSaldoVol"><!-- ParamNssCtaSaldoVol -->
+
+   <sequence>
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamNssCtaSaldoVol::Nss -->
+   </sequence>
+  </complexType>
+  <complexType name="DatosCtaSaldoVol"><!-- DatosCtaSaldoVol -->
+
+   <sequence>
+     <element name="iFolio" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- DatosCtaSaldoVol::iFolio -->
+     <element name="iConsecutivoLote" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- DatosCtaSaldoVol::iConsecutivoLote -->
+     <element name="cNss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::cNss -->
+     <element name="iSiefore" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- DatosCtaSaldoVol::iSiefore -->
+     <element name="iSubCuenta" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- DatosCtaSaldoVol::iSubCuenta -->
+     <element name="cFechaValor" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::cFechaValor -->
+     <element name="cFechaConversion" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::cFechaConversion -->
+     <element name="iMontoEnPesos" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::iMontoEnPesos -->
+     <element name="iMontoEnAcciones" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::iMontoEnAcciones -->
+     <element name="iSaldoAcciones" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::iSaldoAcciones -->
+     <element name="cFechaSaldo" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::cFechaSaldo -->
+     <element name="cUsuario" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- DatosCtaSaldoVol::cUsuario -->
+   </sequence>
+  </complexType>
+  <complexType name="ArrayOfDatosCtaSaldoVol">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="Saldovol" type="ns1:DatosCtaSaldoVol" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="ns1:DatosCtaSaldoVol[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="RespuestaCtaSaldoVol"><!-- RespuestaCtaSaldoVol -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaCtaSaldoVol::EstadoProc -->
+     <element name="ListaSaldoVol" type="ns1:ArrayOfDatosCtaSaldoVol" minOccurs="0" maxOccurs="1" nillable="true"/><!-- RespuestaCtaSaldoVol::ListaSaldoVol -->
+   </sequence>
+  </complexType>
+  <complexType name="ParamConsultaSaldoVivienda"><!-- ParamConsultaSaldoVivienda -->
+
+   <sequence>
+     <element name="sNss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamConsultaSaldoVivienda::sNss -->
+     <element name="sFechaSolicitud" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamConsultaSaldoVivienda::sFechaSolicitud -->
+     <element name="sFechaIncioPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParamConsultaSaldoVivienda::sFechaIncioPension -->
+   </sequence>
+  </complexType>
+  <complexType name="ConsultarSaldoVivienda"><!-- ConsultarSaldoVivienda -->
+
+   <sequence>
+     <element name="sNss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ConsultarSaldoVivienda::sNss -->
+     <element name="dMontoAccionViv" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ConsultarSaldoVivienda::dMontoAccionViv -->
+     <element name="dMontoPesosViv" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ConsultarSaldoVivienda::dMontoPesosViv -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaConsultaSaldoVivienda"><!-- RespuestaConsultaSaldoVivienda -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaConsultaSaldoVivienda::EstadoProc -->
+     <element name="ConsultarSaldoViv" type="ns1:ConsultarSaldoVivienda" minOccurs="1" maxOccurs="1"/><!-- RespuestaConsultaSaldoVivienda::ConsultarSaldoViv -->
+   </sequence>
+  </complexType>
+  <complexType name="ParametroAportacionesPost"><!-- ParametroAportacionesPost -->
+
+   <sequence>
+     <element name="iOpcion" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParametroAportacionesPost::iOpcion -->
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroAportacionesPost::Nss -->
+     <element name="FechaIniPension" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroAportacionesPost::FechaIniPension -->
+     <element name="iGrupo" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- ParametroAportacionesPost::iGrupo -->
+   </sequence>
+  </complexType>
+  <complexType name="ParametroCurpNss"><!-- ParametroCurpNss -->
+
+   <sequence>
+     <element name="Curp" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroCurpNss::Curp -->
+     <element name="Nss" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- ParametroCurpNss::Nss -->
+   </sequence>
+  </complexType>
+  <complexType name="SaldoRecuperar"><!-- SaldoRecuperar -->
+
+   <sequence>
+     <element name="iRespuestaSaldo" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- SaldoRecuperar::iRespuestaSaldo -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaSaldoRecuperar"><!-- RespuestaSaldoRecuperar -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaSaldoRecuperar::EstadoProc -->
+     <element name="Saldo" type="ns1:SaldoRecuperar" minOccurs="1" maxOccurs="1"/><!-- RespuestaSaldoRecuperar::Saldo -->
+   </sequence>
+  </complexType>
+  <complexType name="FechaLiquida"><!-- FechaLiquida -->
+
+   <sequence>
+     <element name="cFechaLiquida" type="xsd:string" minOccurs="0" maxOccurs="1" nillable="true"/><!-- FechaLiquida::cFechaLiquida -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaFechaLiquida"><!-- RespuestaFechaLiquida -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaFechaLiquida::EstadoProc -->
+     <element name="Fecha" type="ns1:FechaLiquida" minOccurs="1" maxOccurs="1"/><!-- RespuestaFechaLiquida::Fecha -->
+   </sequence>
+  </complexType>
+  <complexType name="NumMensualidad"><!-- NumMensualidad -->
+
+   <sequence>
+     <element name="iRespuestaMensualidad" type="xsd:int" minOccurs="1" maxOccurs="1"/><!-- NumMensualidad::iRespuestaMensualidad -->
+   </sequence>
+  </complexType>
+  <complexType name="RespuestaMensualidad"><!-- RespuestaMensualidad -->
+
+   <sequence>
+     <element name="EstadoProc" type="ns1:EstadoProceso" minOccurs="1" maxOccurs="1"/><!-- RespuestaMensualidad::EstadoProc -->
+     <element name="Mensualidad" type="ns1:NumMensualidad" minOccurs="1" maxOccurs="1"/><!-- RespuestaMensualidad::Mensualidad -->
+   </sequence>
+  </complexType>
+ </schema>
+
+</types>
+
+<message name="consultarAfiliadoRequest">
+ <part name="in" type="ns1:ParamConsultarAfiliado"/><!-- ns1__consultarAfiliado::in -->
+</message>
+
+<message name="consultarAfiliadoResponse">
+ <part name="out" type="ns1:RespConsultarAfiliado"/><!-- ns1__consultarAfiliado::out -->
+</message>
+
+<message name="consultarSaldosRequest">
+ <part name="inParam" type="ns1:ParametroNss"/><!-- ns1__consultarSaldos::inParam -->
+</message>
+
+<message name="consultarSaldosResponse">
+ <part name="outSaldos" type="ns1:SaldoPorSubcuenta"/><!-- ns1__consultarSaldos::outSaldos -->
+</message>
+
+<message name="ObtenerFolioServicioRequest">
+ <part name="inFoliador" type="ns1:FoliadorServicio"/><!-- ns1__ObtenerFolioServicio::inFoliador -->
+</message>
+
+<message name="ObtenerFolioServicioResponse">
+ <part name="outFolioServ" type="ns1:FolioServicio"/><!-- ns1__ObtenerFolioServicio::outFolioServ -->
+</message>
+
+<message name="ValidarConvivenciaMarcaOperativaRequest">
+ <part name="inParam" type="ns1:ConvivenciaMarcas"/><!-- ns1__ValidarConvivenciaMarcaOperativa::inParam -->
+</message>
+
+<message name="ValidarConvivenciaMarcaOperativaResponse">
+ <part name="outParam" type="ns1:RespuestaConvivenciaMarca"/><!-- ns1__ValidarConvivenciaMarcaOperativa::outParam -->
+</message>
+
+<message name="ObtenerSaldoDiarioRetiroParcialRequest">
+ <part name="inParam" type="ns1:ConsultaSaldoDiarioRetiroParcial"/><!-- ns1__ObtenerSaldoDiarioRetiroParcial::inParam -->
+</message>
+
+<message name="ObtenerSaldoDiarioRetiroParcialResponse">
+ <part name="outParam" type="ns1:SaldoDiarioRetiroParcial"/><!-- ns1__ObtenerSaldoDiarioRetiroParcial::outParam -->
+</message>
+
+<message name="ValidarResolucionImssRequest">
+ <part name="inParam" type="ns1:ParametroNssTipoRetiro"/><!-- ns1__ValidarResolucionImss::inParam -->
+</message>
+
+<message name="ValidarResolucionImssResponse">
+ <part name="outParam" type="ns1:RespuestaValidarResolucionImss"/><!-- ns1__ValidarResolucionImss::outParam -->
+</message>
+
+<message name="MontosFechasDatamartRequest">
+ <part name="inParam" type="ns1:ParametroNssTipoRetiro"/><!-- ns1__MontosFechasDatamart::inParam -->
+</message>
+
+<message name="MontosFechasDatamartResponse">
+ <part name="outParam" type="ns1:RespuestaMontosFechasDatamart"/><!-- ns1__MontosFechasDatamart::outParam -->
+</message>
+
+<message name="consultarResolucionRequest">
+ <part name="inParam" type="ns1:ParametroNssTipoRetiro"/><!-- ns1__consultarResolucion::inParam -->
+</message>
+
+<message name="consultarResolucionResponse">
+ <part name="outParam" type="ns1:RespuestaDatosResolucion"/><!-- ns1__consultarResolucion::outParam -->
+</message>
+
+<message name="ConsultarComplementoResolucionRequest">
+ <part name="inParam" type="ns1:ParametroNssTipoRetiro"/><!-- ns1__ConsultarComplementoResolucion::inParam -->
+</message>
+
+<message name="ConsultarComplementoResolucionResponse">
+ <part name="outParam" type="ns1:RespuestaComplementoResolucion"/><!-- ns1__ConsultarComplementoResolucion::outParam -->
+</message>
+
+<message name="ConsultarResolucionTotalImssRequest">
+ <part name="inParam" type="ns1:ParamResolucionTotalImss"/><!-- ns1__ConsultarResolucionTotalImss::inParam -->
+</message>
+
+<message name="ConsultarResolucionTotalImssResponse">
+ <part name="outParam" type="ns1:RespuestaResolucionTotalImss"/><!-- ns1__ConsultarResolucionTotalImss::outParam -->
+</message>
+
+<message name="COperacionesPmgRequest">
+ <part name="inParam" type="ns1:ParamOperacionPmgImss"/><!-- ns1__COperacionesPmg::inParam -->
+</message>
+
+<message name="COperacionesPmgResponse">
+ <part name="outParam" type="ns1:RespuestaCOperacionesPmgImss"/><!-- ns1__COperacionesPmg::outParam -->
+</message>
+
+<message name="movimientosCuentasRequest">
+ <part name="inParam" type="ns1:ParamMovimientosCuentas"/><!-- ns1__movimientosCuentas::inParam -->
+</message>
+
+<message name="movimientosCuentasResponse">
+ <part name="outParam" type="ns1:RespuestaMovimientosCuentas"/><!-- ns1__movimientosCuentas::outParam -->
+</message>
+
+<message name="ConsultarResolucionTotalIsssteRequest">
+ <part name="inParam" type="ns1:ParamResolucionTotalIssste"/><!-- ns1__ConsultarResolucionTotalIssste::inParam -->
+</message>
+
+<message name="ConsultarResolucionTotalIsssteResponse">
+ <part name="outParam" type="ns1:RespuestaResolucionTotalIssste"/><!-- ns1__ConsultarResolucionTotalIssste::outParam -->
+</message>
+
+<message name="consultarSaldosPmgRequest">
+ <part name="inParam" type="ns1:ParametroSaldoPmg"/><!-- ns1__consultarSaldosPmg::inParam -->
+</message>
+
+<message name="consultarSaldosPmgResponse">
+ <part name="outSaldosPmg" type="ns1:SaldoPorSubcuentaPmg"/><!-- ns1__consultarSaldosPmg::outSaldosPmg -->
+</message>
+
+<message name="consultarAportacionesRequest">
+ <part name="inParam" type="ns1:ParamAportacionesPosteriores"/><!-- ns1__consultarAportaciones::inParam -->
+</message>
+
+<message name="consultarAportacionesResponse">
+ <part name="outParam" type="ns1:RespuestaAportacionesPosteriores"/><!-- ns1__consultarAportaciones::outParam -->
+</message>
+
+<message name="ConsultarResolucionTotalImssRIRequest">
+ <part name="inParam" type="ns1:ParamResolucionTotalImssRI"/><!-- ns1__ConsultarResolucionTotalImssRI::inParam -->
+</message>
+
+<message name="ConsultarResolucionTotalImssRIResponse">
+ <part name="outParam" type="ns1:RespuestaResolucionTotalImss"/><!-- ns1__ConsultarResolucionTotalImssRI::outParam -->
+</message>
+
+<message name="ConsultarSieforeCtaRegimenRequest">
+ <part name="inParam" type="ns1:ParamNssCtaRegimen"/><!-- ns1__ConsultarSieforeCtaRegimen::inParam -->
+</message>
+
+<message name="ConsultarSieforeCtaRegimenResponse">
+ <part name="outParam" type="ns1:RespuestaSieforeCtaRegimen"/><!-- ns1__ConsultarSieforeCtaRegimen::outParam -->
+</message>
+
+<message name="ConsultarSaldoVolRequest">
+ <part name="inParam" type="ns1:ParametroNss"/><!-- ns1__ConsultarSaldoVol::inParam -->
+</message>
+
+<message name="ConsultarSaldoVolResponse">
+ <part name="outParam" type="ns1:RespuestaCtaSaldoVol"/><!-- ns1__ConsultarSaldoVol::outParam -->
+</message>
+
+<message name="ConsultaSaldoViviendaRequest">
+ <part name="inParam" type="ns1:ParamConsultaSaldoVivienda"/><!-- ns1__ConsultaSaldoVivienda::inParam -->
+</message>
+
+<message name="ConsultaSaldoViviendaResponse">
+ <part name="outParam" type="ns1:RespuestaConsultaSaldoVivienda"/><!-- ns1__ConsultaSaldoVivienda::outParam -->
+</message>
+
+<message name="ConsultaAportacionesPosterioresRequest">
+ <part name="inParam" type="ns1:ParametroAportacionesPost"/><!-- ns1__ConsultaAportacionesPosteriores::inParam -->
+</message>
+
+<message name="ConsultaAportacionesPosterioresResponse">
+ <part name="outParam" type="ns1:RespuestaAportacionesPosteriores"/><!-- ns1__ConsultaAportacionesPosteriores::outParam -->
+</message>
+
+<message name="CConsultarResolusionRetAportacionesRequest">
+ <part name="inParam" type="ns1:ParametroCurpNss"/><!-- ns1__CConsultarResolusionRetAportaciones::inParam -->
+</message>
+
+<message name="CConsultarResolusionRetAportacionesResponse">
+ <part name="outParam" type="ns1:RespuestaTipoSolicitante"/><!-- ns1__CConsultarResolusionRetAportaciones::outParam -->
+</message>
+
+<message name="CConsultarSaldoRecuperarRequest">
+ <part name="inParam" type="ns1:ParametroNss"/><!-- ns1__CConsultarSaldoRecuperar::inParam -->
+</message>
+
+<message name="CConsultarSaldoRecuperarResponse">
+ <part name="outParam" type="ns1:RespuestaSaldoRecuperar"/><!-- ns1__CConsultarSaldoRecuperar::outParam -->
+</message>
+
+<message name="CConsultarFechaLiquidaRequest">
+ <part name="inParam" type="ns1:ParametroNss"/><!-- ns1__CConsultarFechaLiquida::inParam -->
+</message>
+
+<message name="CConsultarFechaLiquidaResponse">
+ <part name="outParam" type="ns1:RespuestaFechaLiquida"/><!-- ns1__CConsultarFechaLiquida::outParam -->
+</message>
+
+<message name="CConsultarNumMensualidadRequest">
+ <part name="inParam" type="ns1:ParametroNss"/><!-- ns1__CConsultarNumMensualidad::inParam -->
+</message>
+
+<message name="CConsultarNumMensualidadResponse">
+ <part name="outParam" type="ns1:RespuestaMensualidad"/><!-- ns1__CConsultarNumMensualidad::outParam -->
+</message>
+
+<message name="consultarSaldosPenMinGarRequest">
+ <part name="inParam" type="ns1:ParametroNss"/><!-- ns1__consultarSaldosPenMinGar::inParam -->
+</message>
+
+<message name="consultarSaldosPenMinGarResponse">
+ <part name="outSaldos" type="ns1:SaldoPorSubcuenta"/><!-- ns1__consultarSaldosPenMinGar::outSaldos -->
+</message>
+
+<portType name="wsModuloAforePortType">
+ <operation name="consultarAfiliado">
+  <documentation>Service definition of function ns1__consultarAfiliado</documentation>
+  <input message="tns:consultarAfiliadoRequest"/>
+  <output message="tns:consultarAfiliadoResponse"/>
+ </operation>
+ <operation name="consultarSaldos">
+  <documentation>Service definition of function ns1__consultarSaldos</documentation>
+  <input message="tns:consultarSaldosRequest"/>
+  <output message="tns:consultarSaldosResponse"/>
+ </operation>
+ <operation name="ObtenerFolioServicio">
+  <documentation>Service definition of function ns1__ObtenerFolioServicio</documentation>
+  <input message="tns:ObtenerFolioServicioRequest"/>
+  <output message="tns:ObtenerFolioServicioResponse"/>
+ </operation>
+ <operation name="ValidarConvivenciaMarcaOperativa">
+  <documentation>Service definition of function ns1__ValidarConvivenciaMarcaOperativa</documentation>
+  <input message="tns:ValidarConvivenciaMarcaOperativaRequest"/>
+  <output message="tns:ValidarConvivenciaMarcaOperativaResponse"/>
+ </operation>
+ <operation name="ObtenerSaldoDiarioRetiroParcial">
+  <documentation>Service definition of function ns1__ObtenerSaldoDiarioRetiroParcial</documentation>
+  <input message="tns:ObtenerSaldoDiarioRetiroParcialRequest"/>
+  <output message="tns:ObtenerSaldoDiarioRetiroParcialResponse"/>
+ </operation>
+ <operation name="ValidarResolucionImss">
+  <documentation>Service definition of function ns1__ValidarResolucionImss</documentation>
+  <input message="tns:ValidarResolucionImssRequest"/>
+  <output message="tns:ValidarResolucionImssResponse"/>
+ </operation>
+ <operation name="MontosFechasDatamart">
+  <documentation>Service definition of function ns1__MontosFechasDatamart</documentation>
+  <input message="tns:MontosFechasDatamartRequest"/>
+  <output message="tns:MontosFechasDatamartResponse"/>
+ </operation>
+ <operation name="consultarResolucion">
+  <documentation>Service definition of function ns1__consultarResolucion</documentation>
+  <input message="tns:consultarResolucionRequest"/>
+  <output message="tns:consultarResolucionResponse"/>
+ </operation>
+ <operation name="ConsultarComplementoResolucion">
+  <documentation>Service definition of function ns1__ConsultarComplementoResolucion</documentation>
+  <input message="tns:ConsultarComplementoResolucionRequest"/>
+  <output message="tns:ConsultarComplementoResolucionResponse"/>
+ </operation>
+ <operation name="ConsultarResolucionTotalImss">
+  <documentation>Service definition of function ns1__ConsultarResolucionTotalImss</documentation>
+  <input message="tns:ConsultarResolucionTotalImssRequest"/>
+  <output message="tns:ConsultarResolucionTotalImssResponse"/>
+ </operation>
+ <operation name="COperacionesPmg">
+  <documentation>Service definition of function ns1__COperacionesPmg</documentation>
+  <input message="tns:COperacionesPmgRequest"/>
+  <output message="tns:COperacionesPmgResponse"/>
+ </operation>
+ <operation name="movimientosCuentas">
+  <documentation>Service definition of function ns1__movimientosCuentas</documentation>
+  <input message="tns:movimientosCuentasRequest"/>
+  <output message="tns:movimientosCuentasResponse"/>
+ </operation>
+ <operation name="ConsultarResolucionTotalIssste">
+  <documentation>Service definition of function ns1__ConsultarResolucionTotalIssste</documentation>
+  <input message="tns:ConsultarResolucionTotalIsssteRequest"/>
+  <output message="tns:ConsultarResolucionTotalIsssteResponse"/>
+ </operation>
+ <operation name="consultarSaldosPmg">
+  <documentation>Service definition of function ns1__consultarSaldosPmg</documentation>
+  <input message="tns:consultarSaldosPmgRequest"/>
+  <output message="tns:consultarSaldosPmgResponse"/>
+ </operation>
+ <operation name="consultarAportaciones">
+  <documentation>Service definition of function ns1__consultarAportaciones</documentation>
+  <input message="tns:consultarAportacionesRequest"/>
+  <output message="tns:consultarAportacionesResponse"/>
+ </operation>
+ <operation name="ConsultarResolucionTotalImssRI">
+  <documentation>Service definition of function ns1__ConsultarResolucionTotalImssRI</documentation>
+  <input message="tns:ConsultarResolucionTotalImssRIRequest"/>
+  <output message="tns:ConsultarResolucionTotalImssRIResponse"/>
+ </operation>
+ <operation name="ConsultarSieforeCtaRegimen">
+  <documentation>Service definition of function ns1__ConsultarSieforeCtaRegimen</documentation>
+  <input message="tns:ConsultarSieforeCtaRegimenRequest"/>
+  <output message="tns:ConsultarSieforeCtaRegimenResponse"/>
+ </operation>
+ <operation name="ConsultarSaldoVol">
+  <documentation>Service definition of function ns1__ConsultarSaldoVol</documentation>
+  <input message="tns:ConsultarSaldoVolRequest"/>
+  <output message="tns:ConsultarSaldoVolResponse"/>
+ </operation>
+ <operation name="ConsultaSaldoVivienda">
+  <documentation>Service definition of function ns1__ConsultaSaldoVivienda</documentation>
+  <input message="tns:ConsultaSaldoViviendaRequest"/>
+  <output message="tns:ConsultaSaldoViviendaResponse"/>
+ </operation>
+ <operation name="ConsultaAportacionesPosteriores">
+  <documentation>Service definition of function ns1__ConsultaAportacionesPosteriores</documentation>
+  <input message="tns:ConsultaAportacionesPosterioresRequest"/>
+  <output message="tns:ConsultaAportacionesPosterioresResponse"/>
+ </operation>
+ <operation name="CConsultarResolusionRetAportaciones">
+  <documentation>Service definition of function ns1__CConsultarResolusionRetAportaciones</documentation>
+  <input message="tns:CConsultarResolusionRetAportacionesRequest"/>
+  <output message="tns:CConsultarResolusionRetAportacionesResponse"/>
+ </operation>
+ <operation name="CConsultarSaldoRecuperar">
+  <documentation>Service definition of function ns1__CConsultarSaldoRecuperar</documentation>
+  <input message="tns:CConsultarSaldoRecuperarRequest"/>
+  <output message="tns:CConsultarSaldoRecuperarResponse"/>
+ </operation>
+ <operation name="CConsultarFechaLiquida">
+  <documentation>Service definition of function ns1__CConsultarFechaLiquida</documentation>
+  <input message="tns:CConsultarFechaLiquidaRequest"/>
+  <output message="tns:CConsultarFechaLiquidaResponse"/>
+ </operation>
+ <operation name="CConsultarNumMensualidad">
+  <documentation>Service definition of function ns1__CConsultarNumMensualidad</documentation>
+  <input message="tns:CConsultarNumMensualidadRequest"/>
+  <output message="tns:CConsultarNumMensualidadResponse"/>
+ </operation>
+ <operation name="consultarSaldosPenMinGar">
+  <documentation>Service definition of function ns1__consultarSaldosPenMinGar</documentation>
+  <input message="tns:consultarSaldosPenMinGarRequest"/>
+  <output message="tns:consultarSaldosPenMinGarResponse"/>
+ </operation>
+</portType>
+
+<binding name="wsModuloAfore" type="tns:wsModuloAforePortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="consultarAfiliado">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="consultarSaldos">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ObtenerFolioServicio">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ValidarConvivenciaMarcaOperativa">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ObtenerSaldoDiarioRetiroParcial">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ValidarResolucionImss">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="MontosFechasDatamart">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="consultarResolucion">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultarComplementoResolucion">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultarResolucionTotalImss">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="COperacionesPmg">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="movimientosCuentas">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultarResolucionTotalIssste">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="consultarSaldosPmg">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="consultarAportaciones">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultarResolucionTotalImssRI">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultarSieforeCtaRegimen">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultarSaldoVol">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultaSaldoVivienda">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="ConsultaAportacionesPosteriores">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="CConsultarResolusionRetAportaciones">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="CConsultarSaldoRecuperar">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="CConsultarFechaLiquida">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="CConsultarNumMensualidad">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="consultarSaldosPenMinGar">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:wsModuloAfore" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="wsModuloAfore">
+ <documentation>Servicio consultas de modulo afore</documentation>
+ <port name="wsModuloAfore" binding="tns:wsModuloAfore">
+  <SOAP:address location="http://0.0.0.0:0/"/>
+ </port>
+</service>
+
+</definitions>

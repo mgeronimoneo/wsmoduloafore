@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns2="urn:wsModuloAfore">
+ <SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns2:ConsultarResolucionTotalImssRIResponse>
+   <outParam>
+    <EstadoProc>
+     <Estado>0</Estado>
+     <DescripcionEstado></DescripcionEstado>
+    </EstadoProc>
+    <ResolTotalImss>
+     <ExisteResolucion>0</ExisteResolucion>
+     <ExisteAfiliado>0</ExisteAfiliado>
+     <Regimen></Regimen>
+     <TipoSeguro></TipoSeguro>
+     <TipoPension></TipoPension>
+     <TipoPrestacion>0</TipoPrestacion>
+     <NombreDatamart></NombreDatamart>
+     <Folio>0</Folio>
+     <SecPension></SecPension>
+     <FechaInicio></FechaInicio>
+     <FechaPago></FechaPago>
+     <SemanasCotizadas>0</SemanasCotizadas>
+     <DiagDatamart>0</DiagDatamart>
+     <EstadoSubViv>0</EstadoSubViv>
+     <FechaResolucion></FechaResolucion>
+     <DescRegimen></DescRegimen>
+     <DescTipoPension></DescTipoPension>
+     <DescTipoPrestacion></DescTipoPrestacion>
+     <DescTipoRetiro></DescTipoRetiro>
+     <DescTipoSeguro></DescTipoSeguro>
+     <DescEdoSubViv></DescEdoSubViv>
+     <IdMovimiento>0</IdMovimiento>
+    </ResolTotalImss>
+   </outParam>
+  </ns2:ConsultarResolucionTotalImssRIResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

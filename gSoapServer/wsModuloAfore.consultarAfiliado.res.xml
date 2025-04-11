@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns2="urn:wsModuloAfore">
+ <SOAP-ENV:Body  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns2:consultarAfiliadoResponse>
+   <out>
+    <datosAfiliado>
+     <cApellidoPaterno></cApellidoPaterno>
+     <cApellidoMaterno></cApellidoMaterno>
+     <cNombre></cNombre>
+     <cCurp></cCurp>
+     <cNss></cNss>
+     <cFechaServicio></cFechaServicio>
+     <cFechaNacimiento></cFechaNacimiento>
+     <cEntidadNacimiento></cEntidadNacimiento>
+     <iSexo>0</iSexo>
+    </datosAfiliado>
+    <EstadoProc>
+     <Estado>0</Estado>
+     <DescripcionEstado></DescripcionEstado>
+    </EstadoProc>
+   </out>
+  </ns2:consultarAfiliadoResponse>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
