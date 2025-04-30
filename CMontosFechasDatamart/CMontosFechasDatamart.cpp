@@ -37,7 +37,7 @@ short CMontosFechasDatamart::MontosFechasDatamart(char *cNssx, int iTipoRetirox)
 			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT-20);
+			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpServAfo[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);

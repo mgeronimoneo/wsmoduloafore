@@ -45,7 +45,7 @@ short CConsultarCtaSaldoVol::consultarFechaAporte(char *cNssx)
 			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			memcpy(cIpAdmon, &cBuff[20], SIZE_BUFF_DAT-20);
+			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpAdmon[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
@@ -113,7 +113,7 @@ short CConsultarCtaSaldoVol::buscarCtaSaldoVolD()
 	short shRet = DEFAULT__;
 	SALDO_VOL *stSalVolBuscar = NULL;
 
-	memcpy(stSalVol.cNss, cNss, SIZE_NSS);
+	memcpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS));
 	stSalVolBuscar = (SALDO_VOL *)bsearch(&stSalVol, (void *)shmSalVol, stInfShmSaldoVolCta.iTotalReg, sizeof(SALDO_VOL), compararNssCtaSaldoVol);
 	if(stSalVolBuscar != NULL)
 	{
@@ -152,7 +152,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			memcpy(cIpAdmon, &cBuff[20], SIZE_BUFF_DAT-20);
+			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpAdmon[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
@@ -261,7 +261,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 					
 					if(xSelSaldoVol.Exec(cSql))
 					{
-						memcpy(stSalVol.cNss, cNss, SIZE_NSS);
+						memcpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS));
 
 						xSelSaldoVol.activarCols();
 
@@ -269,17 +269,17 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 						{
 							stSalVol.arrCtaSaldoVol[shCont].iFolio=xSelSaldoVol.folio;
 							stSalVol.arrCtaSaldoVol[shCont].iConsecutivoLote=xSelSaldoVol.consecutivoLote;
-							memcpy(stSalVol.arrCtaSaldoVol[shCont].cNss, xSelSaldoVol.nss, SIZE_NSS);
+							memcpy(stSalVol.arrCtaSaldoVol[shCont].cNss, xSelSaldoVol.nss, sizeof(SIZE_NSS));
 							stSalVol.arrCtaSaldoVol[shCont].iSiefore=xSelSaldoVol.siefore;
 							stSalVol.arrCtaSaldoVol[shCont].iSubCuenta=xSelSaldoVol.subCuenta;
-							memcpy(stSalVol.arrCtaSaldoVol[shCont].cFechaValor, xSelSaldoVol.fechaValor, SIZE_FECHA-2);
-							memcpy(stSalVol.arrCtaSaldoVol[shCont].cFechaConversion, xSelSaldoVol.fechaConversion, SIZE_FECHA-2);
+							memcpy(stSalVol.arrCtaSaldoVol[shCont].cFechaValor, xSelSaldoVol.fechaValor, sizeof(SIZE_FECHA-2));
+							memcpy(stSalVol.arrCtaSaldoVol[shCont].cFechaConversion, xSelSaldoVol.fechaConversion, sizeof(SIZE_FECHA-2));
 							stSalVol.arrCtaSaldoVol[shCont].iMontoEnPesos=xSelSaldoVol.montoEnPesos;
 							stSalVol.arrCtaSaldoVol[shCont].iMontoEnAcciones=xSelSaldoVol.montoEnAcciones;
 							stSalVol.arrCtaSaldoVol[shCont].iSaldoAcciones=xSelSaldoVol.saldoAcciones;
-							memcpy(stSalVol.arrCtaSaldoVol[shCont].cFechaSaldo, xSelSaldoVol.fechaSaldo, SIZE_FECHA-2);
+							memcpy(stSalVol.arrCtaSaldoVol[shCont].cFechaSaldo, xSelSaldoVol.fechaSaldo, sizeof(SIZE_FECHA-2));
 							memset(stSalVol.arrCtaSaldoVol[shCont].cUsuario, 0, sizeof(stSalVol.arrCtaSaldoVol[shCont].cUsuario));
-							memcpy(stSalVol.arrCtaSaldoVol[shCont].cUsuario, xSelSaldoVol.usuario, strlen(xSelSaldoVol.usuario));
+							memcpy(stSalVol.arrCtaSaldoVol[shCont].cUsuario, xSelSaldoVol.usuario, sizeof(xSelSaldoVol.usuario));
 								
 							sprintf(cTexto, "Folio [%i] Saldo acciones [%f]", xSelSaldoVol.folio,  xSelSaldoVol.saldoAcciones);
 							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -351,7 +351,7 @@ short CConsultarCtaSaldoVol::abrirConexionServAfo()
 			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT-20);
+			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpServAfo[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);

@@ -44,7 +44,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			memcpy(cIpAdmon, &cBuff[20], SIZE_BUFF_DAT-20);
+			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpAdmon[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
@@ -242,7 +242,7 @@ short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 	SALDO_CUENTA_PMG *stSaldoBuscar = NULL;
 	dSaldoDia = 0;
 	
-	memcpy(stSaldoDiario.cNss, cNss, SIZE_NSS);
+	memcpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
 	stSaldoBuscar = (SALDO_CUENTA_PMG *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA_PMG), compararNssEnSaldoCuenta);
 	if(stSaldoBuscar != NULL)
 	{
@@ -379,7 +379,7 @@ short CSaldosPorSubCuentaPmg::abrirConexionServAfo()
 			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT-20);
+			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpServAfo[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
