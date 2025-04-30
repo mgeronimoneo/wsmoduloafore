@@ -401,7 +401,7 @@ short CSaldosPorSubCuentaPmg::abrirConexionServAfo()
 short CSaldosPorSubCuentaPmg::obtenerFechaLiquidaPmg(char *cNssx)
 {
 	short shRet=DEFAULT__;	
-	strcpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+	strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 	cIpInfx[sizeof(cIpInfx)] = '\0';
 	CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 	strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");

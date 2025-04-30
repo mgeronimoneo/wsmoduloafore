@@ -49,7 +49,7 @@ short CAportaciones::ObtenerAportaciones(char* sNss, char* dFechaIniPension, int
 			
 			if(shRet==OK__)
 			{
-				strcpy(cIpInfx, cOutTexto);
+				strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 				CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 				strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 				sprintf( cTexto, "[%s]IP INFORMIX [%s] ", __FUNCTION__,cIpInfx);
