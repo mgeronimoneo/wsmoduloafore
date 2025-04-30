@@ -165,7 +165,8 @@ int CConsultaAportacionesPosteriores::CConsultarAportacionesPosteriores(short sh
 	if(shRet==OK__)
 	{
 		//Pasamos la IP de Informix obtenida en la consulta anterior a la variable cIpInfx.
-		strcpy(cIpInfx, cOutTexto);
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx));
+		cIpInfx[sizeof(cIpInfx)] = '\0';
 		//Se limpia de espacios.
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 
@@ -276,7 +277,7 @@ int CConsultaAportacionesPosteriores::abrirConexionServAfo()
 	if(shRet == OK__)
 	{
 		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
-		cIpServAfo[17]={0};
+		cIpServAfo[sizeof(cIpServAfo)] = '\0';
 		
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
@@ -290,7 +291,7 @@ int CConsultaAportacionesPosteriores::abrirConexionServAfo()
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			memcpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT-20);
-			cIpServAfo[17]={0};
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

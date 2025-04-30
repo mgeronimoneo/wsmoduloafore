@@ -210,7 +210,8 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImssBD(short shOpci
 	if(shRet==OK__)
 	{
 		//Pasamos la IP de Informix obtenida en la consulta anterior a la variable cIpInfx.
-		strcpy(cIpInfx, cOutTexto);
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+		cIpInfx[sizeof(cIpInfx)]= '\0';
 		//Se limpia de espacios.
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 
@@ -503,7 +504,8 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImssBDNuevos(short 
 	if(shRet==OK__)
 	{
 		//Pasamos la IP de Informix obtenida en la consulta anterior a la variable cIpInfx.
-		strcpy(cIpInfx, cOutTexto);
+		strcpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+		cIpInfx[sizeof(cIpInfx)]= '\0';
 		//Se limpia de espacios.
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 

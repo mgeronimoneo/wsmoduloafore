@@ -37,7 +37,7 @@ short COperacionesPmg::ConsultaInsuficiencia(char *cNssx, char *cSecuenciax, int
 	if(shRet == OK__)
 	{
 		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
-		cIpAdmon[17]={0};
+		cIpAdmon[sizeof(cIpAdmon)] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -148,7 +148,8 @@ short COperacionesPmg::ObtenerPagoMensualInfx()
 		
 		if(shRet==OK__)
 		{
-			strcpy(cIpInfx, cOutTexto);
+			strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+			cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 			strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 			shRet=CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx,(char*)USR_BD_SAFRE_AF, (char*)BD_SAFRE_AF, (char*)PWD_BD_SAFRE_AF,cOutTexto);
@@ -266,7 +267,8 @@ short COperacionesPmg::ConsultaInsuficienciaSaldoInf(char *cNssx, char *cSecuenc
 		
 		if(shRet==OK__)
 		{
-			strcpy(cIpInfx, cOutTexto);
+			strcpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+			cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 			strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 			shRet=CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx,(char*)USR_BD_SAFRE_AF, (char*)BD_SAFRE_AF, (char*)PWD_BD_SAFRE_AF,cOutTexto);
@@ -375,7 +377,8 @@ short COperacionesPmg::ValidarSolicitudRetiroInf(char *cNssx)
 		memset(cOutTexto,0,sizeof(cOutTexto));
 		shRet=CBaseDato::consultarTexto(&odbcPg, cSql, cOutTexto);
 		
-		strcpy(cIpInfx, cOutTexto);
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+		cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 		strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 		shRet=CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx,(char*)USR_BD_SAFRE_AF, (char*)BD_SAFRE_AF, (char*)PWD_BD_SAFRE_AF,cOutTexto);
@@ -419,7 +422,7 @@ short COperacionesPmg::abrirConexionServAfo()
 	if(shRet == OK__)
 	{
 		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
-		cIpServAfo[17]={0};
+		cIpServAfo[sizeof(cIpServAfo)] = '\0';
 		
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
@@ -431,7 +434,7 @@ short COperacionesPmg::abrirConexionServAfo()
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			memcpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT-20);
-			cIpServAfo[17]={0};
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -462,7 +465,8 @@ short COperacionesPmg::buscarSaldoaRecuperar(char *cNssx)
 		memset(cOutTexto,0,sizeof(cOutTexto));
 		shRet=CBaseDato::consultarTexto(&odbcPg, cSql, cOutTexto);
 		
-		strcpy(cIpInfx, cOutTexto);
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+		cIpInfx[sizeof(cIpInfx)] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 		strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 		shRet=CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx,(char*)USR_BD_SAFRE_AF, (char*)BD_SAFRE_AF, (char*)PWD_BD_SAFRE_AF,cOutTexto);
@@ -513,7 +517,7 @@ short COperacionesPmg::obtenerNumMensualidad(char *cNssx)
 	if(shRet == OK__)
 	{
 		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
-		cIpAdmon[17]={0};
+		cIpAdmon[sizeof(cIpAdmon)] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -621,7 +625,8 @@ short COperacionesPmg::ConsultaMensualidadInf(char *cNssx)
 		
 		if(shRet==OK__)
 		{
-			strcpy(cIpInfx, cOutTexto);
+			strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+			cIpInfx[sizeof(cIpInfx)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 			strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 			shRet=CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx,(char*)USR_BD_SAFRE_AF, (char*)BD_SAFRE_AF, (char*)PWD_BD_SAFRE_AF,cOutTexto);

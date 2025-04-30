@@ -329,7 +329,8 @@ void CConsultarResolucionTotalIssste::conexionInformix()
 		
 		//sprintf(cIpInfx, "10.44.172.235");
 		//Pasamos la IP de Informix obtenida en la consulta anterior a la variable cIpInfx.
-		strcpy(cIpInfx, cOutTexto);		
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+		cIpInfx[sizeof(cIpInfx)]= '\0';
 		//Se limpia de espacios.
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 
