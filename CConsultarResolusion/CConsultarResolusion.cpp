@@ -125,7 +125,7 @@ short CConsultarResolusion::ConsultarResolusionBD(char *cNssx, int iTipoRetirox)
 	if (shRet == OK__)
 	{
 		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx));
-		cIpInfx[sizeof(cIpInfx)] = '\0';
+		cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 		strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 		shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
@@ -134,11 +134,11 @@ short CConsultarResolusion::ConsultarResolusionBD(char *cNssx, int iTipoRetirox)
 			CFnConsultarResolucion xSelResol(&odbcIfx);
 			if (iTipoRetirox == CVE_RET_DESEMPLEO_IMSS)
 				snprintf(cSql, sizeof(cSql), "SELECT limit 1 nss, nvl(to_char(fecha_ini_vigencia,'%cY-%cm-%cd'), '1900-01-01'), nvl(to_char(fecha_fin_vigencia,'%cY-%cm-%cd'), '1900-01-01'), num_resolucion "
-							   " FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 6 ORDER BY fecha_ini_vigencia DESC;",
+											 " FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 6 ORDER BY fecha_ini_vigencia DESC;",
 						 37, 37, 37, 37, 37, 37, cNssx);
 			else
 				snprintf(cSql, sizeof(cSql), "SELECT limit 1 nss, nvl(to_char(fecha_ini_vigencia,'%cY-%cm-%cd'), '1900-01-01'), nvl(to_char(fecha_fin_vigencia,'%cY-%cm-%cd'), '1900-01-01'), num_resolucion "
-							   " FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 7 ORDER BY fecha_ini_vigencia DESC;",
+											 " FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 7 ORDER BY fecha_ini_vigencia DESC;",
 						 37, 37, 37, 37, 37, 37, cNssx);
 			if (xSelResol.Exec(cSql))
 			{
