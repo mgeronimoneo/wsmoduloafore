@@ -15,7 +15,7 @@ CSaldoDiarioRetParcial::CSaldoDiarioRetParcial()
 	shmSaldoDiario = NULL;
 	dSaldoDiario=0;
 	iTipoRetiro=0;
-	sprintf(cRutaLog, "%s", RUTA_LOGX);
+	snprintf(cRutaLog, sizeof(cRutaLog), "%s", RUTA_LOGX);
 }
 CSaldoDiarioRetParcial::~CSaldoDiarioRetParcial()
 {
@@ -25,9 +25,9 @@ CSaldoDiarioRetParcial::~CSaldoDiarioRetParcial()
 short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTipoRetirox)
 {
 	short shRet = DEFAULT__;
-	sprintf(cNss, "%s", cNssx);
+	snprintf(cNss, sizeof(cNss), "%s", cNssx);
 	iTipoRetiro=iTipoRetirox;
-	sprintf(cTexto, "[%s] ------ Inicia [Nss: %s tpoRet: %i]------",  __FUNCTION__, cNss, iTipoRetiro);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [Nss: %s tpoRet: %i]------",  __FUNCTION__, cNss, iTipoRetiro);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_ADMONAFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if(shRet == OK__)
@@ -35,24 +35,24 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
 		cIpAdmon[16]={0};
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
-		sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpAdmon, (char *)USR_BD_SYSADMONAFORE, (char *)BD_ADMON_AFORE, cOutTexto);
 		if(shRet != OK__)
 		{
-			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
 			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpAdmon[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
-			sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpAdmon, (char *)USR_BD_SYSADMONAFORE, (char *)BD_ADMON_AFORE, cOutTexto);
 			if(shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
@@ -61,7 +61,7 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 			shRet = CBaseDato::consultarInfoShm(&odbcPg, ID_SALDO_CUENTA_DIARIO, stInfShmSaldoDiario, cOutTexto);
 			if(shRet == OK__)
 			{
-				sprintf(cTexto, "[%s] Info shm saldo diario: id=%i regs=%i  bytesx  = %ld ",  __FUNCTION__,
+				snprintf(cTexto, sizeof(cTexto), "[%s] Info shm saldo diario: id=%i regs=%i  bytesx  = %ld ",  __FUNCTION__,
 						stInfShmSaldoDiario.iIdShm, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA) * stInfShmSaldoDiario.iTotalReg);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
@@ -75,7 +75,7 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 				else
 				{
 					memset(cTexto,0,sizeof(cTexto));
-					sprintf(cTexto, "[%s]Error accesar shm [idShm: %i] : %s", __FUNCTION__, stInfShmSaldoDiario.iIdShm ,cOutTexto );
+					snprintf(cTexto, sizeof(cTexto), "[%s]Error accesar shm [idShm: %i] : %s", __FUNCTION__, stInfShmSaldoDiario.iIdShm ,cOutTexto );
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 					shRet = ERR_ACCESAR_SHM;
 				}
@@ -83,14 +83,14 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 			}
 			else if(shRet==ERR_NO_HAY_REG_BD)
 			{
-				sprintf(cTexto, "[%s] Error: %s",  __FUNCTION__, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error: %s",  __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				shRet= this->ConsultarSaldoBD();
 			}
 			else
 			{
 				shRet = ERR_EXEC_SQL;
-				sprintf(cTexto, "[%s] Error al consultar info Shm: %s",  __FUNCTION__, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar info Shm: %s",  __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				shRet= this->ConsultarSaldoBD();
 			}
@@ -99,13 +99,13 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 	else
 	{
 		shRet = ERR_LEER_ARCHIVO_CNF;
-		sprintf(cTexto, "[%s] Error al leer archivo dat: %s [%s]",  __FUNCTION__, cOutTexto, (char *)IP_ADMONAFO_DAT);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al leer archivo dat: %s [%s]",  __FUNCTION__, cOutTexto, (char *)IP_ADMONAFO_DAT);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 
-	sprintf(cTexto, "[%s] Retorno: %i",  __FUNCTION__, shRet);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Retorno: %i",  __FUNCTION__, shRet);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-	sprintf(cTexto, "[%s] ------ Termina [Nss: %s tpoRet: %i]------",  __FUNCTION__, cNss, iTipoRetiro);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Termina [Nss: %s tpoRet: %i]------",  __FUNCTION__, cNss, iTipoRetiro);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 	return shRet;
@@ -119,7 +119,7 @@ short CSaldoDiarioRetParcial::buscarSaldoDiario()
 	stSaldoBuscar = (SALDO_CUENTA *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA), compararNssEnSaldoCuenta);
 	if(stSaldoBuscar != NULL)
 	{
-		sprintf(cTexto, "[%s] Nss: %s iTipoRetiro: %i encontro saldo",  __FUNCTION__, cNss, iTipoRetiro);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Nss: %s iTipoRetiro: %i encontro saldo",  __FUNCTION__, cNss, iTipoRetiro);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 		memcpy(&stSaldoDiario, stSaldoBuscar, sizeof(SALDO_CUENTA));
@@ -145,14 +145,14 @@ short CSaldoDiarioRetParcial::buscarSaldoDiario()
 				}
 			}
 		}
-		sprintf(cTexto, "[%s] Nss: %s SaldoDia: %.02f iTipoRetiro: %i",  __FUNCTION__, cNss, dSaldoDiario, iTipoRetiro);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Nss: %s SaldoDia: %.02f iTipoRetiro: %i",  __FUNCTION__, cNss, dSaldoDiario, iTipoRetiro);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = OK__;
 	}
 	else
 	{
 		shRet = ERR_NO_HAY_REG_SHM;
-		sprintf(cTexto, "[%s] Nss: %s - NO_HAY_REG",  __FUNCTION__, cNss);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Nss: %s - NO_HAY_REG",  __FUNCTION__, cNss);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	return shRet;
@@ -161,13 +161,13 @@ short CSaldoDiarioRetParcial::ConsultarSaldoBD()
 {
 	short shRet=DEFAULT__, shCont=0;
 	dSaldoDiario=0;
-	sprintf(cTexto, "[%s] Buscar saldo en BD: %s",  __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Buscar saldo en BD: %s",  __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	odbcPg.Close();
 	shRet=this->abrirConexionServAfo();
 	if(shRet==OK__)
 	{
-		sprintf(cSql,"select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
+		snprintf(cSql, sizeof(cSql),"select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
 		memset(cOutTexto,0,sizeof(cOutTexto));
 		shRet=CBaseDato::consultarTexto(&odbcPg, cSql, cOutTexto);
 		if(shRet==OK__)
@@ -180,7 +180,7 @@ short CSaldoDiarioRetParcial::ConsultarSaldoBD()
 			if(shRet==OK__)
 			{
 				CConsultaDouble xSelSaldo(&odbcIfx);
-				sprintf(cSql, "EXECUTE FUNCTION fnRetParObtenerSaldo('%s', %i,TODAY)", cNss, iTipoRetiro);
+				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnRetParObtenerSaldo('%s', %i,TODAY)", cNss, iTipoRetiro);
 				if(xSelSaldo.Exec(cSql))
 				{
 					xSelSaldo.activarCols();
@@ -196,26 +196,26 @@ short CSaldoDiarioRetParcial::ConsultarSaldoBD()
 				{
 					shRet = ERR_EXEC_SQL;
 					xSelSaldo.odbc->GetLastError( xSelSaldo.GetHstmt() );
-					sprintf( cTexto, "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
+					snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				}
 			}
 			else
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpInfx, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpInfx, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
 		else if(shRet==ERR_NO_HAY_REG_BD)
 		{
-			sprintf(cTexto, "[%s] Error: %s",  __FUNCTION__, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error: %s",  __FUNCTION__, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 		else
 		{
 			shRet = ERR_EXEC_SQL;
-			sprintf(cTexto, "[%s] Error al consultar control: %s",  __FUNCTION__, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar control: %s",  __FUNCTION__, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}
@@ -234,24 +234,24 @@ short CSaldoDiarioRetParcial::abrirConexionServAfo()
 		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
 		cIpServAfo[16]={0};
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-		sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 		if(shRet != OK__)
 		{
-			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpServAfo[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 			if(shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}

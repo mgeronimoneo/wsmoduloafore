@@ -14,7 +14,7 @@ CSaldosPorSubCuentaPmg::CSaldosPorSubCuentaPmg()
 	memset(&stSaldoDiario, 0, sizeof(SALDO_CUENTA_PMG));
 	memset(&stSaldosPmg, 0, sizeof(SALDOS_PMG));
 	shmSaldoDiario = NULL;
-	sprintf(cRutaLog, "%s", RUTA_LOGX);
+	snprintf(cRutaLog, sizeof(cRutaLog), "%s", RUTA_LOGX);
 }
 
 CSaldosPorSubCuentaPmg::~CSaldosPorSubCuentaPmg()
@@ -25,10 +25,10 @@ CSaldosPorSubCuentaPmg::~CSaldosPorSubCuentaPmg()
 short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *cSecuenciax, int iSubVivx)
 {
 	short shRet = DEFAULT__;
-	sprintf(cNss, "%s", cNssx);
-	sprintf(cSecuencia, "%s", cSecuenciax);
+	snprintf(cNss, sizeof(cNss), "%s", cNssx);
+	snprintf(cSecuencia, sizeof(cSecuencia), "%s", cSecuenciax);
 	iSubViv = iSubVivx;
-	sprintf(cTexto, "[%s] ------ Inicia [Nss: %s] , [Secuencia: %s], [Estado Vivienda: %i]------",  __FUNCTION__, cNss, cSecuenciax, iSubVivx);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [Nss: %s] , [Secuencia: %s], [Estado Vivienda: %i]------",  __FUNCTION__, cNss, cSecuenciax, iSubVivx);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_ADMONAFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if(shRet == OK__)
@@ -36,24 +36,24 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
 		cIpAdmon[16]={0};
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
-		sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpAdmon, (char *)USR_BD_SYSADMONAFORE, (char *)BD_ADMON_AFORE, cOutTexto);
 		if(shRet != OK__)
 		{
-			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
 			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpAdmon[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
-			sprintf(cTexto, "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s",  __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpAdmon, (char *)USR_BD_SYSADMONAFORE, (char *)BD_ADMON_AFORE, cOutTexto);
 			if(shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpAdmon, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
@@ -63,7 +63,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 			shRet = CBaseDato::consultarInfoShm(&odbcPg, ID_SALDO_CUENTA_DIARIO, stInfShmSaldoDiario, cOutTexto);
 			if(shRet == OK__)
 			{
-				sprintf(cTexto, "[%s] Info shm saldo diario: id=%i regs=%i  bytesx  = %ld ",  __FUNCTION__,
+				snprintf(cTexto, sizeof(cTexto), "[%s] Info shm saldo diario: id=%i regs=%i  bytesx  = %ld ",  __FUNCTION__,
 						stInfShmSaldoDiario.iIdShm, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA_PMG) * stInfShmSaldoDiario.iTotalReg);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
@@ -90,7 +90,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 				else
 				{
 					memset(cTexto,0,sizeof(cTexto));
-					sprintf(cTexto, "[%s]Error accesar shm [idShm: %i] : %s", __FUNCTION__, stInfShmSaldoDiario.iIdShm ,cOutTexto );
+					snprintf(cTexto, sizeof(cTexto), "[%s]Error accesar shm [idShm: %i] : %s", __FUNCTION__, stInfShmSaldoDiario.iIdShm ,cOutTexto );
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 					shRet = ERR_ACCESAR_SHM;
 				}
@@ -98,7 +98,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 			}
 			else if(shRet==ERR_NO_HAY_REG_BD)
 			{
-				sprintf(cTexto, "[%s] Error: %s",  __FUNCTION__, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error: %s",  __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				shRet= this->ConsultarSaldoBD();
 				if( shRet == OK__ )
@@ -109,7 +109,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 			else
 			{
 				shRet = ERR_EXEC_SQL;
-				sprintf(cTexto, "[%s] Error al consultar info Shm: %s",  __FUNCTION__, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar info Shm: %s",  __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				shRet= this->ConsultarSaldoBD();
 				if( shRet == OK__ )
@@ -122,13 +122,13 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 	else
 	{
 		shRet = ERR_LEER_ARCHIVO_CNF;
-		sprintf(cTexto, "[%s] Error al leer archivo dat: %s [%s]",  __FUNCTION__, cOutTexto, (char *)IP_ADMONAFO_DAT);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al leer archivo dat: %s [%s]",  __FUNCTION__, cOutTexto, (char *)IP_ADMONAFO_DAT);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 
-	sprintf(cTexto, "[%s] Retorno: %i",  __FUNCTION__, shRet);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Retorno: %i",  __FUNCTION__, shRet);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-	sprintf(cTexto, "[%s] ------ Termina [Nss: %s]------",  __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Termina [Nss: %s]------",  __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 	return shRet;
@@ -137,14 +137,14 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoPgs()
 {
 	short shRet = DEFAULT__, iEstatusConsulta = 0;
 	
-	sprintf(cTexto, "[%s] Buscar devengado y retroactivo en BD: %s",  __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Buscar devengado y retroactivo en BD: %s",  __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	odbcPg.Close();
 	shRet=this->abrirConexionServAfo();
 	if(shRet==OK__)
 	{
 		CConsultarRetroactivoPmg xSelRetro(&odbcPg);
-		sprintf(cSql, "SELECT retroactivo, devengado, estatus FROM fncalcularetroactivopmgimss('%s','%s')", cNss, cSecuencia);
+		snprintf(cSql, sizeof(cSql), "SELECT retroactivo, devengado, estatus FROM fncalcularetroactivopmgimss('%s','%s')", cNss, cSecuencia);
 		if(xSelRetro.Exec(cSql))
 		{
 			xSelRetro.activarCols();
@@ -153,7 +153,7 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoPgs()
 				stSaldosPmg.dRetroactivo = xSelRetro.dRetroactivo;
 				stSaldosPmg.dDevengado = xSelRetro.dDevengado;
 				iEstatusConsulta = xSelRetro.iEstatus;
-				sprintf(cTexto, "Valor de retorno -- > %i", iEstatusConsulta);
+				snprintf(cTexto, sizeof(cTexto), "Valor de retorno -- > %i", iEstatusConsulta);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 			if(iEstatusConsulta>0)
@@ -165,7 +165,7 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoPgs()
 		{
 			shRet = ERR_EXEC_SQL;
 			xSelRetro.odbc->GetLastError( xSelRetro.GetHstmt() );
-			sprintf( cTexto, "[%s] Err: %s", __FUNCTION__, xSelRetro.odbc->LastErrStr() );
+			snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelRetro.odbc->LastErrStr() );
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}
@@ -179,14 +179,14 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoInf()
 	dRetroactivo = 0;
 	dDevengado = 0;
 	
-	sprintf(cTexto, "[%s] Obtener Retroactivo Inf: %s",  __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Obtener Retroactivo Inf: %s",  __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	odbcPg.Close();
 	shRet=this->abrirConexionServAfo();
 	if(shRet==OK__)
 	{
 		CConsultarRetroactivoPmg xSelSaldo(&odbcIfx);
-		sprintf(cSql, "EXECUTE FUNCTION fn_calcularetroactivopmgimss('%s', '%s', TODAY)", cNss, cSecuencia);
+		snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fn_calcularetroactivopmgimss('%s', '%s', TODAY)", cNss, cSecuencia);
 	
 		if(xSelSaldo.Exec(cSql))
 		{
@@ -212,7 +212,7 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoInf()
 			{
 				shRet = ERR_NO_HAY_REG_BD;
 				xSelSaldo.odbc->GetLastError( xSelSaldo.GetHstmt() );
-				sprintf( cTexto, "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
+				snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
@@ -220,14 +220,14 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoInf()
 		{
 			shRet = ERR_EXEC_SQL;
 			xSelSaldo.odbc->GetLastError( xSelSaldo.GetHstmt() );
-			sprintf( cTexto, "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
+			snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}
 	else
 	{
 		shRet = ERR_CNX_BASE_DATO;
-		sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpInfx, cOutTexto);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpInfx, cOutTexto);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	return shRet;
@@ -235,7 +235,7 @@ short CSaldosPorSubCuentaPmg::obtenerRetroactivoInf()
 
 short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 {
-	sprintf(cTexto, "[%s] Buscar Saldo Diario BD: %s",  __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Buscar Saldo Diario BD: %s",  __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	
 	short shRet = DEFAULT__, i = 0, shCuenta = 0;
@@ -274,7 +274,7 @@ short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 	else
 	{
 		shRet = ERR_NO_HAY_REG_SHM;
-		sprintf(cTexto, "[%s] Nss: %s - NO_HAY_REG",  __FUNCTION__, cNss);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Nss: %s - NO_HAY_REG",  __FUNCTION__, cNss);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	return shRet;
@@ -288,13 +288,13 @@ short CSaldosPorSubCuentaPmg::ConsultarSaldoBD()
 	short shRet=DEFAULT__, shCont = 0, shSubcuenta = 0;
 	dSaldoDia = 0;
 
-	sprintf(cTexto, "[%s] Buscar saldo en BD: %s",  __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Buscar saldo en BD: %s",  __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	odbcPg.Close();
 	shRet=this->abrirConexionServAfo();	
 	if(shRet==OK__)
 	{
-		sprintf(cSql,"select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
+		snprintf(cSql, sizeof(cSql),"select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
 		memset(cOutTexto,0,sizeof(cOutTexto));
 		shRet=CBaseDato::consultarTexto(&odbcPg, cSql, cOutTexto);
 		if(shRet==OK__)
@@ -308,7 +308,7 @@ short CSaldosPorSubCuentaPmg::ConsultarSaldoBD()
 			if(shRet==OK__)
 			{
 				CSaldoCuentaPmg xSelSaldo(&odbcIfx);
-				sprintf(cSql, "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
+				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if(xSelSaldo.Exec(cSql))
 				{
 					xSelSaldo.activarCols();
@@ -337,26 +337,26 @@ short CSaldosPorSubCuentaPmg::ConsultarSaldoBD()
 				{
 					shRet = ERR_EXEC_SQL;
 					xSelSaldo.odbc->GetLastError( xSelSaldo.GetHstmt() );
-					sprintf( cTexto, "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
+					snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelSaldo.odbc->LastErrStr() );
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				}
 			}
 			else
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpInfx, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpInfx, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
 		else if(shRet==ERR_NO_HAY_REG_BD)
 		{
-			sprintf(cTexto, "[%s] Error: %s",  __FUNCTION__, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error: %s",  __FUNCTION__, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 		else
 		{
 			shRet = ERR_EXEC_SQL;
-			sprintf(cTexto, "[%s] Error al consultar control: %s",  __FUNCTION__, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar control: %s",  __FUNCTION__, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}
@@ -371,24 +371,24 @@ short CSaldosPorSubCuentaPmg::abrirConexionServAfo()
 		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
 		cIpServAfo[16]={0};
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-		sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 		if(shRet != OK__)
 		{
-			sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
 			cIpServAfo[16]={0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-			sprintf(cTexto, "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 			if(shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				sprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
@@ -410,14 +410,14 @@ short CSaldosPorSubCuentaPmg::obtenerFechaLiquidaPmg(char *cNssx)
 	if(shRet==OK__)
 	{
 		CCampoTexto xSelFecha(&odbcIfx);
-		sprintf(cSql, "EXECUTE FUNCTION fn_obtenerfechaliquidapmg('%s')", cNssx);
+		snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fn_obtenerfechaliquidapmg('%s')", cNssx);
 		CUtileriasAfo::grabarLogx(cRutaLog, cSql);
 		if(xSelFecha.Exec(cSql))
 		{
 			xSelFecha.activarCols();
 			if(xSelFecha.leer())
 			{			
-				sprintf(cFechaLiquida, "%s", xSelFecha.texto);
+				snprintf(cFechaLiquida, sizeof(cFechaLiquida), "%s", xSelFecha.texto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cFechaLiquida);	
 				shRet=OK__;
 			}
@@ -426,7 +426,7 @@ short CSaldosPorSubCuentaPmg::obtenerFechaLiquidaPmg(char *cNssx)
 		{
 			shRet = ERR_EXEC_SQL;
 			xSelFecha.odbc->GetLastError( xSelFecha.GetHstmt() );
-			sprintf( cTexto, "[%s] Err: %s", __FUNCTION__, xSelFecha.odbc->LastErrStr() );
+			snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelFecha.odbc->LastErrStr() );
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}

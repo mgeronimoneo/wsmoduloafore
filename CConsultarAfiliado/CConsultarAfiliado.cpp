@@ -47,7 +47,7 @@ CConsultarAfiliado::CConsultarAfiliado()
 {
 	memset(cTexto, 0, sizeof(cTexto));
 	memset(cRutaLog, 0, sizeof(cRutaLog));
-	sprintf(cRutaLog, "%s", RUTA_LOGX);
+	snprintf(cRutaLog, sizeof(cRutaLog), "%s", RUTA_LOGX);
 	memset(cSql, 0, sizeof(cSql));
 	memset(cBuffDat,0,sizeof(cBuffDat));
 	memset(cIpPg,0,sizeof(cIpPg));
@@ -63,16 +63,16 @@ CConsultarAfiliado::~CConsultarAfiliado()
 short CConsultarAfiliado::consultarAfiliado(char* cNombres, char* cPaterno, char* cMaterno, short shEstadoNac, char* cFechaNac)
 {
 	short shRet = DEFAULT__;
-	sprintf(cTexto, "[%s::%s] ===== Inicia =====", __FILE__, __FUNCTION__);
+	snprintf(cTexto, sizeof(cTexto), "[%s::%s] ===== Inicia =====", __FILE__, __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-	sprintf(cTexto, "[%s] Nom: %s Pat: %s Mat: %s EdoNac: %i FechaNac: %s", __FUNCTION__, cNombres, cPaterno, cMaterno, shEstadoNac, cFechaNac);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Nom: %s Pat: %s Mat: %s EdoNac: %i FechaNac: %s", __FUNCTION__, cNombres, cPaterno, cMaterno, shEstadoNac, cFechaNac);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	shRet = this->obtenerConexionBaseDato();
 	if(shRet == OK__)
 	{
 
 	}
-	sprintf(cTexto, "[%s::%s] ===== Termina =====", __FILE__, __FUNCTION__);
+	snprintf(cTexto, sizeof(cTexto), "[%s::%s] ===== Termina =====", __FILE__, __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	return shRet;
 }
@@ -84,7 +84,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 	MAESTRO_AFILIADO * ptrMaeAfilEnc = NULL, maeAfilBuscar;
 
 
-	sprintf(cTexto, "[%s::%s] ===== Inicia =====", __FILE__, __FUNCTION__);
+	snprintf(cTexto, sizeof(cTexto), "[%s::%s] ===== Inicia =====", __FILE__, __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 	shRet = this->obtenerConexionBaseDato();
@@ -92,7 +92,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 	{
 		CInfoTrabajadorIni xSel(&odbcSafreAf);
 		//Aqui se consulta en rec_solicitud el nss y otros datos para (Nss necesario para buscar en memoria el resto de datos del cliente)
-		sprintf(cSql,"EXECUTE FUNCTION fnobtenerinformacionpreviatrabajadorei(%ld)",lFolioServicio);
+		snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnobtenerinformacionpreviatrabajadorei(%ld)",lFolioServicio);
 		if(xSel.Exec(cSql))
 		{
 			xSel.activarCols();
@@ -117,7 +117,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 		else
 		{
 			xSel.odbc->GetLastError( xSel.GetHstmt() );
-			sprintf(cTexto, "[%s][%s]Query fallido[%s] Error[%s]",__FILE__,__FUNCTION__,cSql,xSel.odbc->LastErrStr());
+			snprintf(cTexto, sizeof(cTexto), "[%s][%s]Query fallido[%s] Error[%s]",__FILE__,__FUNCTION__,cSql,xSel.odbc->LastErrStr());
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = ERR_EXEC_SQL;
 		}
@@ -137,7 +137,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 					{
 
 						memset(cTexto, 0, sizeof(cTexto));
-						sprintf(cTexto, "Se acceso con exito [shmMaestroAfiliado] Total Reg: [%i] ID_SHM: [%i]", shmInfoMaestroAfiliado.iTotalReg, shmInfoMaestroAfiliado.iIdShm);
+						snprintf(cTexto, sizeof(cTexto), "Se acceso con exito [shmMaestroAfiliado] Total Reg: [%i] ID_SHM: [%i]", shmInfoMaestroAfiliado.iTotalReg, shmInfoMaestroAfiliado.iIdShm);
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 						ptrMaeAfilEnc = (MAESTRO_AFILIADO *)bsearch(&maeAfilBuscar, (void *)shmMaestroAfiliado, shmInfoMaestroAfiliado.iTotalReg, sizeof(MAESTRO_AFILIADO), compararNssMaestroAfiliado);
@@ -146,7 +146,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 							memcpy(stDatosTrabajador.cApellidoPaterno, ptrMaeAfilEnc->cPaterno, sizeof(stDatosTrabajador.cApellidoPaterno));
 							memcpy(stDatosTrabajador.cApellidoMaterno, ptrMaeAfilEnc->cMaterno, sizeof(stDatosTrabajador.cApellidoMaterno));
 							memcpy(stDatosTrabajador.cNombre, ptrMaeAfilEnc->cNombres, sizeof(stDatosTrabajador.cNombre));
-							sprintf(cEstadoAux, "%02i",ptrMaeAfilEnc->shEstadoNacimiento );
+							snprintf(cEstadoAux, sizeof(cEstadoAux), "%02i",ptrMaeAfilEnc->shEstadoNacimiento );
 							memcpy(stDatosTrabajador.cEntidadNacimiento, cEstadoAux, sizeof(stDatosTrabajador.cEntidadNacimiento));
 							memcpy(stDatosTrabajador.cFechaNacimiento, ptrMaeAfilEnc->cFechaNac, sizeof(ptrMaeAfilEnc->cFechaNac));
 							stDatosTrabajador.iSexo = (int)ptrMaeAfilEnc->shSexo;
@@ -161,12 +161,12 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 
 							}
 
-							sprintf(cTexto, "Se encontraron datos en memoria maestro_afiliado");
+							snprintf(cTexto, sizeof(cTexto), "Se encontraron datos en memoria maestro_afiliado");
 							shRet = OK__;
 						}
 						else
 						{
-							sprintf(cTexto, "No encontraron datos en memoria maestro_afiliado");
+							snprintf(cTexto, sizeof(cTexto), "No encontraron datos en memoria maestro_afiliado");
 							bBuscarEnBD = true;
 						}
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -196,7 +196,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 				CUtileriasAfo::grabarLogx(cRutaLog, "Buscar datos del trabajador en DB");
 
 				memset(cSql, 0, sizeof(cSql));
-				sprintf(cSql, "EXECUTE FUNCTION fnobtenerinformaciontrabajadorei(%ld);",lFolioServicio);
+				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnobtenerinformaciontrabajadorei(%ld);",lFolioServicio);
 				CInfoTrabajadorCompleta xSelCom(&odbcSafreAf);
 				if(xSelCom.Exec(cSql))
 				{
@@ -220,7 +220,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 				else
 				{
 					xSelCom.odbc->GetLastError( xSelCom.GetHstmt() );
-					sprintf(cTexto, "[%s][%s]Query fallido[%s] Error[%s]",__FILE__,__FUNCTION__,cSql,xSelCom.odbc->LastErrStr());
+					snprintf(cTexto, sizeof(cTexto), "[%s][%s]Query fallido[%s] Error[%s]",__FILE__,__FUNCTION__,cSql,xSelCom.odbc->LastErrStr());
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 					shRet = ERR_EXEC_SQL;
 				}
@@ -229,7 +229,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 		}
 	}
 
-	sprintf(cTexto, "[%s::%s] ===== Termina =====", __FILE__, __FUNCTION__);
+	snprintf(cTexto, sizeof(cTexto), "[%s::%s] ===== Termina =====", __FILE__, __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	return shRet;
 
@@ -248,7 +248,7 @@ short CConsultarAfiliado::obtenerConexionBaseDato()
 			 cTexto[200] = { 0 },
 			 cMensaje[1024] = { 0 };
 
-   sprintf( cMensaje, "[%s][%s] Leyendo archivo de configuracion",__FILE__,__FUNCTION__);
+   snprintf( cMensaje, sizeof(cMensaje), "[%s][%s] Leyendo archivo de configuracion",__FILE__,__FUNCTION__);
    CUtileriasAfo::grabarLogx(cRutaLog, cMensaje);
 
    shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_ADMONAFO_DAT, cBuff, SIZE_BUFF_DAT, cTexto);
@@ -275,7 +275,7 @@ short CConsultarAfiliado::obtenerConexionBaseDato()
 				if( shRet == OK__ )
 				{
 					//Graba en el log que abrio conexion
-					sprintf( cMensaje, "[%s][%s] Conexión a Base de Datos abierta",__FILE__,__FUNCTION__);
+					snprintf( cMensaje, sizeof(cMensaje), "[%s][%s] Conexión a Base de Datos abierta",__FILE__,__FUNCTION__);
 					CUtileriasAfo::grabarLogx(cRutaLog, cMensaje);
 				}
 				else
@@ -296,14 +296,14 @@ short CConsultarAfiliado::obtenerConexionBaseDato()
 		else
 		{
 			//Graba el log en caso de no abrir conexion al servidor
-			sprintf( cMensaje, "[%s][%s] Error al abrir conexión Postgresql [%s]",__FILE__,__FUNCTION__, cTexto);
+			snprintf( cMensaje, sizeof(cMensaje), "[%s][%s] Error al abrir conexión Postgresql [%s]",__FILE__,__FUNCTION__, cTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cMensaje);
 			shRet = ERR_CNX_BASE_DATO;
 		}
    }
    else
    {
-	  sprintf( cMensaje, "[%s][%s] Error al abrir el archivo de configuracion",__FILE__,__FUNCTION__);
+	  snprintf( cMensaje, sizeof(cMensaje), "[%s][%s] Error al abrir el archivo de configuracion",__FILE__,__FUNCTION__);
 	  CUtileriasAfo::grabarLogx(cRutaLog, cMensaje);
 	  shRet = ERR_LEER_ARCHIVO_CNF;
    }
@@ -315,7 +315,7 @@ short CConsultarAfiliado::obtenerFechaCorteShmMaestroAfiliado(char * cOutFechaCo
 {
 	short	shRet = DEFAULT__;
 	memset(cSql, 0, sizeof(cSql));
-	sprintf(cSql, "SELECT to_char(current_date - interval '1 day','YYYYMMDD')" );
+	snprintf(cSql, sizeof(cSql), "SELECT to_char(current_date - interval '1 day','YYYYMMDD')" );
 	CCampoTexto xSel(&odbcAdmonAfo);
 
 	if( xSel.Exec(cSql) )
@@ -323,7 +323,7 @@ short CConsultarAfiliado::obtenerFechaCorteShmMaestroAfiliado(char * cOutFechaCo
 		xSel.activarCols();
 		if( xSel.leer() )
 		{
-			sprintf(cOutFechaCorte, "%s",xSel.texto);
+			snprintf(cOutFechaCorte, sizeof(cOutFechaCorte), "%s",xSel.texto);
 			shRet = OK__;
 		}
 	}
@@ -331,7 +331,7 @@ short CConsultarAfiliado::obtenerFechaCorteShmMaestroAfiliado(char * cOutFechaCo
 	{
 		shRet = ERR_EXEC_SQL;
 		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cTexto, "[%s][%s][obtenerFechaCorteShmMaestroAfiliado] Err: %s",__FILE__,__FUNCTION__, xSel.odbc->LastErrStr() );
+		snprintf( cTexto, sizeof(cTexto), "[%s][%s][obtenerFechaCorteShmMaestroAfiliado] Err: %s",__FILE__,__FUNCTION__, xSel.odbc->LastErrStr() );
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	return shRet;
@@ -345,10 +345,10 @@ void CConsultarAfiliado::formatoFechaConSeparador(char * pcFecha, char * cOutFec
 	memset(cDia, 0, sizeof(cDia));
 	memset(cFecha, 0, sizeof(cFecha));
 
-	sprintf(cAnio, "%s", CUtileriasAfo::Substring(0, 4, pcFecha));
-	sprintf(cMes, "%s", CUtileriasAfo::Substring(4, 2, pcFecha));
-	sprintf(cDia, "%s", CUtileriasAfo::Substring(6, 2, pcFecha));
-	sprintf(cFecha, "%s%c%s%c%s", cAnio,pcSeparador,cMes,pcSeparador, cDia);
+	snprintf(cAnio, sizeof(cAnio), "%s", CUtileriasAfo::Substring(0, 4, pcFecha));
+	snprintf(cMes, sizeof(cMes), "%s", CUtileriasAfo::Substring(4, 2, pcFecha));
+	snprintf(cDia, sizeof(cDia), "%s", CUtileriasAfo::Substring(6, 2, pcFecha));
+	snprintf(cFecha, sizeof(cFecha), "%s%c%s%c%s", cAnio,pcSeparador,cMes,pcSeparador, cDia);
 	CUtileriasAfo::quitarEspacioDerecha(cFecha);
 	memcpy(cOutFechaMDY, cFecha, strlen(cFecha));
 }

@@ -4142,11 +4142,8 @@ again:
       { soap->fclosesocket(soap, sk);
         return SOAP_INVALID_SOCKET;
       }
-      if (endpoint){
+      if (endpoint)
         strncpy(soap->endpoint, endpoint, sizeof(soap->endpoint)-1); /* restore */
-        soap->endpoint[sizeof(soap->endpoint)-1] = '\0';
-      }
-
       soap->mode = m;
     }
 #ifdef WITH_OPENSSL
@@ -5379,7 +5376,7 @@ http_parse(struct soap *soap)
       if (n >= sizeof(soap->endpoint))
         n = sizeof(soap->endpoint) - 1;
       strncpy(soap->path, soap->msgbuf + l, n - m);
-      soap->path[sizeof(soap->path)n - m] = '\0';
+      soap->path[n - m] = '\0';
       if (*soap->path && *soap->path != '/')
         *soap->endpoint = '\0';
       strcat(soap->endpoint, soap->path);
@@ -5562,13 +5559,8 @@ http_parse_header(struct soap *soap, const char *key, const char *val)
       soap->action = soap_strdup(soap, val);
   }
   else if (!soap_tag_cmp(key, "Location"))
-  { strncpy(soap->endpoint, val, sizeof(soap->endpoint) - 1);
+  { strncpy(soap->endpoint, val, sizeof(soap->endpoint));
     soap->endpoint[sizeof(soap->endpoint) - 1] = '\0';
-    if (soap->endpoint[0] == '/')
-      soap->endpoint[0] = '\0';
-    if (soap->endpoint[0] == '\\')
-      soap->endpoint[0] = '\0';
-    soap->status = 302;
   }
   else if (!soap_tag_cmp(key, "X-Forwarded-For"))
   { soap->proxy_from = soap_strdup(soap, val);
@@ -10244,7 +10236,7 @@ soap_set_attr(struct soap *soap, const char *name, const char *value, int flag)
 #ifndef WITH_LEAN
     if (!strcmp(name, "wsu:Id"))
     { soap->event = SOAP_SEC_BEGIN;
-      strncpy(soap->id, value, sizeof(soap->id) - 1);
+      strncpy(soap->id, value, sizeof(soap->id));
       soap->id[sizeof(soap->id)-1] = '\0';
     }
 #endif

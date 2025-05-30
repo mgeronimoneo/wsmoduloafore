@@ -11,95 +11,95 @@ CBaseDato::~CBaseDato()
 }
 short CBaseDato::abrirConexion(C_ODBC *odbc, char *cIpServ, char *cUsrBd, char *cBaseDato, char *cOut)
 {
-	short	shRet = DEFAULT__;
-	char	cPwdBd[40]={0};
+	short shRet = DEFAULT__;
+	char cPwdBd[40] = {0};
 	generarPasswordDB(cUsrBd, cBaseDato, cPwdBd);
-	if(odbc->Open("PostgreSQL", cIpServ, cUsrBd, cPwdBd, cBaseDato) == 1 )
+	if (odbc->Open("PostgreSQL", cIpServ, cUsrBd, cPwdBd, cBaseDato) == 1)
 		shRet = OK__;
 	else
 	{
 		shRet = ERR_CNX_BASE_DATO;
 		odbc->GetLastError();
-		sprintf(cOut, "[abrirConexion] Err en cnx bd: %s", odbc->LastErrStr());
+		snprintf(cOut, sizeof(cOut), "[abrirConexion] Err en cnx bd: %s", odbc->LastErrStr());
 	}
 	return shRet;
 }
 short CBaseDato::abrirConexion(C_ODBC *odbc, char *cIpServ, char *cUsrBd, char *cBaseDato, char *cPwd, char *cOut)
 {
-	short	shRet = DEFAULT__;
-	char	cPwdBd[40]={0};
-	if(strcmp(cPwd, "") == 0)
+	short shRet = DEFAULT__;
+	char cPwdBd[40] = {0};
+	if (strcmp(cPwd, "") == 0)
 		generarPasswordDB(cUsrBd, cBaseDato, cPwdBd);
 	else
-		sprintf(cPwdBd, "%s", cPwd);
-	if(odbc->Open("PostgreSQL", cIpServ, cUsrBd, cPwdBd, cBaseDato) == 1 )
+		snprintf(cPwdBd, sizeof(cPwdBd), "%s", cPwd);
+	if (odbc->Open("PostgreSQL", cIpServ, cUsrBd, cPwdBd, cBaseDato) == 1)
 		shRet = OK__;
 	else
 	{
 		shRet = ERR_CNX_BASE_DATO;
 		odbc->GetLastError();
-		sprintf(cOut, "[abrirConexion] Err en cnx bd: %s", odbc->LastErrStr());
+		snprintf(cOut, sizeof(cOut), "[abrirConexion] Err en cnx bd: %s", odbc->LastErrStr());
 	}
 	return shRet;
 }
 short CBaseDato::consultarNumero(C_ODBC *odbc, char *cSql, int &iOutCont, char *cOut)
 {
-	short	shRet = DEFAULT__;
+	short shRet = DEFAULT__;
 	CConsultaInt xSel(odbc);
-	if(xSel.Exec(cSql))
+	if (xSel.Exec(cSql))
 	{
 		xSel.activarCols();
-		if(xSel.leer())
+		if (xSel.leer())
 		{
 			shRet = OK__;
 			iOutCont = xSel.campoint;
 		}
 		else
 		{
-			sprintf( cOut, "[CBaseDato::consultarNumero] No existen registros para la consulta: %s", cSql);
+			snprintf(cOut, sizeof(cOut), "[CBaseDato::consultarNumero] No existen registros para la consulta: %s", cSql);
 			shRet = ERR_NO_HAY_REG_BD;
 		}
 	}
 	else
 	{
 		shRet = ERR_EXEC_SQL;
-		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cOut, "[CBaseDato::consultarNumero] Err[%s]: %s", cSql, xSel.odbc->LastErrStr() );
+		xSel.odbc->GetLastError(xSel.GetHstmt());
+		snprintf(cOut, sizeof(cOut), "[CBaseDato::consultarNumero] Err[%s]: %s", cSql, xSel.odbc->LastErrStr());
 	}
 	xSel.ClearResults();
 	return shRet;
 }
 short CBaseDato::consultarTexto(C_ODBC *odbc, char *cSql, char *cOutTexto)
 {
-	short	shRet = DEFAULT__;
+	short shRet = DEFAULT__;
 	CCampoTexto xSel(odbc);
-	if(xSel.Exec(cSql))
+	if (xSel.Exec(cSql))
 	{
 		xSel.activarCols();
-		if(xSel.leer())
+		if (xSel.leer())
 		{
 			shRet = OK__;
-			sprintf(cOutTexto, "%s", xSel.texto);
+			snprintf(cOutTexto, sizeof(cOutTexto), "%s", xSel.texto);
 		}
 		else
 		{
-			sprintf( cOutTexto, "[CBaseDato::consultarTexto] No existen registros para la consulta: %s", cSql);
+			snprintf(cOutTexto, sizeof(cOutTexto), "[CBaseDato::consultarTexto] No existen registros para la consulta: %s", cSql);
 			shRet = ERR_NO_HAY_REG_BD;
 		}
 	}
 	else
 	{
 		shRet = ERR_EXEC_SQL;
-		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cOutTexto, "[CBaseDato::consultarTexto] Err[%s]: %s", cSql, xSel.odbc->LastErrStr() );
+		xSel.odbc->GetLastError(xSel.GetHstmt());
+		snprintf(cOutTexto, sizeof(cOutTexto), "[CBaseDato::consultarTexto] Err[%s]: %s", cSql, xSel.odbc->LastErrStr());
 	}
 	return shRet;
 }
 short CBaseDato::actualizarDatos(C_ODBC *odbc, char *cSql, char *cOut)
 {
-	short	shRet = DEFAULT__;
+	short shRet = DEFAULT__;
 	CCampoTexto xSel(odbc);
-	if(xSel.Exec(cSql))
+	if (xSel.Exec(cSql))
 	{
 		xSel.activarCols();
 		xSel.leer();
@@ -108,35 +108,35 @@ short CBaseDato::actualizarDatos(C_ODBC *odbc, char *cSql, char *cOut)
 	else
 	{
 		shRet = ERR_EXEC_SQL;
-		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cOut, "[CBaseDato::actualizarDatos] Err[%s]: %s", cSql, xSel.odbc->LastErrStr() );
+		xSel.odbc->GetLastError(xSel.GetHstmt());
+		snprintf(cOut, sizeof(cOut), "[CBaseDato::actualizarDatos] Err[%s]: %s", cSql, xSel.odbc->LastErrStr());
 	}
 	return shRet;
 }
 short CBaseDato::abrirConexionIfx(C_ODBC *odbc, char *cIpServ, char *cUsrBd, char *cBaseDato, char *cPwd, char *cOut)
 {
-	short	shRet = DEFAULT__;
-	if( odbc->Open( "Informix", cIpServ, cUsrBd, cPwd, cBaseDato ) == 1 )
+	short shRet = DEFAULT__;
+	if (odbc->Open("Informix", cIpServ, cUsrBd, cPwd, cBaseDato) == 1)
 		shRet = OK__;
 	else
 	{
 		odbc->GetLastError();
-		sprintf(  cOut, "[CBaseDato::abrirConexionInformix] error cnx[ %s ]: %s", cIpServ, odbc->LastErrStr() );
+		snprintf(cOut, sizeof(cOut), "[CBaseDato::abrirConexionInformix] error cnx[ %s ]: %s", cIpServ, odbc->LastErrStr());
 		shRet = ERR_CNX_BASE_DATO;
 	}
 
 	return shRet;
 }
-short CBaseDato::consultarInfoShm( C_ODBC *odbcAdmon, char *cFechaCorte, SHM_INFOX &stShminf, char *cTextoOut)
+short CBaseDato::consultarInfoShm(C_ODBC *odbcAdmon, char *cFechaCorte, SHM_INFOX &stShminf, char *cTextoOut)
 {
 	char cSql[256] = {0};
 	short shRet = DEFAULT__;
 	CTbMemoriaCompartida xSel(odbcAdmon);
-	sprintf(cSql, "SELECT idShm, totalreg FROM tbmemoriacompartida WHERE idTabla = %i AND fechaCorte >= '%s'", ID_CTRL_MAE_AFIL, cFechaCorte);
-	if(xSel.Exec(cSql))
+	snprintf(cSql, sizeof(cSql), "SELECT idShm, totalreg FROM tbmemoriacompartida WHERE idTabla = %i AND fechaCorte >= '%s'", ID_CTRL_MAE_AFIL, cFechaCorte);
+	if (xSel.Exec(cSql))
 	{
 		xSel.activarCols();
-		if(xSel.leer())
+		if (xSel.leer())
 		{
 			stShminf.iIdShm = xSel.iIdShm;
 			stShminf.iTotalReg = xSel.iTotalReg;
@@ -145,27 +145,27 @@ short CBaseDato::consultarInfoShm( C_ODBC *odbcAdmon, char *cFechaCorte, SHM_INF
 		else
 		{
 			shRet = ERR_NO_HAY_REG_BD;
-			sprintf( cTextoOut, "no se encontro inf shm mae afil");
+			snprintf(cTextoOut, sizeof(cTextoOut), "no se encontro inf shm mae afil");
 		}
 	}
 	else
 	{
 		shRet = ERR_EXEC_SQL;
-		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cTextoOut, "Err en consulta a inf shm mae afil: %s", xSel.odbc->LastErrStr() );
+		xSel.odbc->GetLastError(xSel.GetHstmt());
+		snprintf(cTextoOut, sizeof(cTextoOut), "Err en consulta a inf shm mae afil: %s", xSel.odbc->LastErrStr());
 	}
 	return shRet;
 }
-short CBaseDato::consultarInfoShm( C_ODBC *odbcAdmon, int iIdTablaShm, SHM_INFOX &stShminf, char *cTextoOut)
+short CBaseDato::consultarInfoShm(C_ODBC *odbcAdmon, int iIdTablaShm, SHM_INFOX &stShminf, char *cTextoOut)
 {
 	char cSql[256] = {0};
 	short shRet = DEFAULT__;
 	CTbMemoriaCompartida xSel(odbcAdmon);
-	sprintf(cSql, "SELECT idShm, totalreg FROM tbmemoriacompartida WHERE idTabla = %i AND fechaCorte=CURRENT_DATE-1", iIdTablaShm);
-	if(xSel.Exec(cSql))
+	snprintf(cSql, sizeof(cSql), "SELECT idShm, totalreg FROM tbmemoriacompartida WHERE idTabla = %i AND fechaCorte=CURRENT_DATE-1", iIdTablaShm);
+	if (xSel.Exec(cSql))
 	{
 		xSel.activarCols();
-		if(xSel.leer())
+		if (xSel.leer())
 		{
 			stShminf.iIdShm = xSel.iIdShm;
 			stShminf.iTotalReg = xSel.iTotalReg;
@@ -174,65 +174,65 @@ short CBaseDato::consultarInfoShm( C_ODBC *odbcAdmon, int iIdTablaShm, SHM_INFOX
 		else
 		{
 			shRet = ERR_NO_HAY_REG_BD;
-			sprintf( cTextoOut, "no se encontro inf shm");
+			snprintf(cTextoOut, sizeof(cTextoOut), "no se encontro inf shm");
 		}
 	}
 	else
 	{
 		shRet = ERR_EXEC_SQL;
-		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cTextoOut, "Err en consulta a inf shm: %s", xSel.odbc->LastErrStr() );
+		xSel.odbc->GetLastError(xSel.GetHstmt());
+		snprintf(cTextoOut, sizeof(cTextoOut), "Err en consulta a inf shm: %s", xSel.odbc->LastErrStr());
 	}
 	return shRet;
 }
-short CBaseDato::consultarIpServidor(C_ODBC* odbc, short shId, char *cIp, char* cOutTexto)
+short CBaseDato::consultarIpServidor(C_ODBC *odbc, short shId, char *cIp, char *cOutTexto)
 {
-	short	shRet = DEFAULT__;
-	char cSql[256] = { 0 };
-	//Ejecuta la consulta en el servidor
-	sprintf(cSql, "SELECT TRIM(valor) FROM aforecontrol WHERE Tipo = 1 AND activo = 1 AND id = %i", shId);
+	short shRet = DEFAULT__;
+	char cSql[256] = {0};
+	// Ejecuta la consulta en el servidor
+	snprintf(cSql, sizeof(cSql), "SELECT TRIM(valor) FROM aforecontrol WHERE Tipo = 1 AND activo = 1 AND id = %i", shId);
 	CCampoTexto xSel(odbc);
-	if( xSel.Exec(cSql) )
+	if (xSel.Exec(cSql))
 	{
-		//Lee el resultado de la consulta
+		// Lee el resultado de la consulta
 		xSel.activarCols();
-		if( xSel.leer() )
+		if (xSel.leer())
 		{
-			sprintf(cIp, "%s", xSel.texto);
+			snprintf(cIp, sizeof(cIp), "%s", xSel.texto);
 			shRet = OK__;
 		}
 		else
 		{
-			//Graba en el log que no encontro informacion
+			// Graba en el log que no encontro informacion
 			shRet = ERR_NO_HAY_REG_BD;
-			sprintf( cOutTexto, "[CBaseDato::consultarIpServidor] No se encontró el IP del servidor" );
+			snprintf(cOutTexto, sizeof(cOutTexto), "[CBaseDato::consultarIpServidor] No se encontró el IP del servidor");
 		}
 	}
 	else
 	{
-		//Graba en el log el error del odbc
+		// Graba en el log el error del odbc
 		shRet = ERR_EXEC_SQL;
-		xSel.odbc->GetLastError( xSel.GetHstmt() );
-		sprintf( cOutTexto, "[CBaseDato::consultarIpServidor] [shId: %i] %s Err: %s", shId, cSql, xSel.odbc->LastErrStr() );
+		xSel.odbc->GetLastError(xSel.GetHstmt());
+		snprintf(cOutTexto, sizeof(cOutTexto), "[CBaseDato::consultarIpServidor] [shId: %i] %s Err: %s", shId, cSql, xSel.odbc->LastErrStr());
 	}
 
 	return shRet;
 }
 short CBaseDato::abrirConexionInfx(C_ODBC *odbc, char *cIpServ, char *cUsrBd, char *cBaseDato, char *cPwd, char *cOut)
 {
-	short	shRet = DEFAULT__;
-	char	cPwdBd[40]={0};
-	if(strcmp(cPwd, "") == 0)
+	short shRet = DEFAULT__;
+	char cPwdBd[40] = {0};
+	if (strcmp(cPwd, "") == 0)
 		generarPasswordDB(cUsrBd, cBaseDato, cPwdBd);
 	else
-		sprintf(cPwdBd, "%s", cPwd);
-	if(odbc->Open("Informix", cIpServ, cUsrBd, cPwdBd, cBaseDato) == 1 )
+		snprintf(cPwdBd, sizeof(cPwdBd), "%s", cPwd);
+	if (odbc->Open("Informix", cIpServ, cUsrBd, cPwdBd, cBaseDato) == 1)
 		shRet = OK__;
 	else
 	{
 		shRet = ERR_CNX_BASE_DATO;
 		odbc->GetLastError();
-		sprintf(cOut, "[abrirConexionInfx] Err en cnx bd: %s", odbc->LastErrStr());
+		snprintf(cOut, sizeof(cOut), "[abrirConexionInfx] Err en cnx bd: %s", odbc->LastErrStr());
 	}
 	return shRet;
 }
