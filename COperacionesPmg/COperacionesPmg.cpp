@@ -36,7 +36,8 @@ short COperacionesPmg::ConsultaInsuficiencia(char *cNssx, char *cSecuenciax, int
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
+		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
+		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
@@ -427,7 +428,7 @@ short COperacionesPmg::abrirConexionServAfo()
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
@@ -439,7 +440,7 @@ short COperacionesPmg::abrirConexionServAfo()
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
 			cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
@@ -522,7 +523,8 @@ short COperacionesPmg::obtenerNumMensualidad(char *cNssx)
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
+		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
+		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);

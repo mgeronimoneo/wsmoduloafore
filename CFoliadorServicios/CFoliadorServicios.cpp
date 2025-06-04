@@ -9,7 +9,7 @@ CFoliadorServicios::CFoliadorServicios()
 	memset(cSql, 0, sizeof(cSql));
 	memset(cBuff, 0, sizeof(cBuff));
 	snprintf(cRutaLog, sizeof(cRutaLog), "%s", RUTA_LOGX);
-	iFolio=0;
+	iFolio = 0;
 }
 CFoliadorServicios::~CFoliadorServicios()
 {
@@ -18,54 +18,70 @@ CFoliadorServicios::~CFoliadorServicios()
 short CFoliadorServicios::ObtenerFolio(short shTipoServicio)
 {
 	short shRet = DEFAULT__;
-	char cTpoServ=' ';
+	char cTpoServ = ' ';
 
-	switch(shTipoServicio)
+	switch (shTipoServicio)
 	{
-		case 0: cTpoServ='0'; break;
-		case 1: cTpoServ='A'; break;
-		case 2: cTpoServ='C'; break;
-		case 3: cTpoServ='N'; break;
-		case 4: cTpoServ='P'; break;
-		case 5: cTpoServ='Q'; break;//se cambia la R por la Q
-		case 6: cTpoServ='S'; break;
-		default: break;
+	case 0:
+		cTpoServ = '0';
+		break;
+	case 1:
+		cTpoServ = 'A';
+		break;
+	case 2:
+		cTpoServ = 'C';
+		break;
+	case 3:
+		cTpoServ = 'N';
+		break;
+	case 4:
+		cTpoServ = 'P';
+		break;
+	case 5:
+		cTpoServ = 'Q';
+		break; // se cambia la R por la Q
+	case 6:
+		cTpoServ = 'S';
+		break;
+	default:
+		break;
 	}
 
-	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [TipoServ: %i %c]------",  __FUNCTION__, shTipoServicio, cTpoServ);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [TipoServ: %i %c]------", __FUNCTION__, shTipoServicio, cTpoServ);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
-	if(shRet == OK__)
+	if (shRet == OK__)
 	{
-		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
-		cIpServAfo[16]={0};
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
+		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
+		
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
-		if(shRet != OK__)
+		if (shRet != OK__)
 		{
-			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
-			cIpServAfo[16]={0};
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
-			if(shRet != OK__)
+			if (shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
-		if(shRet == OK__)
+		if (shRet == OK__)
 		{
 			snprintf(cSql, sizeof(cSql), "SELECT fnFoliadorServicios from fnFoliadorServicios('%c');", cTpoServ);
-			shRet=CBaseDato::consultarNumero(&odbcPg, cSql, iFolio, cOutTexto);
-			if(shRet==OK__)
+			shRet = CBaseDato::consultarNumero(&odbcPg, cSql, iFolio, cOutTexto);
+			if (shRet == OK__)
 			{
 				snprintf(cTexto, sizeof(cTexto), "[%s] Folio generado: %i", __FUNCTION__, iFolio);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -80,14 +96,14 @@ short CFoliadorServicios::ObtenerFolio(short shTipoServicio)
 	else
 	{
 		shRet = ERR_LEER_ARCHIVO_CNF;
-		snprintf(cTexto, sizeof(cTexto), "[%s] Error al leer archivo dat: %s [%s]",  __FUNCTION__, cOutTexto, (char *)IP_SERV_AFO_DAT);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al leer archivo dat: %s [%s]", __FUNCTION__, cOutTexto, (char *)IP_SERV_AFO_DAT);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 
-	snprintf(cTexto, sizeof(cTexto), "[%s] Retorno: %i",  __FUNCTION__, shRet);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Retorno: %i", __FUNCTION__, shRet);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
-	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Termina [TipoServ: %i %c]------",  __FUNCTION__, shTipoServicio, cTpoServ);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Termina [TipoServ: %i %c]------", __FUNCTION__, shTipoServicio, cTpoServ);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	return shRet;
 }
@@ -95,4 +111,3 @@ int CFoliadorServicios::Folio()
 {
 	return iFolio;
 }
-

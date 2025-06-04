@@ -30,8 +30,9 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuenta(char *cNssx)
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_ADMONAFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
-		cIpAdmon[16] = {0};
+		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
+		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -41,8 +42,9 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuenta(char *cNssx)
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[16] = {0};
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -113,11 +115,13 @@ short CSaldosPorSubCuenta::buscarSaldoDiario()
 	short shRet = DEFAULT__;
 	SALDO_CUENTA *stSaldoBuscar = NULL;
 
-	memcpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+	strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+	stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+
 	stSaldoBuscar = (SALDO_CUENTA *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA), compararNssEnSaldoCuenta);
 	if (stSaldoBuscar != NULL)
 	{
-		memcpy(&stSaldoDiario, stSaldoBuscar, sizeof(SALDO_CUENTA));
+		memmove(&stSaldoDiario, stSaldoBuscar, sizeof(SALDO_CUENTA));
 		shRet = OK__;
 	}
 	else
@@ -158,7 +162,9 @@ short CSaldosPorSubCuenta::ConsultarSaldoBD()
 				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if (xSelSaldo.Exec(cSql))
 				{
-					memcpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+					strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+					stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+
 					xSelSaldo.activarCols();
 					while (xSelSaldo.leer())
 					{
@@ -209,8 +215,9 @@ short CSaldosPorSubCuenta::abrirConexionServAfo()
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
-		cIpServAfo[16] = {0};
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
+		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -220,8 +227,8 @@ short CSaldosPorSubCuenta::abrirConexionServAfo()
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpServAfo[16] = {0};
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -246,8 +253,9 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuentaPMG(char *cNssx)
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_ADMONAFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
-		cIpAdmon[16] = {0};
+		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
+		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -257,8 +265,9 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuentaPMG(char *cNssx)
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[16] = {0};
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -351,7 +360,9 @@ short CSaldosPorSubCuenta::ConsultarSaldoBdPMG()
 				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if (xSelSaldo.Exec(cSql))
 				{
-					memcpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+					strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+					stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+
 					xSelSaldo.activarCols();
 					while (xSelSaldo.leer())
 					{

@@ -25,7 +25,8 @@ short CValidarConvivenciaMarca::ValidarConvivencia( short shOpcion, short shTipo
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if(shRet == OK__)
 	{
-		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
+cIpServAfo[sizeof(cIpServAfo)- 1] = '\0';
 		cIpServAfo[16]={0};
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
@@ -36,8 +37,9 @@ short CValidarConvivenciaMarca::ValidarConvivencia( short shOpcion, short shTipo
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s",  __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
-			cIpServAfo[16]={0};
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT-20));
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
+			
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s",  __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

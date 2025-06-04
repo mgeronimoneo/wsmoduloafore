@@ -32,8 +32,9 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_ADMONAFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
-		cIpAdmon[16] = {0};
+		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
+		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -43,8 +44,9 @@ short CSaldoDiarioRetParcial::obtenerSaldoDiarioRetParcial(char *cNssx, int iTip
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			memcpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[16] = {0};
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -115,14 +117,17 @@ short CSaldoDiarioRetParcial::buscarSaldoDiario()
 	short shRet = DEFAULT__;
 	SALDO_CUENTA *stSaldoBuscar = NULL;
 	dSaldoDiario = 0;
-	memcpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+	strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
+	stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+
 	stSaldoBuscar = (SALDO_CUENTA *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA), compararNssEnSaldoCuenta);
 	if (stSaldoBuscar != NULL)
 	{
 		snprintf(cTexto, sizeof(cTexto), "[%s] Nss: %s iTipoRetiro: %i encontro saldo", __FUNCTION__, cNss, iTipoRetiro);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
-		memcpy(&stSaldoDiario, stSaldoBuscar, sizeof(SALDO_CUENTA));
+		memmove(&stSaldoDiario, stSaldoBuscar, sizeof(SALDO_CUENTA));
+
 		for (short i = 0; i < NUM_SUBCUENTAS; i++)
 		{
 			if (stSaldoDiario.arrSubCta[i].shSubCuenta > 0)
@@ -231,8 +236,8 @@ short CSaldoDiarioRetParcial::abrirConexionServAfo()
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
-		cIpServAfo[16] = {0};
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
+		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -242,8 +247,8 @@ short CSaldoDiarioRetParcial::abrirConexionServAfo()
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpServAfo[16] = {0};
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

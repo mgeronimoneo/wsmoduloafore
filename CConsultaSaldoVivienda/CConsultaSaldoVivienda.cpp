@@ -201,8 +201,9 @@ void CConsultaSaldoVivienda::conexionPostgress()
 	if (shRet == OK__)
 	{
 		// Se pasa la IP obtenida en el .dat a una variable para poder usarse.
-		memcpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
-		cIpServAfo[16] = {0};
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
+		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
+
 		// Se limpia de espacios la IP.
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 
@@ -221,8 +222,8 @@ void CConsultaSaldoVivienda::conexionPostgress()
 
 			// Se vacia y re-obtiene la IP considerando un fallo en la obtención del cBuff.
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			memcpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpServAfo[16] = {0};
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			// Se limpia de espacios la IP.
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 
