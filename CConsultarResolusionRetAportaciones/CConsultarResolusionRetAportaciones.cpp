@@ -52,7 +52,7 @@ short CConsultarResolusionRetAportaciones::ConsultarResolusion(char *cCurpx, cha
 
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpServAfo[sizeof(cIpServAfo)] = '\0';
+			cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
