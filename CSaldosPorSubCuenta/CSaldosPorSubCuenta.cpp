@@ -42,8 +42,8 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuenta(char *cNssx)
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
+			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
@@ -115,8 +115,8 @@ short CSaldosPorSubCuenta::buscarSaldoDiario()
 	short shRet = DEFAULT__;
 	SALDO_CUENTA *stSaldoBuscar = NULL;
 
-	strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
-	stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+	strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS) - 1);	
+	stSaldoDiario.cNss[sizeof(stSaldoDiario.cNss) - 1] = '\0';
 
 	stSaldoBuscar = (SALDO_CUENTA *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA), compararNssEnSaldoCuenta);
 	if (stSaldoBuscar != NULL)
@@ -162,8 +162,8 @@ short CSaldosPorSubCuenta::ConsultarSaldoBD()
 				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if (xSelSaldo.Exec(cSql))
 				{
-					strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
-					stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+					strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS) - 1);
+					stSaldoDiario.cNss[sizeof(stSaldoDiario.cNss) - 1] = '\0';
 
 					xSelSaldo.activarCols();
 					while (xSelSaldo.leer())
@@ -265,8 +265,8 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuentaPMG(char *cNssx)
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
+			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 			
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
@@ -360,8 +360,8 @@ short CSaldosPorSubCuenta::ConsultarSaldoBdPMG()
 				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if (xSelSaldo.Exec(cSql))
 				{
-					strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS));
-					stSaldoDiario.cNss[sizeof(SIZE_NSS)] = '\0';
+					strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS) - 1);
+					stSaldoDiario.cNss[sizeof(stSaldoDiario.cNss - 1)] = '\0';
 
 					xSelSaldo.activarCols();
 					while (xSelSaldo.leer())

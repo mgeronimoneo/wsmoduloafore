@@ -46,8 +46,8 @@ short CConsultarCtaSaldoVol::consultarFechaAporte(char *cNssx)
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
+			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
@@ -114,8 +114,8 @@ short CConsultarCtaSaldoVol::buscarCtaSaldoVolD()
 	short shRet = DEFAULT__;
 	SALDO_VOL *stSalVolBuscar = NULL;
 
-	strncpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS));
-	stSalVol.cNss[sizeof(SIZE_NSS)] = '\0';
+	strncpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS) - 1);
+	stSalVol.cNss[sizeof(stSalVol.cNss) - 1] = '\0';
 	
 	stSalVolBuscar = (SALDO_VOL *)bsearch(&stSalVol, (void *)shmSalVol, stInfShmSaldoVolCta.iTotalReg, sizeof(SALDO_VOL), compararNssCtaSaldoVol);
 	if (stSalVolBuscar != NULL)
@@ -156,8 +156,8 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
+			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 			
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
@@ -264,8 +264,8 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 
 					if (xSelSaldoVol.Exec(cSql))
 					{
-						strncpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS));
-						stSalVol.cNss[sizeof(SIZE_NSS)] = '\0';
+						strncpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS) - 1);
+						stSalVol.cNss[sizeof(stSalVol.cNss) - 1] = '\0';
 
 						xSelSaldoVol.activarCols();
 

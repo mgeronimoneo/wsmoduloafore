@@ -30,7 +30,7 @@ short CAportaciones::ObtenerAportaciones(char* sNss, char* dFechaIniPension, int
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if(shRet == OK__)
 	{
-		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon));
+		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
 		cIpAdmon[sizeof(cIpAdmon)- 1] = '\0';
 
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
@@ -49,7 +49,7 @@ short CAportaciones::ObtenerAportaciones(char* sNss, char* dFechaIniPension, int
 			
 			if(shRet==OK__)
 			{
-				strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx));
+				strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 				cIpInfx[sizeof(cIpInfx)- 1] = '\0';
 
 				CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
@@ -133,7 +133,7 @@ short CAportaciones::abrirConexionServAfo()
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if(shRet == OK__)
 	{
-		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo)- 1] = '\0';
 		
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);

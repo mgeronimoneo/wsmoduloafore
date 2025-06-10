@@ -125,7 +125,7 @@ short CConsultarResolusion::ConsultarResolusionBD(char *cNssx, int iTipoRetirox)
 	shRet = CBaseDato::consultarTexto(&odbcPg, cSql, cOutTexto);
 	if (shRet == OK__)
 	{
-		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx));
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 		cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 		strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");

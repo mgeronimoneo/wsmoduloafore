@@ -43,8 +43,8 @@ short CConsultarCtaRegimen::consultarSieforeCtaRegimen(char *cNssx)
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpAdmon[sizeof(cIpAdmon)] = '\0';
+			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
+			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -142,6 +142,7 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 		if (shRet == OK__)
 		{
 			strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
+			cIpInfx[sizeof(cIpInfx)- 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 			strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 			shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
@@ -154,8 +155,8 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 
 				if (xSelSiefore.Exec(cSql))
 				{
-					strncpy(stSiefore.cNss, cNss, sizeof(SIZE_NSS));
-					stSiefore.cNss[sizeof(stSiefore.cNss)] = '\0';
+					strncpy(stSiefore.cNss, cNss, sizeof(SIZE_NSS) - 1);
+					stSiefore.cNss[sizeof(stSiefore.cNss) - 1] = '\0';
 					xSelSiefore.activarCols();
 					while (xSelSiefore.leer())
 					{
@@ -210,7 +211,7 @@ short CConsultarCtaRegimen::abrirConexionServAfo()
 	{
 		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
-		
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		snprintf(cTexto, sizeof(cTexto), sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

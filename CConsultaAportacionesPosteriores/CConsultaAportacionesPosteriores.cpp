@@ -165,7 +165,7 @@ int CConsultaAportacionesPosteriores::CConsultarAportacionesPosteriores(short sh
 	if(shRet==OK__)
 	{
 		//Pasamos la IP de Informix obtenida en la consulta anterior a la variable cIpInfx.
-		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx));
+		strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 		cIpInfx[sizeof(cIpInfx)- 1] = '\0';
 		//Se limpia de espacios.
 		CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
@@ -276,7 +276,7 @@ int CConsultaAportacionesPosteriores::abrirConexionServAfo()
 	//Se intenta leer el archivo de configuracion (.dat) que nos dara las IP.
 	if(shRet == OK__)
 	{
-		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo)- 1] = '\0';
 		
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);

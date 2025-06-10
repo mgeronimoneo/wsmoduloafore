@@ -69,7 +69,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAfiliado(struct soap *, ns2__ParamConsul
 		stDatosAfil = objConsultaAfil.getInformacionTrabajador();
 
 		// Indicamos que todo se realizo con exito
-		sprintf(_param_1.out->EstadoProc->DescripcionEstado, "%s", "EXITO");
+		snprintf(_param_1.out->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "%s", "EXITO");
 		_param_1.out->EstadoProc->Estado = OK__;
 
 		// Se instancia el objeto donde se guardaran los datos que se regresara el webservice
@@ -112,18 +112,18 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAfiliado(struct soap *, ns2__ParamConsul
 		switch (shRet)
 		{
 		case ERR_LEER_ARCHIVO_CNF:
-			sprintf(_param_1.out->EstadoProc->DescripcionEstado, "%s", "Se presento un error al leer la configuración del servidor, por favor reporte a incidencias");
+			snprintf(_param_1.out->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "%s", "Se presento un error al leer la configuración del servidor, por favor reporte a incidencias");
 			break;
 		case ERR_EXEC_SQL:
 		case ERR_CNX_BASE_DATO:
 		case ERR_LEER_REG_BD:
-			sprintf(_param_1.out->EstadoProc->DescripcionEstado, "%s", "Se presento un error al consultar los datos del afiliado, por favor reporte a incidencias");
+			snprintf(_param_1.out->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "%s", "Se presento un error al consultar los datos del afiliado, por favor reporte a incidencias");
 			break;
 		case ERR_NO_HAY_REG_BD:
-			sprintf(_param_1.out->EstadoProc->DescripcionEstado, "%s", "No se encontro información del afiliado, por favor reporte a incidencias");
+			snprintf(_param_1.out->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "%s", "No se encontro información del afiliado, por favor reporte a incidencias");
 			break;
 		default:
-			sprintf(_param_1.out->EstadoProc->DescripcionEstado, "%s", "Ocurrio un error desconocido, por favor reporte a incidencias");
+			snprintf(_param_1.out->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "%s", "Ocurrio un error desconocido, por favor reporte a incidencias");
 			break;
 		}
 	}
@@ -153,7 +153,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldos(struct soap *, ns2__ParametroNss 
 			if (stSaldoCta->arrSubCta[i].shSubCuenta > 0)
 				shTotalReg++;
 		}
-		sprintf(_param_2.outSaldos->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_2.outSaldos->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		memmove(_param_2.outSaldos->Nss, inParam->Nss, sizeof(SIZE_NSS));
 		_param_2.outSaldos->ListaSaldos->__size = shTotalReg;
 		_param_2.outSaldos->ListaSaldos->__ptrSaldo = new ns2__SaldoSubCuenta *[shTotalReg];
@@ -176,7 +176,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldos(struct soap *, ns2__ParametroNss 
 	}
 	else
 	{
-		sprintf(_param_2.outSaldos->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_2.outSaldos->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 	_param_2.outSaldos->EstadoProc->Estado = shRet;
 
@@ -194,11 +194,11 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerFolioServicio(struct soap *, ns2__Foliador
 	shRet = objFolioServ.ObtenerFolio(inFoliador->TipoServicio);
 	if (shRet == OK__)
 	{
-		sprintf(_param_3.outFolioServ->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_3.outFolioServ->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		_param_3.outFolioServ->Folio = objFolioServ.Folio();
 	}
 	else
-		sprintf(_param_3.outFolioServ->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_3.outFolioServ->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_3.outFolioServ->EstadoProc->Estado = shRet;
 	return SOAP_OK;
@@ -219,13 +219,13 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ValidarConvivenciaMarcaOperativa(struct soap *, n
 	if (shRet == OK__)
 	{
 		memset(_param_4.outParam->ConvivenciaMarca->Descripcion, 0, LONG_DESCRIPCION);
-		sprintf(_param_4.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_4.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		_param_4.outParam->ConvivenciaMarca->Codigo = objConvMarca.ConviveMarcas()->shCodigo;
 		_param_4.outParam->ConvivenciaMarca->TieneMarca = objConvMarca.ConviveMarcas()->shTieneMarca;
-		sprintf(_param_4.outParam->ConvivenciaMarca->Descripcion, "%s", objConvMarca.ConviveMarcas()->cMensaje);
+		snprintf(_param_4.outParam->ConvivenciaMarca->Descripcion, sizeof(LONG_DESCRIPCION), "%s", objConvMarca.ConviveMarcas()->cMensaje);
 	}
 	else
-		sprintf(_param_4.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_4.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_4.outParam->EstadoProc->Estado = shRet;
 
@@ -245,9 +245,9 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerSaldoDiarioRetiroParcial(struct soap *, ns
 
 	shRet = objSdoDiario.obtenerSaldoDiarioRetParcial(inParam->Nss, inParam->TipoRetiro);
 	if (shRet == OK__)
-		sprintf(_param_5.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_5.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 	else
-		sprintf(_param_5.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_5.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_5.outParam->EstadoProc->Estado = shRet;
 	sprintf(_param_5.outParam->SaldoPesos, "%.02f", objSdoDiario.SaldoDiario());

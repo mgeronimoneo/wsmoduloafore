@@ -27,7 +27,7 @@ short CComplementoResolucion::ConsultarComplementoResolusion(char *cNssx, int iT
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
-		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo));
+		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
