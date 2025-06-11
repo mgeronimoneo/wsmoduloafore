@@ -304,7 +304,7 @@ short CSaldosPorSubCuentaPmg::ConsultarSaldoBD()
 			strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 			cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
-			strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
+			snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
 			shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
 
 			if (shRet == OK__)
@@ -407,7 +407,7 @@ short CSaldosPorSubCuentaPmg::obtenerFechaLiquidaPmg(char *cNssx)
 	strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
 	cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 	CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
-	strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
+	snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
 	shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
 
 	if (shRet == OK__)

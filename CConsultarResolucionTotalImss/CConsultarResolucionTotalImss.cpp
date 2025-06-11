@@ -221,7 +221,7 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImssBD(short shOpci
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 		// Se prepara y se intenta abrir la conexi�n a Informix.
-		strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
+		snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
 		shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
 
 		// Si la conexi�n se realiza correctamente se prosigue.
@@ -515,7 +515,7 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImssBDNuevos(short 
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 		// Se prepara y se intenta abrir la conexi�n a Informix.
-		strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
+		snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
 		shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
 
 		// Si la conexi�n se realiza correctamente se prosigue.
