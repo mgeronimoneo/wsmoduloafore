@@ -616,21 +616,25 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalIssste(struct soap *, ns2
 		memset(_param_13.outParam->RespResolucionTotalIssste->FechaResolucion, 0, sizeof(SIZE_FECHA));
 
 		// Asignar valores a las variables de la estructura obtenidas a traves de la consulta al objeto
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->Nss, "%s", stResolTotal->cNss);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->NssIssste, "%s", stResolTotal->cNssissste);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->Curp, "%s", stResolTotal->cCurp);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->SecPension, "%s", stResolTotal->cSecpension);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->NombreDatamart, "%s", stResolTotal->cNombreDatamart);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->PaternoDatamart, "%s", stResolTotal->cPaternoDatamart);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->MaternoDatamart, "%s", stResolTotal->cMaternoDatamart);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->NumConcesion, "%s", stResolTotal->cNumconcesion);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->TipoRetiro, "%s", stResolTotal->cTiporetiro);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->Regimen, "%s", stResolTotal->cRegimen);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->TipoSeguro, "%s", stResolTotal->cTiposeguro);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->TipoPension, "%s", stResolTotal->cTipopension);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->CvePension, "%s", stResolTotal->cCvepension);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen, "%s", stResolTotal->cFechainiciopen);
-		sprintf(_param_13.outParam->RespResolucionTotalIssste->FechaResolucion, "%s", stResolTotal->cFecharesolucion);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->Nss, sizeof(_param_13.outParam->RespResolucionTotalIssste->Nss), "%s", stResolTotal->cNss);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->NssIssste, sizeof(_param_13.outParam->RespResolucionTotalIssste->NssIssste), "%s", stResolTotal->cNssissste);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->Curp, sizeof(_param_13.outParam->RespResolucionTotalIssste->Curp), "%s", stResolTotal->cCurp);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->SecPension, sizeof(_param_13.outParam->RespResolucionTotalIssste->SecPension), "%s", stResolTotal->cSecpension);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->NombreDatamart, sizeof(_param_13.outParam->RespResolucionTotalIssste->NombreDatamart), "%s", stResolTotal->cNombreDatamart);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->PaternoDatamart, sizeof(_param_13.outParam->RespResolucionTotalIssste->PaternoDatamart), "%s", stResolTotal->cPaternoDatamart);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->MaternoDatamart, sizeof(_param_13.outParam->RespResolucionTotalIssste->MaternoDatamart), "%s", stResolTotal->cMaternoDatamart);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->NumConcesion, sizeof(_param_13.outParam->RespResolucionTotalIssste->NumConcesion), "%s", stResolTotal->cNumconcesion);
+
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->TipoRetiro, sizeof(_param_13.outParam->RespResolucionTotalIssste->TipoRetiro), "%s", stResolTotal->cTiporetiro);
+
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->Regimen, sizeof(_param_13.outParam->RespResolucionTotalIssste->Regimen), "%s", stResolTotal->cRegimen);
+
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->TipoSeguro, sizeof(_param_13.outParam->RespResolucionTotalIssste->TipoSeguro), "%s", stResolTotal->cTiposeguro);
+
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->TipoPension, sizeof(_param_13.outParam->RespResolucionTotalIssste->TipoPension), "%s", stResolTotal->cTipopension);
+
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->CvePension, sizeof(_param_13.outParam->RespResolucionTotalIssste->CvePension), "%s", stResolTotal->cCvepension);		snprintf(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen, sizeof(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen), "%s", stResolTotal->cFechainiciopen);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->FechaResolucion, sizeof(_param_13.outParam->RespResolucionTotalIssste->FechaResolucion), "%s", stResolTotal->cFecharesolucion);
 		_param_13.outParam->RespResolucionTotalIssste->Delegacion = stResolTotal->shDelegacion;
 		_param_13.outParam->RespResolucionTotalIssste->TipoMovimiento = stResolTotal->shTipomovimiento;
 		_param_13.outParam->RespResolucionTotalIssste->TipoPrestacion = stResolTotal->shTipoprestacion;
@@ -640,7 +644,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalIssste(struct soap *, ns2
 		_param_13.outParam->RespResolucionTotalIssste->Folio = stResolTotal->iFolio;
 	}
 	else
-		sprintf(_param_13.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_13.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_13.outParam->EstadoProc->Estado = shRet;
 
