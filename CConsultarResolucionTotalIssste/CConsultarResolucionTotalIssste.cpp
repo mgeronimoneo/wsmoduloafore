@@ -284,8 +284,8 @@ void CConsultarResolucionTotalIssste::conexionPostgress()
 
 			// Se vacia y re-obtiene la IP considerando un fallo en la obtención del cBuff.
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
-			cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
+			strncpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT - 20);
+			cIpServAfo[SIZE_BUFF_DAT - 20 - 1] = '\0';
 			// Se limpia de espacios la IP.
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 
