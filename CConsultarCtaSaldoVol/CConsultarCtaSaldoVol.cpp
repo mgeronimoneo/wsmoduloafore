@@ -225,7 +225,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 		if (shRet == OK__)
 		{
 			strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
-			cIpInfx[sizeof(cIpInfx) - 1] = {0};
+			cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 
 			snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
