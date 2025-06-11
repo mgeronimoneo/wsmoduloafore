@@ -95,7 +95,7 @@ void CMovimientosCuentas::abrirConexionInformix()
 	short shRet = DEFAULT__;
 	char cLog[200] = {0};
 
-	strcat(cIpInfx, ";SERVER=safre_tcp");
+	snprintf(cIpInfx, sizeof(cIpInfx), ";SERVER=safre_tcp");
 
 	// if( odbcInformix.Open("Informix", cIpInfx, "syscoppel", "545f78b743", "safre_af" ) == 1  )//Produccion
 	if (odbcInformix.Open("Informix", cIpInfx, "safre", "safre123", "safre_af") == 1) // Pruebas

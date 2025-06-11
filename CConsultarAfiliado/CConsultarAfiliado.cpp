@@ -104,7 +104,8 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 
 				// Llenar estructura para buscar en memoria
 				memset(&maeAfilBuscar, 0, sizeof(MAESTRO_AFILIADO));
-				strncpy(maeAfilBuscar.cNss, xSel.nss, SIZE_NSS);
+				strncpy(maeAfilBuscar.cNss, xSel.nss, SIZE_NSS - 1);
+				maeAfilBuscar.cNss[SIZE_NSS - 1] = '\0';
 				xSel.ClearResults();
 			}
 			else
@@ -265,7 +266,7 @@ short CConsultarAfiliado::obtenerConexionBaseDato()
 			if (shRet == OK__)
 			{
 				// Abre la conexion al servidor de informix
-				strcat(cIpSafreAf, ";SERVER=safre_tcp");
+				snprintf(cIpSafreAf, sizeof(cIpSafreAf), ";SERVER=safre_tcp");
 				shRet = CBaseDato::abrirConexionInfx(&odbcSafreAf, cIpSafreAf, USR_BD_SAFRE_AF, BD_SAFRE_AF, PWD_BD_SAFRE_AF, cMensaje);
 
 				if (shRet == OK__)
