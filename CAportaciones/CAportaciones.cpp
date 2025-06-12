@@ -169,18 +169,7 @@ APORTACION_POSTERIORES *CAportaciones::Aportaciones()
 char *CAportaciones::subString(char *cadena, int comienzo, int longitud = 0)
 {
 	if (longitud == 0)
-	{
-		size_t cadena_len = strlen(cadena);
-		if (comienzo > cadena_len)
-		{
-			// Manejar el error: comienzo es mayor que la longitud de la cadena
-			longitud = 0; // O lo que sea apropiado
-		}
-		else
-		{
-			longitud = cadena_len - comienzo;
-		}
-	}
+		longitud = strlen(cadena sizeof(cadena)) - comienzo;
 
 	char *nuevo = (char *)malloc(sizeof(char) * (longitud + 1));
 	nuevo[longitud] = '\0';

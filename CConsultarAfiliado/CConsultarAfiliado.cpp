@@ -156,7 +156,7 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 							// Dar formato a la fecha de nacimiento , viene sin separador a 8 posiciones
 							memset(cFechaNac, 0, sizeof(cFechaNac));
 							memmove(cFechaNac, &stDatosTrabajador.cFechaNacimiento, sizeof(stDatosTrabajador.cFechaNacimiento));
-							if (strlen(cFechaNac) == 8)
+							if (strlen(cFechaNac, sizeof(cFechaNac)) == 8)
 							{
 								this->formatoFechaConSeparador(cFechaNac, cFechaNacConSeparador, 45); // 45 equivale al guion medio
 								memmove(stDatosTrabajador.cFechaNacimiento, cFechaNacConSeparador, sizeof(stDatosTrabajador.cFechaNacimiento));
