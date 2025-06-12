@@ -168,8 +168,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldos(struct soap *, ns2__ParametroNss 
 				memset(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos, 0, SIZE_DECIMAL_);
 				_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SubCuenta = stSaldoCta->arrSubCta[i].shSubCuenta;
 				_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->Siefore = stSaldoCta->arrSubCta[i].shSiefore;
-				sprintf(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoAccion, "%.06f", stSaldoCta->arrSubCta[i].dMontoAccion);
-				sprintf(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos, "%.02f", stSaldoCta->arrSubCta[i].dMontoPesos);
+				snprintf(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoAccion, sizeof(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoAccion), "%.06f", stSaldoCta->arrSubCta[i].dMontoAccion);
+				snprintf(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos, sizeof(_param_2.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos), "%.02f", stSaldoCta->arrSubCta[i].dMontoPesos);
 				shCont++;
 			}
 		}
@@ -250,7 +250,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerSaldoDiarioRetiroParcial(struct soap *, ns
 		snprintf(_param_5.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_5.outParam->EstadoProc->Estado = shRet;
-	sprintf(_param_5.outParam->SaldoPesos, "%.02f", objSdoDiario.SaldoDiario());
+	snprintf(_param_5.outParam->SaldoPesos, sizeof(_param_5.outParam->SaldoPesos), "%.02f", objSdoDiario.SaldoDiario());
 
 	return SOAP_OK;
 }
@@ -272,23 +272,23 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ValidarResolucionImss_(struct soap *, ns2__Parame
 	shRet = objValRes.ValidarResolucionImss(inParam->Nss, inParam->TipoRetiro);
 	if (shRet == OK__)
 	{
-		sprintf(_param_6.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_6.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 
 		memset(_param_6.outParam->ResolucionImss->FechaProximaSolicitud, 0, SIZE_FECHA);
 		memset(_param_6.outParam->ResolucionImss->FechaVigencia, 0, SIZE_FECHA);
 		memset(_param_6.outParam->ResolucionImss->FechaVigenciaAnterior, 0, SIZE_FECHA);
 		memset(_param_6.outParam->ResolucionImss->Descripcion, 0, LONG_DESCRIPCION);
-		sprintf(_param_6.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_6.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 
-		sprintf(_param_6.outParam->ResolucionImss->FechaProximaSolicitud, "%s", objValRes.ResolucionImss()->cFechaProximaSolicitud);
-		sprintf(_param_6.outParam->ResolucionImss->FechaVigencia, "%s", objValRes.ResolucionImss()->cFechaVigencia);
-		sprintf(_param_6.outParam->ResolucionImss->FechaVigenciaAnterior, "%s", objValRes.ResolucionImss()->cFechaVigenciaAnterior);
-		sprintf(_param_6.outParam->ResolucionImss->Descripcion, "%s", objValRes.ResolucionImss()->cMensaje);
+		snprintf(_param_6.outParam->ResolucionImss->FechaProximaSolicitud, sizeof(_param_6.outParam->ResolucionImss->FechaProximaSolicitud), "%s", objValRes.ResolucionImss()->cFechaProximaSolicitud);
+		snprintf(_param_6.outParam->ResolucionImss->FechaVigencia, sizeof(_param_6.outParam->ResolucionImss->FechaVigencia), "%s", objValRes.ResolucionImss()->cFechaVigencia);
+		snprintf(_param_6.outParam->ResolucionImss->FechaVigenciaAnterior, sizeof(_param_6.outParam->ResolucionImss->FechaVigenciaAnterior), "%s", objValRes.ResolucionImss()->cFechaVigenciaAnterior);
+		snprintf(_param_6.outParam->ResolucionImss->Descripcion, sizeof(_param_6.outParam->ResolucionImss->Descripcion), "%s", objValRes.ResolucionImss()->cMensaje);
 		_param_6.outParam->ResolucionImss->DiagnosticoProcesar = objValRes.ResolucionImss()->iDiagProcesar;
 		_param_6.outParam->ResolucionImss->Retorno = objValRes.ResolucionImss()->iRetorno;
 	}
 	else
-		sprintf(_param_6.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_6.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_6.outParam->EstadoProc->Estado = shRet;
 	return SOAP_OK;
@@ -313,17 +313,18 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__MontosFechasDatamart_(struct soap *, ns2__Paramet
 	shRet = objMontos.MontosFechasDatamart(inParam->Nss, inParam->TipoRetiro);
 	if (shRet == OK__)
 	{
-		sprintf(_param_7.outParam->EstadoProc->DescripcionEstado, "EXITO");
-		sprintf(_param_7.outParam->MontosFechaDat->FechaInicioVigencia, "%s", objMontos.MontosDatamart()->cFechaIniVigencia);
-		sprintf(_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo, "%s", objMontos.MontosDatamart()->cFechaMatDes);
-		sprintf(_param_7.outParam->MontosFechaDat->Nss, "%s", objMontos.MontosDatamart()->cNss);
-		sprintf(_param_7.outParam->MontosFechaDat->SalarioBaseA, "%.02f", objMontos.MontosDatamart()->dSalarioBaseA);
-		sprintf(_param_7.outParam->MontosFechaDat->SalarioBaseB, "%.02f", objMontos.MontosDatamart()->DSalarioBaseB);
-		sprintf(_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC, "%.02f", objMontos.MontosDatamart()->dUltimas250SemanasSbc);
-		sprintf(_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado, "%.02f", objMontos.MontosDatamart()->dUltimaSbc);
+		snprintf(_param_7.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
+
+		snprintf(_param_7.outParam->MontosFechaDat->FechaInicioVigencia, sizeof(_param_7.outParam->MontosFechaDat->FechaInicioVigencia), "%s", objMontos.MontosDatamart()->cFechaIniVigencia);
+		snprintf(_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo, sizeof(_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo), "%s", objMontos.MontosDatamart()->cFechaMatDes);
+		snprintf(_param_7.outParam->MontosFechaDat->Nss, sizeof(_param_7.outParam->MontosFechaDat->Nss), "%s", objMontos.MontosDatamart()->cNss);
+		snprintf(_param_7.outParam->MontosFechaDat->SalarioBaseA, sizeof(_param_7.outParam->MontosFechaDat->SalarioBaseA), "%.02f", objMontos.MontosDatamart()->dSalarioBaseA);
+		snprintf(_param_7.outParam->MontosFechaDat->SalarioBaseB, sizeof(_param_7.outParam->MontosFechaDat->SalarioBaseB), "%.02f", objMontos.MontosDatamart()->DSalarioBaseB);
+		snprintf(_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC, sizeof(_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC), "%.02f", objMontos.MontosDatamart()->dUltimas250SemanasSbc);
+		snprintf(_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado, sizeof(_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado), "%.02f", objMontos.MontosDatamart()->dUltimaSbc);
 	}
 	else
-		sprintf(_param_7.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_7.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	_param_7.outParam->EstadoProc->Estado = shRet;
 
 	return SOAP_OK;
@@ -344,17 +345,19 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarResolucion(struct soap *, ns2__Parametro
 	shRet = objResol.ConsultarResolusion(inParam->Nss, inParam->TipoRetiro);
 	if (shRet == OK__)
 	{
-		sprintf(_param_8.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_8.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		memset(_param_8.outParam->Resolucion->Nss, 0, SIZE_NSS + 2);
 		memset(_param_8.outParam->Resolucion->FechaInicioVigencia, 0, SIZE_FECHA);
 		memset(_param_8.outParam->Resolucion->FechaFinVigencia, 0, SIZE_FECHA);
-		sprintf(_param_8.outParam->Resolucion->Nss, "%s", objResol.Resolucion()->cNss);
-		sprintf(_param_8.outParam->Resolucion->FechaInicioVigencia, "%s", objResol.Resolucion()->cFechaIniVigencia);
-		sprintf(_param_8.outParam->Resolucion->FechaFinVigencia, "%s", objResol.Resolucion()->cFechaFinVigencia);
+
+		snprintf(_param_8.outParam->Resolucion->Nss, sizeof(_param_8.outParam->Resolucion->Nss), "%s", objResol.Resolucion()->cNss);
+		snprintf(_param_8.outParam->Resolucion->FechaInicioVigencia, sizeof(_param_8.outParam->Resolucion->FechaInicioVigencia), "%s", objResol.Resolucion()->cFechaIniVigencia);
+		snprintf(_param_8.outParam->Resolucion->FechaFinVigencia, sizeof(_param_8.outParam->Resolucion->FechaFinVigencia), "%s", objResol.Resolucion()->cFechaFinVigencia);
+
 		_param_8.outParam->Resolucion->NumeroResolucion = objResol.Resolucion()->iResolucion;
 	}
 	else
-		sprintf(_param_8.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_8.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_8.outParam->EstadoProc->Estado = shRet;
 
@@ -377,7 +380,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarComplementoResolucion(struct soap *, ns2
 	shRet = objComplResol.ConsultarComplementoResolusion(inParam->Nss, inParam->TipoRetiro);
 	if (shRet == OK__)
 	{
-		sprintf(_param_9.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_9.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stComplRes = objComplResol.ResolucionComplemento();
 		memset(_param_9.outParam->ResolucionComplemento->MontoPagado, 0, SIZE_DECIMAL_);
 		memset(_param_9.outParam->ResolucionComplemento->MontoPagadoComplemento, 0, SIZE_DECIMAL_);
@@ -387,13 +390,13 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarComplementoResolucion(struct soap *, ns2
 		_param_9.outParam->ResolucionComplemento->IdentificadorComplemento = stComplRes->iIdComplemento;
 		_param_9.outParam->ResolucionComplemento->NumeroResolucion = stComplRes->iNumResolucion;
 		_param_9.outParam->ResolucionComplemento->RespuestaOtroDatamart = stComplRes->shRespOtroDatamart;
-		sprintf(_param_9.outParam->ResolucionComplemento->MontoPagado, "%.02f", stComplRes->dMontoPagado);
-		sprintf(_param_9.outParam->ResolucionComplemento->MontoPagadoComplemento, "%.02f", stComplRes->dMontoPagadoComplemento);
-		sprintf(_param_9.outParam->ResolucionComplemento->SaldoRCV, "%.02f", stComplRes->dSaldoRcv);
-		sprintf(_param_9.outParam->ResolucionComplemento->SaldoRCVAnterior, "%.02f", stComplRes->dSaldoRcvAnterior);
+		snprintf(_param_9.outParam->ResolucionComplemento->MontoPagado, sizeof(_param_9.outParam->ResolucionComplemento->MontoPagado), "%.02f", stComplRes->dMontoPagado);
+		snprintf(_param_9.outParam->ResolucionComplemento->MontoPagadoComplemento, sizeof(_param_9.outParam->ResolucionComplemento->MontoPagadoComplemento), "%.02f", stComplRes->dMontoPagadoComplemento);
+		snprintf(_param_9.outParam->ResolucionComplemento->SaldoRCV, sizeof(_param_9.outParam->ResolucionComplemento->SaldoRCV), "%.02f", stComplRes->dSaldoRcv);
+		snprintf(_param_9.outParam->ResolucionComplemento->SaldoRCVAnterior, sizeof(_param_9.outParam->ResolucionComplemento->SaldoRCVAnterior), "%.02f", stComplRes->dSaldoRcvAnterior);
 	}
 	else
-		sprintf(_param_9.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_9.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_9.outParam->EstadoProc->Estado = shRet;
 
@@ -439,7 +442,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImss(struct soap *, ns2__
 	shRet = objResolTotal.ConsultarResolucionTotalImss(inParam->Opcion, inParam->Nss, inParam->Curp);
 	if (shRet == OK__)
 	{
-		sprintf(_param_10.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_10.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stResolTotal = objResolTotal.ResolucionTotalImss();
 
 		// Inicializar las variables del objeto.
@@ -461,29 +464,29 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImss(struct soap *, ns2__
 		// Asignar valores a las variables de la estructura obtenidas a traves de la consulta al objeto
 		_param_10.outParam->ResolTotalImss->ExisteResolucion = stResolTotal->iExisteResolucion;
 		_param_10.outParam->ResolTotalImss->ExisteAfiliado = stResolTotal->iExisteAfiliado;
-		sprintf(_param_10.outParam->ResolTotalImss->Regimen, "%s", stResolTotal->cRegimen);
-		sprintf(_param_10.outParam->ResolTotalImss->TipoSeguro, "%s", stResolTotal->cTipoSeguro);
-		sprintf(_param_10.outParam->ResolTotalImss->TipoPension, "%s", stResolTotal->cTipoPension);
-		sprintf(_param_10.outParam->ResolTotalImss->NombreDatamart, "%s", stResolTotal->cNombreDatamart);
+		snprintf(_param_10.outParam->ResolTotalImss->Regimen, sizeof(_param_10.outParam->ResolTotalImss->Regimen), "%s", stResolTotal->cRegimen);
+		snprintf(_param_10.outParam->ResolTotalImss->TipoSeguro, sizeof(_param_10.outParam->ResolTotalImss->TipoSeguro), "%s", stResolTotal->cTipoSeguro);
+		snprintf(_param_10.outParam->ResolTotalImss->TipoPension, sizeof(_param_10.outParam->ResolTotalImss->TipoPension), "%s", stResolTotal->cTipoPension);
+		snprintf(_param_10.outParam->ResolTotalImss->NombreDatamart, sizeof(_param_10.outParam->ResolTotalImss->NombreDatamart), "%s", stResolTotal->cNombreDatamart);
 		_param_10.outParam->ResolTotalImss->TipoPrestacion = stResolTotal->iTipoPrestacion;
 		_param_10.outParam->ResolTotalImss->Folio = stResolTotal->iFolio;
-		sprintf(_param_10.outParam->ResolTotalImss->SecPension, "%s", stResolTotal->cSecPension);
-		sprintf(_param_10.outParam->ResolTotalImss->FechaInicio, "%s", stResolTotal->dFechaIni);
-		sprintf(_param_10.outParam->ResolTotalImss->FechaPago, "%s", stResolTotal->dFechaPago);
+		snprintf(_param_10.outParam->ResolTotalImss->SecPension, sizeof(_param_10.outParam->ResolTotalImss->SecPension), "%s", stResolTotal->cSecPension);
+		snprintf(_param_10.outParam->ResolTotalImss->FechaInicio, sizeof(_param_10.outParam->ResolTotalImss->FechaInicio), "%s", stResolTotal->dFechaIni);
+		snprintf(_param_10.outParam->ResolTotalImss->FechaPago, sizeof(_param_10.outParam->ResolTotalImss->FechaPago), "%s", stResolTotal->dFechaPago);
 		_param_10.outParam->ResolTotalImss->SemanasCotizadas = stResolTotal->iSemanasCotizadas;
 		_param_10.outParam->ResolTotalImss->DiagDatamart = stResolTotal->iDiagDatamart;
 		_param_10.outParam->ResolTotalImss->EstadoSubViv = stResolTotal->iEstadoSubViv;
-		sprintf(_param_10.outParam->ResolTotalImss->FechaResolucion, "%s", stResolTotal->dFechaResolucion);
-		sprintf(_param_10.outParam->ResolTotalImss->DescRegimen, "%s", stResolTotal->cDescripRegimen);
-		sprintf(_param_10.outParam->ResolTotalImss->DescTipoPension, "%s", stResolTotal->cDescripTPension);
-		sprintf(_param_10.outParam->ResolTotalImss->DescTipoPrestacion, "%s", stResolTotal->cDescripTPresta);
-		sprintf(_param_10.outParam->ResolTotalImss->DescTipoRetiro, "%s", stResolTotal->cDescripTRetiro);
-		sprintf(_param_10.outParam->ResolTotalImss->DescTipoSeguro, "%s", stResolTotal->cDescripTSeguro);
-		sprintf(_param_10.outParam->ResolTotalImss->DescEdoSubViv, "%s", stResolTotal->cDescripEdoSubViv);
+		snprintf(_param_10.outParam->ResolTotalImss->FechaResolucion, sizeof(_param_10.outParam->ResolTotalImss->FechaResolucion), "%s", stResolTotal->dFechaResolucion);
+		snprintf(_param_10.outParam->ResolTotalImss->DescRegimen, sizeof(_param_10.outParam->ResolTotalImss->DescRegimen), "%s", stResolTotal->cDescripRegimen);
+		snprintf(_param_10.outParam->ResolTotalImss->DescTipoPension, sizeof(_param_10.outParam->ResolTotalImss->DescTipoPension), "%s", stResolTotal->cDescripTPension);
+		snprintf(_param_10.outParam->ResolTotalImss->DescTipoPrestacion, sizeof(_param_10.outParam->ResolTotalImss->DescTipoPrestacion), "%s", stResolTotal->cDescripTPresta);
+		snprintf(_param_10.outParam->ResolTotalImss->DescTipoRetiro, sizeof(_param_10.outParam->ResolTotalImss->DescTipoRetiro), "%s", stResolTotal->cDescripTRetiro);
+		snprintf(_param_10.outParam->ResolTotalImss->DescTipoSeguro, sizeof(_param_10.outParam->ResolTotalImss->DescTipoSeguro), "%s", stResolTotal->cDescripTSeguro);
+		snprintf(_param_10.outParam->ResolTotalImss->DescEdoSubViv, sizeof(_param_10.outParam->ResolTotalImss->DescEdoSubViv), "%s", stResolTotal->cDescripEdoSubViv);
 		_param_10.outParam->ResolTotalImss->IdMovimiento = stResolTotal->iIdMovimiento;
 	}
 	else
-		sprintf(_param_10.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_10.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_10.outParam->EstadoProc->Estado = shRet;
 
@@ -511,20 +514,20 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__COperacionesPmg(struct soap *, ns2__ParamOperacio
 	shRet = objOperacionPmg.ConsultaInsuficiencia(inParam->Nss, inParam->Secuencia, inParam->Folio, inParam->iOpcion);
 	if (shRet == OK__)
 	{
-		sprintf(_param_11.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_11.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stOperaciones = objOperacionPmg.OperacionesPmg();
 
 		memset(_param_11.outParam->ResolOperacionPmg->Mensaje, 0, sizeof(stOperaciones->cMensaje));
 
 		// Asignamos el valor retornado de la consulta a la estructura y posteriormente retornarlo
-		sprintf(_param_11.outParam->ResolOperacionPmg->Mensaje, "%s", stOperaciones->cMensaje);
+		snprintf(_param_11.outParam->ResolOperacionPmg->Mensaje, sizeof(_param_11.outParam->ResolOperacionPmg->Mensaje), "%s", stOperaciones->cMensaje);
 		_param_11.outParam->ResolOperacionPmg->Codigo = stOperaciones->sCodigo;
 		_param_11.outParam->ResolOperacionPmg->Importe = stOperaciones->dImporte;
 		// sprintf(_param_11.outParam->ResolOperacionPmg->Importe, "%.02f", stOperaciones->dImporte);
 	}
 	else
 	{
-		sprintf(_param_11.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_11.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 	_param_11.outParam->EstadoProc->Estado = shRet;
 
@@ -545,11 +548,11 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__movimientosCuentas(struct soap *, ns2__ParamMovim
 	shRet = objMovimientosCuenta.ObtenerMovimientos(inParam->Nss);
 	if (shRet == OK__)
 	{
-		sprintf(_param_12.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_12.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		_param_12.outParam->RespMovimientosCuentas->Movimientos = objMovimientosCuenta.movimientos();
 	}
 	else
-		sprintf(_param_12.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_12.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_12.outParam->EstadoProc->Estado = shRet;
 	return SOAP_OK;
@@ -595,7 +598,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalIssste(struct soap *, ns2
 	shRet = objResolTotal.consultaDatamart(inParam->Curp, inParam->TipoRetiro);
 	if (shRet == OK__)
 	{
-		sprintf(_param_13.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_13.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stResolTotal = objResolTotal.getInformacionDataMart();
 
 		// Inicializar las variables del objeto.
@@ -633,7 +636,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalIssste(struct soap *, ns2
 
 		snprintf(_param_13.outParam->RespResolucionTotalIssste->TipoPension, sizeof(_param_13.outParam->RespResolucionTotalIssste->TipoPension), "%s", stResolTotal->cTipopension);
 
-		snprintf(_param_13.outParam->RespResolucionTotalIssste->CvePension, sizeof(_param_13.outParam->RespResolucionTotalIssste->CvePension), "%s", stResolTotal->cCvepension);		snprintf(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen, sizeof(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen), "%s", stResolTotal->cFechainiciopen);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->CvePension, sizeof(_param_13.outParam->RespResolucionTotalIssste->CvePension), "%s", stResolTotal->cCvepension);
+		snprintf(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen, sizeof(_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen), "%s", stResolTotal->cFechainiciopen);
 		snprintf(_param_13.outParam->RespResolucionTotalIssste->FechaResolucion, sizeof(_param_13.outParam->RespResolucionTotalIssste->FechaResolucion), "%s", stResolTotal->cFecharesolucion);
 		_param_13.outParam->RespResolucionTotalIssste->Delegacion = stResolTotal->shDelegacion;
 		_param_13.outParam->RespResolucionTotalIssste->TipoMovimiento = stResolTotal->shTipomovimiento;
@@ -667,7 +671,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPmg(struct soap *, ns2__ParametroS
 	shRet = objSaldo.consultarSaldoPorSubcuentaPmg(inParam->Nss, inParam->Secuencia, inParam->EstadoViv);
 	if (shRet == OK__)
 	{
-		sprintf(_param_14.outSaldosPmg->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_14.outSaldosPmg->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stSaldosPmg = objSaldo.SaldoPorSubcuentaPmg();
 
 		// Asignamos el valor retornado de la consulta a la estructura y posteriormente retornarlo
@@ -679,7 +683,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPmg(struct soap *, ns2__ParametroS
 	}
 	else
 	{
-		sprintf(_param_14.outSaldosPmg->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_14.outSaldosPmg->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 	_param_14.outSaldosPmg->EstadoProc->Estado = shRet;
 
@@ -702,7 +706,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAportaciones(struct soap *, ns2__ParamAp
 	shRet = objAportaciones.ObtenerAportaciones(inParam->Nss, inParam->FechaIniPension, inParam->iOpcion);
 	if (shRet == OK__)
 	{
-		sprintf(_param_15.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_15.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stAportaciones = objAportaciones.Aportaciones();
 
 		// Asignamos el valor retornado de la consulta a la estructura y posteriormente retornarlo
@@ -710,7 +714,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAportaciones(struct soap *, ns2__ParamAp
 	}
 	else
 	{
-		sprintf(_param_15.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_15.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 	_param_15.outParam->EstadoProc->Estado = shRet;
 
@@ -756,7 +760,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImssRI(struct soap *, ns2
 	shRet = objResolTotal.ConsultarResolucionTotalImssNuevos(inParam->Opcion, inParam->Nss, inParam->Curp, inParam->Documento);
 	if (shRet == OK__)
 	{
-		sprintf(_param_16.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_16.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stResolTotal = objResolTotal.ResolucionTotalImss();
 
 		// Inicializar las variables del objeto.
@@ -778,29 +782,29 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImssRI(struct soap *, ns2
 		// Asignar valores a las variables de la estructura obtenidas a traves de la consulta al objeto
 		_param_16.outParam->ResolTotalImss->ExisteResolucion = stResolTotal->iExisteResolucion;
 		_param_16.outParam->ResolTotalImss->ExisteAfiliado = stResolTotal->iExisteAfiliado;
-		sprintf(_param_16.outParam->ResolTotalImss->Regimen, "%s", stResolTotal->cRegimen);
-		sprintf(_param_16.outParam->ResolTotalImss->TipoSeguro, "%s", stResolTotal->cTipoSeguro);
-		sprintf(_param_16.outParam->ResolTotalImss->TipoPension, "%s", stResolTotal->cTipoPension);
-		sprintf(_param_16.outParam->ResolTotalImss->NombreDatamart, "%s", stResolTotal->cNombreDatamart);
+		snprintf(_param_16.outParam->ResolTotalImss->Regimen, sizeof(_param_16.outParam->ResolTotalImss->Regimen), "%s", stResolTotal->cRegimen);
+		snprintf(_param_16.outParam->ResolTotalImss->TipoSeguro, sizeof(_param_16.outParam->ResolTotalImss->TipoSeguro), "%s", stResolTotal->cTipoSeguro);
+		snprintf(_param_16.outParam->ResolTotalImss->TipoPension, sizeof(_param_16.outParam->ResolTotalImss->TipoPension), "%s", stResolTotal->cTipoPension);
+		snprintf(_param_16.outParam->ResolTotalImss->NombreDatamart, sizeof(_param_16.outParam->ResolTotalImss->NombreDatamart), "%s", stResolTotal->cNombreDatamart);
 		_param_16.outParam->ResolTotalImss->TipoPrestacion = stResolTotal->iTipoPrestacion;
 		_param_16.outParam->ResolTotalImss->Folio = stResolTotal->iFolio;
-		sprintf(_param_16.outParam->ResolTotalImss->SecPension, "%s", stResolTotal->cSecPension);
-		sprintf(_param_16.outParam->ResolTotalImss->FechaInicio, "%s", stResolTotal->dFechaIni);
-		sprintf(_param_16.outParam->ResolTotalImss->FechaPago, "%s", stResolTotal->dFechaPago);
+		snprintf(_param_16.outParam->ResolTotalImss->SecPension, sizeof(_param_16.outParam->ResolTotalImss->SecPension), "%s", stResolTotal->cSecPension);
+		snprintf(_param_16.outParam->ResolTotalImss->FechaInicio, sizeof(_param_16.outParam->ResolTotalImss->FechaInicio), "%s", stResolTotal->dFechaIni);
+		snprintf(_param_16.outParam->ResolTotalImss->FechaPago, sizeof(_param_16.outParam->ResolTotalImss->FechaPago), "%s", stResolTotal->dFechaPago);
 		_param_16.outParam->ResolTotalImss->SemanasCotizadas = stResolTotal->iSemanasCotizadas;
 		_param_16.outParam->ResolTotalImss->DiagDatamart = stResolTotal->iDiagDatamart;
 		_param_16.outParam->ResolTotalImss->EstadoSubViv = stResolTotal->iEstadoSubViv;
-		sprintf(_param_16.outParam->ResolTotalImss->FechaResolucion, "%s", stResolTotal->dFechaResolucion);
-		sprintf(_param_16.outParam->ResolTotalImss->DescRegimen, "%s", stResolTotal->cDescripRegimen);
-		sprintf(_param_16.outParam->ResolTotalImss->DescTipoPension, "%s", stResolTotal->cDescripTPension);
-		sprintf(_param_16.outParam->ResolTotalImss->DescTipoPrestacion, "%s", stResolTotal->cDescripTPresta);
-		sprintf(_param_16.outParam->ResolTotalImss->DescTipoRetiro, "%s", stResolTotal->cDescripTRetiro);
-		sprintf(_param_16.outParam->ResolTotalImss->DescTipoSeguro, "%s", stResolTotal->cDescripTSeguro);
-		sprintf(_param_16.outParam->ResolTotalImss->DescEdoSubViv, "%s", stResolTotal->cDescripEdoSubViv);
+		snprintf(_param_16.outParam->ResolTotalImss->FechaResolucion, sizeof(_param_16.outParam->ResolTotalImss->FechaResolucion), "%s", stResolTotal->dFechaResolucion);
+		snprintf(_param_16.outParam->ResolTotalImss->DescRegimen, sizeof(_param_16.outParam->ResolTotalImss->DescRegimen), "%s", stResolTotal->cDescripRegimen);
+		snprintf(_param_16.outParam->ResolTotalImss->DescTipoPension, sizeof(_param_16.outParam->ResolTotalImss->DescTipoPension), "%s", stResolTotal->cDescripTPension);
+		snprintf(_param_16.outParam->ResolTotalImss->DescTipoPrestacion, sizeof(_param_16.outParam->ResolTotalImss->DescTipoPrestacion), "%s", stResolTotal->cDescripTPresta);
+		snprintf(_param_16.outParam->ResolTotalImss->DescTipoRetiro, sizeof(_param_16.outParam->ResolTotalImss->DescTipoRetiro), "%s", stResolTotal->cDescripTRetiro);
+		snprintf(_param_16.outParam->ResolTotalImss->DescTipoSeguro, sizeof(_param_16.outParam->ResolTotalImss->DescTipoSeguro), "%s", stResolTotal->cDescripTSeguro);
+		snprintf(_param_16.outParam->ResolTotalImss->DescEdoSubViv, sizeof(_param_16.outParam->ResolTotalImss->DescEdoSubViv), "%s", stResolTotal->cDescripEdoSubViv);
 		_param_16.outParam->ResolTotalImss->IdMovimiento = stResolTotal->iIdMovimiento;
 	}
 	else
-		sprintf(_param_16.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_16.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_16.outParam->EstadoProc->Estado = shRet;
 
@@ -828,7 +832,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSieforeCtaRegimen(struct soap *, ns2__Pa
 	shRet = objsieforeCtaReg.consultarSieforeCtaRegimen(inParam->Nss);
 	if (shRet == OK__)
 	{
-		sprintf(_param_17.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_17.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 
 		stSiefore = objsieforeCtaReg.RespSiefore();
 
@@ -855,7 +859,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSieforeCtaRegimen(struct soap *, ns2__Pa
 			_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->Nss = new char[12];
 			memset(_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->Nss, 0, 12);
 
-			sprintf(_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->Nss, "%s", stSiefore->arrCtaRegimen[i].cNss);
+			snprintf(_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->Nss, sizeof(_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->Nss), "%s", stSiefore->arrCtaRegimen[i].cNss);
 			_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->subCuenta = stSiefore->arrCtaRegimen[i].cSubCuenta; // arrCtaRegimen[i].cSubCuenta;
 			_param_17.outParam->ListaSiefore->__ptrSiefore[shCont]->Siefore = stSiefore->arrCtaRegimen[i].cSiefore;
 
@@ -863,7 +867,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSieforeCtaRegimen(struct soap *, ns2__Pa
 		}
 	}
 	else
-		sprintf(_param_17.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_17.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_17.outParam->EstadoProc->Estado = shRet;
 
@@ -893,7 +897,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSaldoVol(struct soap *, ns2__ParametroNs
 	{
 		snprintf(cTexto, sizeof(cTexto), "EXITO");
 		CUtileriasAfo::grabarLogx(RUTA_LOGX, cTexto);
-		sprintf(_param_18.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_18.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 
 		stSalVol = objCtaSaldoVol.RespCtaSaldoVol();
 		shNumRegistros = objCtaSaldoVol.registrosCtaSaldoVol();
@@ -922,45 +926,45 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSaldoVol(struct soap *, ns2__ParametroNs
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cNss = new char[SIZE_NSS + 2];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cNss, 0, SIZE_NSS + 2);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cNss, "%s", stSalVol->arrCtaSaldoVol[i].cNss);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cNss, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cNss), "%s", stSalVol->arrCtaSaldoVol[i].cNss);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSiefore = stSalVol->arrCtaSaldoVol[i].iSiefore;
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSubCuenta = stSalVol->arrCtaSaldoVol[i].iSubCuenta;
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaValor = new char[12];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaValor, 0, 12);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaValor, "%s", stSalVol->arrCtaSaldoVol[i].cFechaValor);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaValor, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaValor), "%s", stSalVol->arrCtaSaldoVol[i].cFechaValor);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaConversion = new char[12];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaConversion, 0, 12);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaConversion, "%s", stSalVol->arrCtaSaldoVol[i].cFechaConversion);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaConversion, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaConversion), "%s", stSalVol->arrCtaSaldoVol[i].cFechaConversion);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnPesos = new char[SIZE_DECIMAL_];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnPesos, 0, SIZE_DECIMAL_);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnPesos, "%.02f", stSalVol->arrCtaSaldoVol[i].iMontoEnPesos);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnPesos, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnPesos), "%.02f", stSalVol->arrCtaSaldoVol[i].iMontoEnPesos);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnAcciones = new char[SIZE_DECIMAL_];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnAcciones, 0, SIZE_DECIMAL_);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnAcciones, "%.06f", stSalVol->arrCtaSaldoVol[i].iMontoEnAcciones);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnAcciones, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iMontoEnAcciones), "%.06f", stSalVol->arrCtaSaldoVol[i].iMontoEnAcciones);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSaldoAcciones = new char[SIZE_DECIMAL_];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSaldoAcciones, 0, SIZE_DECIMAL_);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSaldoAcciones, "%.06f", stSalVol->arrCtaSaldoVol[i].iSaldoAcciones);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSaldoAcciones, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iSaldoAcciones), "%.06f", stSalVol->arrCtaSaldoVol[i].iSaldoAcciones);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaSaldo = new char[12];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaSaldo, 0, 12);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaSaldo, "%s", stSalVol->arrCtaSaldoVol[i].cFechaSaldo);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaSaldo, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cFechaSaldo), "%s", stSalVol->arrCtaSaldoVol[i].cFechaSaldo);
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cUsuario = new char[14];
 			memset(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cUsuario, 0, 14);
-			sprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cUsuario, "%s", stSalVol->arrCtaSaldoVol[i].cUsuario);
+			snprintf(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cUsuario, sizeof(_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->cUsuario), "%s", stSalVol->arrCtaSaldoVol[i].cUsuario);
 
 			shCont++;
 		}
 	}
 	else
 	{
-		sprintf(_param_18.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_18.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 
 	_param_18.outParam->EstadoProc->Estado = shRet;
@@ -988,25 +992,25 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultaSaldoVivienda(struct soap *, ns2__ParamCo
 
 	if (shRet == OK__)
 	{
-		sprintf(_param_19.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_19.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 
 		stSalViv = objSaldoViv.getConsultaSaldosVivienda();
 
 		_param_19.outParam->ConsultarSaldoViv->sNss = new char[SIZE_NSS];
 		memset(_param_19.outParam->ConsultarSaldoViv->sNss, 0, SIZE_NSS);
-		sprintf(_param_19.outParam->ConsultarSaldoViv->sNss, "%s", stSalViv->sNss);
+		snprintf(_param_19.outParam->ConsultarSaldoViv->sNss, sizeof(_param_19.outParam->ConsultarSaldoViv->sNss), "%s", stSalViv->sNss);
 
 		_param_19.outParam->ConsultarSaldoViv->dMontoAccionViv = new char[sizeof(stSalViv->dMontoaccviv)];
 		memset(_param_19.outParam->ConsultarSaldoViv->dMontoAccionViv, 0, sizeof(stSalViv->dMontoaccviv));
-		sprintf(_param_19.outParam->ConsultarSaldoViv->dMontoAccionViv, "%s", stSalViv->dMontoaccviv);
+		snprintf(_param_19.outParam->ConsultarSaldoViv->dMontoAccionViv, sizeof(_param_19.outParam->ConsultarSaldoViv->dMontoAccionViv), "%s", stSalViv->dMontoaccviv);
 
 		_param_19.outParam->ConsultarSaldoViv->dMontoPesosViv = new char[sizeof(stSalViv->dMontopesviv)];
 		memset(_param_19.outParam->ConsultarSaldoViv->dMontoPesosViv, 0, sizeof(stSalViv->dMontopesviv));
-		sprintf(_param_19.outParam->ConsultarSaldoViv->dMontoPesosViv, "%s", stSalViv->dMontopesviv);
+		snprintf(_param_19.outParam->ConsultarSaldoViv->dMontoPesosViv, sizeof(_param_19.outParam->ConsultarSaldoViv->dMontoPesosViv), "%s", stSalViv->dMontopesviv);
 	}
 	else
 	{
-		sprintf(_param_19.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_19.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 
 	_param_19.outParam->EstadoProc->Estado = shRet;
@@ -1031,7 +1035,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultaAportacionesPosteriores(struct soap *, ns
 	shRet = objAportacionesPosteriores.CConsultarAportacionesPosterioresBD(inParam->iOpcion, inParam->Nss, inParam->FechaIniPension, inParam->iGrupo);
 	if (shRet == OK__)
 	{
-		sprintf(_param_20.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_20.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		stAportacionesPosteriores = objAportacionesPosteriores.AportacionesPosteriores();
 
 		// Asignamos el valor retornado de la consulta a la estructura y posteriormente retornarlo
@@ -1039,7 +1043,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultaAportacionesPosteriores(struct soap *, ns
 	}
 	else
 	{
-		sprintf(_param_20.outParam->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_20.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 
 	_param_20.outParam->EstadoProc->Estado = shRet;
@@ -1076,7 +1080,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarSaldoRecuperar(struct soap *, ns2__Para
 	shRet = objRespuestaSaldos.buscarSaldoaRecuperar(inParam->Nss);
 	if (shRet == OK__)
 	{
-		sprintf(_param_21.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_21.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		_param_21.outParam->Saldo->iRespuestaSaldo = objRespuestaSaldos.RespuestaSaldo();
 	}
 
@@ -1099,7 +1103,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarFechaLiquida(struct soap *, ns2__Parame
 	shRet = objFechaLiquida.obtenerFechaLiquidaPmg(inParam->Nss);
 	if (shRet == OK__)
 	{
-		sprintf(_param_22.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_22.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		_param_22.outParam->Fecha->cFechaLiquida = objFechaLiquida.RespuestaFecha();
 	}
 
@@ -1122,7 +1126,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarNumMensualidad(struct soap *, ns2__Para
 	shRet = objNumMensualidad.obtenerNumMensualidad(inParam->Nss);
 	if (shRet == OK__)
 	{
-		sprintf(_param_23.outParam->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_23.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		_param_23.outParam->Mensualidad->iRespuestaMensualidad = objNumMensualidad.RespuestaMensualidad();
 	}
 
@@ -1154,7 +1158,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPenMinGar(struct soap *, ns2__Para
 			if (stSaldoCta->arrSubCta[i].shSubCuenta > 0)
 				shTotalReg++;
 		}
-		sprintf(_param_24.outSaldos->EstadoProc->DescripcionEstado, "EXITO");
+		snprintf(_param_24.outSaldos->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
 		memmove(_param_24.outSaldos->Nss, inParam->Nss, sizeof(SIZE_NSS));
 		_param_24.outSaldos->ListaSaldos->__size = shTotalReg;
 		_param_24.outSaldos->ListaSaldos->__ptrSaldo = new ns2__SaldoSubCuenta *[shTotalReg];
@@ -1169,15 +1173,15 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPenMinGar(struct soap *, ns2__Para
 				memset(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos, 0, SIZE_DECIMAL_);
 				_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SubCuenta = stSaldoCta->arrSubCta[i].shSubCuenta;
 				_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->Siefore = stSaldoCta->arrSubCta[i].shSiefore;
-				sprintf(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoAccion, "%.06f", stSaldoCta->arrSubCta[i].dMontoAccion);
-				sprintf(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos, "%.02f", stSaldoCta->arrSubCta[i].dMontoPesos);
+				snprintf(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoAccion, sizeof(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoAccion), "%.06f", stSaldoCta->arrSubCta[i].dMontoAccion);
+				snprintf(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos, sizeof(_param_24.outSaldos->ListaSaldos->__ptrSaldo[shCont]->SaldoPesos), "%.02f", stSaldoCta->arrSubCta[i].dMontoPesos);
 				shCont++;
 			}
 		}
 	}
 	else
 	{
-		sprintf(_param_24.outSaldos->EstadoProc->DescripcionEstado, "PROCESO EJECUTADO CON ERROR");
+		snprintf(_param_24.outSaldos->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 	_param_24.outSaldos->EstadoProc->Estado = shRet;
 

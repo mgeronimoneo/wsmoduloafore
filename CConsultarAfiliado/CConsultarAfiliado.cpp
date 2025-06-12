@@ -98,9 +98,12 @@ short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 			{
 				// LLenar los pirmeros datos de la estructura que se regresara
 				memset(&stDatosTrabajador, 0, sizeof(DATOS_TRABAJADOR_EXP_IDEN));
-				strncpy(stDatosTrabajador.cCurp, xSel.curp, sizeof(stDatosTrabajador.cCurp));
-				strncpy(stDatosTrabajador.cNss, xSel.nss, sizeof(stDatosTrabajador.cNss));
-				strncpy(stDatosTrabajador.cFechaServicio, xSel.fechaservicio, sizeof(stDatosTrabajador.cFechaServicio));
+				strncpy(stDatosTrabajador.cCurp, xSel.curp, sizeof(stDatosTrabajador.cCurp) - 1);
+				stDatosTrabajador.cCurp[sizeof(stDatosTrabajador.cCurp) - 1] = '\0';
+				strncpy(stDatosTrabajador.cNss, xSel.nss, sizeof(stDatosTrabajador.cNss) - 1);
+				stDatosTrabajador.cNss[sizeof(stDatosTrabajador.cNss) - 1] = '\0';
+				strncpy(stDatosTrabajador.cFechaServicio, xSel.fechaservicio, sizeof(stDatosTrabajador.cFechaServicio) - 1);
+				stDatosTrabajador.cFechaServicio[sizeof(stDatosTrabajador.cFechaServicio) - 1] = '\0';
 
 				// Llenar estructura para buscar en memoria
 				memset(&maeAfilBuscar, 0, sizeof(MAESTRO_AFILIADO));
