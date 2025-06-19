@@ -155,8 +155,9 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 
 				if (xSelSiefore.Exec(cSql))
 				{
-					strncpy(stSiefore.cNss, cNss, sizeof(SIZE_NSS) - 1);
-					stSiefore.cNss[sizeof(stSiefore.cNss) - 1] = '\0';
+					strncpy(stSiefore.cNss, cNss, SIZE_NSS - 1);
+					stSiefore.cNss[SIZE_NSS - 1] = '\0';
+					
 					xSelSiefore.activarCols();
 					while (xSelSiefore.leer())
 					{

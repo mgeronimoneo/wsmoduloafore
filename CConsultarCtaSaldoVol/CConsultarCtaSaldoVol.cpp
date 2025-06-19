@@ -114,9 +114,9 @@ short CConsultarCtaSaldoVol::buscarCtaSaldoVolD()
 	short shRet = DEFAULT__;
 	SALDO_VOL *stSalVolBuscar = NULL;
 
-	strncpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS) - 1);
-	stSalVol.cNss[sizeof(stSalVol.cNss) - 1] = '\0';
-	
+	strncpy(stSalVol.cNss, cNss, SIZE_NSS - 1);
+	stSalVol.cNss[SIZE_NSS - 1] = '\0';
+
 	stSalVolBuscar = (SALDO_VOL *)bsearch(&stSalVol, (void *)shmSalVol, stInfShmSaldoVolCta.iTotalReg, sizeof(SALDO_VOL), compararNssCtaSaldoVol);
 	if (stSalVolBuscar != NULL)
 	{
@@ -158,7 +158,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
 			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
 			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-			
+
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -264,8 +264,8 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 
 					if (xSelSaldoVol.Exec(cSql))
 					{
-						strncpy(stSalVol.cNss, cNss, sizeof(SIZE_NSS) - 1);
-						stSalVol.cNss[sizeof(stSalVol.cNss) - 1] = '\0';
+						strncpy(stSalVol.cNss, cNss, SIZE_NSS - 1);
+						stSalVol.cNss[SIZE_NSS - 1] = '\0';
 
 						xSelSaldoVol.activarCols();
 
@@ -346,7 +346,7 @@ short CConsultarCtaSaldoVol::abrirConexionServAfo()
 	{
 		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
-		
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		snprintf(cTexto, "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

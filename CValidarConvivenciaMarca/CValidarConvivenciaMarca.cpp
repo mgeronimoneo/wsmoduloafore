@@ -36,7 +36,7 @@ short CValidarConvivenciaMarca::ValidarConvivencia(short shOpcion, short shTipoT
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
-			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20));
+			strncpy(cIpServAfo, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
 			cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);

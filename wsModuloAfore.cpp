@@ -162,6 +162,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAfiliado(struct soap *, ns2__ParamConsul
 
 	return SOAP_OK;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldos(struct soap *, ns2__ParametroNss *inParam, struct ns2__consultarSaldosResponse &_param_2)
 {
 	CSaldosPorSubCuenta objSaldo;
@@ -268,10 +269,8 @@ void liberar_memoria_saldos(ns2__SaldoPorSubcuenta *outSaldos)
 		delete outSaldos->ListaSaldos;
 		outSaldos->ListaSaldos = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outSaldos;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerFolioServicio(struct soap *, ns2__FoliadorServicio *inFoliador, struct ns2__ObtenerFolioServicioResponse &_param_3)
 {
 	short shRet = DEFAULT__;
@@ -311,10 +310,8 @@ void liberar_memoria_folio_servicio(ns2__FolioServicio *outFolioServ)
 		delete outFolioServ->EstadoProc;
 		outFolioServ->EstadoProc = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outFolioServ;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ValidarConvivenciaMarcaOperativa(struct soap *, ns2__ConvivenciaMarcas *inParam, struct ns2__ValidarConvivenciaMarcaOperativaResponse &_param_4)
 {
 	short shRet = DEFAULT__;
@@ -370,10 +367,8 @@ void liberar_memoria_validar_convivencia(ns2__RespuestaConvivenciaMarca *outPara
 		delete outParam->ConvivenciaMarca;
 		outParam->ConvivenciaMarca = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outParam;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerSaldoDiarioRetiroParcial(struct soap *, ns2__ConsultaSaldoDiarioRetiroParcial *inParam, struct ns2__ObtenerSaldoDiarioRetiroParcialResponse &_param_5)
 {
 	short shRet = DEFAULT__;
@@ -421,10 +416,8 @@ void liberar_memoria_saldo_diario_retiro_parcial(ns2__SaldoDiarioRetiroParcial *
 		delete[] outParam->SaldoPesos;
 		outParam->SaldoPesos = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outParam;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ValidarResolucionImss_(struct soap *, ns2__ParametroNssTipoRetiro *inParam, struct ns2__ValidarResolucionImssResponse &_param_6)
 {
 	short shRet = DEFAULT__;
@@ -505,10 +498,8 @@ void liberar_memoria_validar_resolucion_imss(ns2__RespuestaValidarResolucionImss
 		delete outParam->ResolucionImss;
 		outParam->ResolucionImss = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outParam;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__MontosFechasDatamart_(struct soap *, ns2__ParametroNssTipoRetiro *inParam, struct ns2__MontosFechasDatamartResponse &_param_7)
 {
 	short shRet = DEFAULT__;
@@ -598,10 +589,8 @@ void liberar_memoria_montos_fechas_datamart(ns2__RespuestaMontosFechasDatamart *
 		delete outParam->MontosFechaDat;
 		outParam->MontosFechaDat = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outParam;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarResolucion(struct soap *, ns2__ParametroNssTipoRetiro *inParam, struct ns2__consultarResolucionResponse &_param_8)
 {
 	short shRet = DEFAULT__;
@@ -671,10 +660,8 @@ void liberar_memoria_consultar_resolucion(ns2__RespuestaDatosResolucion *outPara
 		delete outParam->Resolucion;
 		outParam->Resolucion = nullptr;
 	}
-
-	// Finalmente, liberar la estructura principal
-	delete outParam;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarComplementoResolucion(struct soap *, ns2__ParametroNssTipoRetiro *inParam, struct ns2__ConsultarComplementoResolucionResponse &_param_9)
 {
 	short shRet = DEFAULT__;
@@ -738,6 +725,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarComplementoResolucion(struct soap *, ns2
 
 	return SOAP_OK;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImss(struct soap *, ns2__ParamResolucionTotalImss *inParam, struct ns2__ConsultarResolucionTotalImssResponse &_param_10)
 {
 	// pega tu codigo y cambia los nombres de las variables
@@ -975,6 +963,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__movimientosCuentas(struct soap *, ns2__ParamMovim
 
 	return SOAP_OK;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalIssste(struct soap *, ns2__ParamResolucionTotalIssste *inParam, struct ns2__ConsultarResolucionTotalIsssteResponse &_param_13)
 {
 	// pega tu codigo y cambia los nombres de las variables
@@ -1212,6 +1201,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAportaciones(struct soap *, ns2__ParamAp
 
 	return SOAP_OK;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImssRI(struct soap *, ns2__ParamResolucionTotalImssRI *inParam, struct ns2__ConsultarResolucionTotalImssRIResponse &_param_16)
 {
 	// pega tu codigo y cambia los nombres de las variables
@@ -1694,6 +1684,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultaAportacionesPosteriores(struct soap *, ns
 
 	return SOAP_OK;
 }
+
 SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarResolusionRetAportaciones(struct soap *, ns2__ParametroCurpNss *inParam, struct ns2__CConsultarResolusionRetAportacionesResponse &_param_1)
 {
 	short shRet = DEFAULT__;

@@ -117,8 +117,8 @@ short CSaldoDiarioRetParcial::buscarSaldoDiario()
 	short shRet = DEFAULT__;
 	SALDO_CUENTA *stSaldoBuscar = NULL;
 	dSaldoDiario = 0;
-	strncpy(stSaldoDiario.cNss, cNss, sizeof(SIZE_NSS) - 1);
-	stSaldoDiario.cNss[sizeof(stSaldoDiario.cNss) - 1] = '\0';
+	strncpy(stSaldoDiario.cNss, cNss, SIZE_NSS - 1);
+	stSaldoDiario.cNss[SIZE_NSS - 1] = '\0';
 
 	stSaldoBuscar = (SALDO_CUENTA *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA), compararNssEnSaldoCuenta);
 	if (stSaldoBuscar != NULL)
