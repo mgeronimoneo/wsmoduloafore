@@ -168,12 +168,27 @@ APORTACION_POSTERIORES *CAportaciones::Aportaciones()
 
 char *CAportaciones::subString(char *cadena, int comienzo, int longitud = 0)
 {
-	if (longitud == 0)
-		longitud = strlen(cadena sizeof(cadena)) - comienzo;
+	if (!cadena || comienzo < 0)
+		return nullptr;
+
+	int cadena_len = strlen(cadena);
+
+	if (comienzo >= cadena_len)
+	{
+		return nuevo[longitud] = '\0'
+	}
+
+	if (longitud == 0 || comienzo + longitud > cadena_len)
+	{
+		longitud = cadena_len - comienzo;
+	}
 
 	char *nuevo = (char *)malloc(sizeof(char) * (longitud + 1));
-	nuevo[longitud] = '\0';
+	if (!nuevo)
+		return nullptr;
+
 	strncpy(nuevo, cadena + comienzo, longitud);
+	nuevo[longitud] = '\0';
 
 	return nuevo;
 }

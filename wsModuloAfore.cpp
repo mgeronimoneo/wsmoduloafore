@@ -1473,7 +1473,10 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSaldoVol(struct soap *, ns2__ParametroNs
 				_param_18.outParam->ListaSaldoVol->__size=shNumRegistros;
 				_param_18.outParam->ListaSaldoVol->__ptrSaldovol = new ns2__DatosCtaSaldoVol*[shNumRegistros];
 			}*/
-
+			if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont] != nullptr)
+			{
+				delete _param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont];
+			}
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont] = new ns2__DatosCtaSaldoVol();
 
 			_param_18.outParam->ListaSaldoVol->__ptrSaldovol[shCont]->iFolio = stSalVol->arrCtaSaldoVol[i].iFolio;
