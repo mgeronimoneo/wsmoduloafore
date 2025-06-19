@@ -142,7 +142,7 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 		if (shRet == OK__)
 		{
 			strncpy(cIpInfx, cOutTexto, sizeof(cIpInfx) - 1);
-			cIpInfx[sizeof(cIpInfx)- 1] = '\0';
+			cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 			snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
 			shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
@@ -157,7 +157,7 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 				{
 					strncpy(stSiefore.cNss, cNss, SIZE_NSS - 1);
 					stSiefore.cNss[SIZE_NSS - 1] = '\0';
-					
+
 					xSelSiefore.activarCols();
 					while (xSelSiefore.leer())
 					{
@@ -240,7 +240,7 @@ short CConsultarCtaRegimen::abrirConexionServAfo()
 }
 
 // Funcion para retornar los datos obtenidos en instancia de la estructura shmSiefore.
-SIEFORE *CConsultarCtaRegimen::RespSiefore()
+const SIEFORE *CConsultarCtaRegimen::RespSiefore() const
 {
 	return &stSiefore;
 }
