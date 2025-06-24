@@ -241,9 +241,7 @@ short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 	short shRet = DEFAULT__, i = 0, shCuenta = 0;
 	SALDO_CUENTA_PMG *stSaldoBuscar = NULL;
 	dSaldoDia = 0;
-
-	strncpy(stSaldoDiario.cNss, cNss, SIZE_NSS - 1);
-	stSaldoDiario.cNss[SIZE_NSS - 1] = '\0';
+	snprintf(stSaldoDiario.cNss, SIZE_NSS, "%s", cNss);
 
 	stSaldoBuscar = (SALDO_CUENTA_PMG *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA_PMG), compararNssEnSaldoCuenta);
 	if (stSaldoBuscar != NULL)

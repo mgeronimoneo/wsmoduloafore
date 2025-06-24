@@ -115,8 +115,7 @@ short CSaldosPorSubCuenta::buscarSaldoDiario()
 	short shRet = DEFAULT__;
 	SALDO_CUENTA *stSaldoBuscar = NULL;
 
-	strncpy(stSaldoDiario.cNss, cNss, SIZE_NSS - 1);	
-	stSaldoDiario.cNss[SIZE_NSS - 1] = '\0';
+	snprintf(stSaldoDiario.cNss, SIZE_NSS, "%s", cNss);
 
 	stSaldoBuscar = (SALDO_CUENTA *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA), compararNssEnSaldoCuenta);
 	if (stSaldoBuscar != NULL)
@@ -162,8 +161,7 @@ short CSaldosPorSubCuenta::ConsultarSaldoBD()
 				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if (xSelSaldo.Exec(cSql))
 				{
-					strncpy(stSaldoDiario.cNss, cNss, SIZE_NSS - 1);
-					stSaldoDiario.cNss[SIZE_NSS - 1] = '\0';
+					snprintf(stSaldoDiario.cNss, SIZE_NSS, "%s", cNss);
 
 					xSelSaldo.activarCols();
 					while (xSelSaldo.leer())
@@ -360,8 +358,7 @@ short CSaldosPorSubCuenta::ConsultarSaldoBdPMG()
 				snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fnsaldodiario('%s',TODAY)", cNss);
 				if (xSelSaldo.Exec(cSql))
 				{
-					strncpy(stSaldoDiario.cNss, cNss, SIZE_NSS - 1);
-					stSaldoDiario.cNss[SIZE_NSS - 1] = '\0';
+					snprintf(stSaldoDiario.cNss, SIZE_NSS, "%s", cNss);
 
 					xSelSaldo.activarCols();
 					while (xSelSaldo.leer())

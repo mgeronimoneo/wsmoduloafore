@@ -114,8 +114,7 @@ short CConsultarCtaSaldoVol::buscarCtaSaldoVolD()
 	short shRet = DEFAULT__;
 	SALDO_VOL *stSalVolBuscar = NULL;
 
-	strncpy(stSalVol.cNss, cNss, SIZE_NSS - 1);
-	stSalVol.cNss[SIZE_NSS - 1] = '\0';
+	snprintf(stSalVol.cNss, SIZE_NSS, "%s", cNss);
 
 	stSalVolBuscar = (SALDO_VOL *)bsearch(&stSalVol, (void *)shmSalVol, stInfShmSaldoVolCta.iTotalReg, sizeof(SALDO_VOL), compararNssCtaSaldoVol);
 	if (stSalVolBuscar != NULL)
@@ -270,8 +269,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 
 					if (xSelSaldoVol.Exec(cSql))
 					{
-						strncpy(stSalVol.cNss, cNss, SIZE_NSS - 1);
-						stSalVol.cNss[SIZE_NSS - 1] = '\0';
+						snprintf(stSalVol.cNss, SIZE_NSS, "%s", cNss);
 
 						xSelSaldoVol.activarCols();
 
