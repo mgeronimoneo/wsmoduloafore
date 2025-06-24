@@ -171,7 +171,7 @@ char *CAportaciones::subString(char *cadena, int comienzo, int longitud = 0)
 	if (!cadena || comienzo < 0)
 		return nullptr;
 
-	int cadena_len = strlen(cadena);
+	int cadena_len = strnlen(cadena, sizeof(cadena));
 
 	if (comienzo >= cadena_len)
 	{
