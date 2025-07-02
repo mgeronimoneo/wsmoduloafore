@@ -155,8 +155,7 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 
 				if (xSelSiefore.Exec(cSql))
 				{
-					strncpy(stSiefore.cNss, cNss, SIZE_NSS - 1);
-					stSiefore.cNss[SIZE_NSS - 1] = '\0';
+					snprintf(stSiefore.cNss, SIZE_NSS, "%s", cNss);
 
 					xSelSiefore.activarCols();
 					while (xSelSiefore.leer())
@@ -240,7 +239,7 @@ short CConsultarCtaRegimen::abrirConexionServAfo()
 }
 
 // Funcion para retornar los datos obtenidos en instancia de la estructura shmSiefore.
-const SIEFORE *CConsultarCtaRegimen::RespSiefore() const
+SIEFORE *CConsultarCtaRegimen::RespSiefore()
 {
 	return &stSiefore;
 }

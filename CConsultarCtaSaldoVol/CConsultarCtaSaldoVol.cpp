@@ -243,12 +243,12 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 					snprintf(cTexto, "TotalRegs: %i", iTotalReg);
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
+					stSalVol.arrCtaSaldoVol = calloc(iTotalReg, sizeof(SALDO_VOL_SUB_EST));
 					if (stSalVol.arrCtaSaldoVol != NULL)
 					{
 						free(stSalVol.arrCtaSaldoVol);
 						stSalVol.arrCtaSaldoVol = NULL;
 					}
-					stSalVol.arrCtaSaldoVol = calloc(iTotalReg, sizeof(SALDO_VOL_SUB_EST));
 
 					CConsultarSaldoVol xSelSaldoVol(&odbcIfx);
 					// validar si mememoria está cargada
