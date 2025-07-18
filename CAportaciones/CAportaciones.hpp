@@ -8,6 +8,7 @@
 #include "../estructuras.hpp"
 #include "../clases/CBaseDato.hpp"
 #include "../clasessql/CFnAportaciones.hpp"
+#include <string>
 
 class CAportaciones
 {

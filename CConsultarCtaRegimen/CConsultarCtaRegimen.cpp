@@ -239,9 +239,9 @@ short CConsultarCtaRegimen::abrirConexionServAfo()
 }
 
 // Funcion para retornar los datos obtenidos en instancia de la estructura shmSiefore.
-SIEFORE *CConsultarCtaRegimen::RespSiefore()
+const SIEFORE& CConsultarCtaRegimen::RespSiefore() const
 {
-	return &stSiefore;
+	return stSiefore;
 }
 
 short CConsultarCtaRegimen::registrosctaregimen()

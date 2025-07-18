@@ -166,15 +166,14 @@ APORTACION_POSTERIORES *CAportaciones::Aportaciones()
 	return &strAportaciones;
 }
 
-char *CAportaciones::subString(char *cadena, int comienzo, int longitud = 0)
+std::string CAportaciones::subString(const std::string& cadena, int comienzo, int longitud)
 {
-	if (longitud == 0)
-		longitud = strnlen(cadena, sizeof(cadena)) - comienzo;
+    if (comienzo < 0 || comienzo >= static_cast<int>(cadena.size()))
+        return "";
 
-	char *nuevo = (char *)malloc(sizeof(char) * (longitud + 1));
-	nuevo[longitud] = '\0';
-	
-	strncpy(nuevo, cadena + comienzo, longitud);
+    // Si longitud es 0 o excede el tamaño restante, ajusta para llegar al final de la cadena
+    if (longitud == 0 || comienzo + longitud > static_cast<int>(cadena.size()))
+        longitud = static_cast<int>(cadena.size()) - comienzo;
 
-	return nuevo;
+    return cadena.substr(comienzo, longitud);
 }
