@@ -45,7 +45,7 @@ void obtenerIpRemoto(char *cOutIp)
 	iTam = sizeof(struct sockaddr);
 	if (getpeername(1, (struct sockaddr *)&sa, &iTam) == 0)
 	{
-		snprintf(cOutIp, sizeof(cOutIp), "%d.%d.%d.%d", sa.sa_data[2] & 0xFF, sa.sa_data[3] & 0xFF, sa.sa_data[4] & 0xFF, sa.sa_data[5] & 0xFF);
+		snprintf(cOutIp, sizeof(cIpCliente), "%d.%d.%d.%d", sa.sa_data[2] & 0xFF, sa.sa_data[3] & 0xFF, sa.sa_data[4] & 0xFF, sa.sa_data[5] & 0xFF);
 	}
 }
 

@@ -1,0 +1,10 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:movimientosCuentas>
+      <inParam>
+        <Nss>12345678901</Nss>
+      </inParam>
+    </urn:movimientosCuentas>
+  </soapenv:Body>
+</soapenv:Envelope>

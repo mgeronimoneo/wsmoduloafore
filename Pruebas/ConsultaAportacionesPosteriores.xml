@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:ConsultaAportacionesPosteriores>
+      <inParam>
+        <iOpcion>1</iOpcion>
+        <Nss>12345678901</Nss>
+        <FechaIniPension>2024-01-01</FechaIniPension>
+        <iGrupo>1</iGrupo>
+      </inParam>
+    </urn:ConsultaAportacionesPosteriores>
+  </soapenv:Body>
+</soapenv:Envelope>

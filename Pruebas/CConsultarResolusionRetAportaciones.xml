@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:CConsultarResolusionRetAportaciones>
+      <inParam>
+        <Curp>CURP123456HDFLRS01</Curp>
+        <Nss>12345678901</Nss>
+      </inParam>
+    </urn:CConsultarResolusionRetAportaciones>
+  </soapenv:Body>
+</soapenv:Envelope>

@@ -1,0 +1,11 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:ValidarResolucionImss>
+      <inParam>
+        <Nss>12345678901</Nss>
+        <TipoRetiro>Desempleo</TipoRetiro>
+      </inParam>
+    </urn:ValidarResolucionImss>
+  </soapenv:Body>
+</soapenv:Envelope>

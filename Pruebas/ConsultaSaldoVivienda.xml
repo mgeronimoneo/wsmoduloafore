@@ -1,0 +1,12 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:ConsultaSaldoVivienda>
+      <inParam>
+        <sNss>12345678901</sNss>
+        <sFechaSolicitud>2024-01-01</sFechaSolicitud>
+        <sFechaIncioPension>2024-01-01</sFechaIncioPension>
+      </inParam>
+    </urn:ConsultaSaldoVivienda>
+  </soapenv:Body>
+</soapenv:Envelope>

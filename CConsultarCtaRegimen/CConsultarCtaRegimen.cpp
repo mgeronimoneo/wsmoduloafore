@@ -42,9 +42,9 @@ short CConsultarCtaRegimen::consultarSieforeCtaRegimen(char *cNssx)
 		{
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-			memset(cIpAdmon, 0, sizeof(cIpAdmon));
 			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
 			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
+			cIpAdmon[16] = {0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -83,7 +83,7 @@ short CConsultarCtaRegimen::consultarSieforeCtaRegimen(char *cNssx)
 			}
 			else
 			{
-				shRet = ERR_EXEC_SQL;
+				shRet = ERR_EXEC_SQL;				
 				snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar info Shm: %s", __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				shRet = this->ConsultarSieforeBD(); // Metodo a Informix directo
@@ -109,7 +109,7 @@ short CConsultarCtaRegimen::buscarSieforeCta()
 	short shRet = DEFAULT__;
 	SIEFORE *stSieforeBuscar = NULL;
 
-	memmove(stSiefore.cNss, cNss, sizeof(SIZE_NSS));
+	memmove(stSiefore.cNss, cNss, SIZE_NSS);
 	stSieforeBuscar = (SIEFORE *)bsearch(&stSiefore, (void *)shmSiefore, stInfShmSiefore.iTotalReg, sizeof(SIEFORE), compararNssCtaRegimen);
 	if (stSieforeBuscar != NULL)
 	{
@@ -155,8 +155,7 @@ short CConsultarCtaRegimen::ConsultarSieforeBD()
 
 				if (xSelSiefore.Exec(cSql))
 				{
-					snprintf(stSiefore.cNss, SIZE_NSS, "%s", cNss);
-
+					memmove(stSiefore.cNss, cNss, sizeof(SIZE_NSS));
 					xSelSiefore.activarCols();
 					while (xSelSiefore.leer())
 					{
@@ -211,20 +210,19 @@ short CConsultarCtaRegimen::abrirConexionServAfo()
 	{
 		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
-
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-		snprintf(cTexto, sizeof(cTexto), sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 		if (shRet != OK__)
 		{
-			snprintf(cTexto, sizeof(cTexto), sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			strncpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT - 20);
 			cIpServAfo[SIZE_BUFF_DAT - 20 - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-			snprintf(cTexto, sizeof(cTexto), sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 			if (shRet != OK__)
@@ -239,9 +237,9 @@ short CConsultarCtaRegimen::abrirConexionServAfo()
 }
 
 // Funcion para retornar los datos obtenidos en instancia de la estructura shmSiefore.
-const SIEFORE& CConsultarCtaRegimen::RespSiefore() const
+SIEFORE *CConsultarCtaRegimen::RespSiefore()
 {
-	return stSiefore;
+	return &stSiefore;
 }
 
 short CConsultarCtaRegimen::registrosctaregimen()

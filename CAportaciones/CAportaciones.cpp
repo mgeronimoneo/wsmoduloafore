@@ -19,9 +19,7 @@ CAportaciones::~CAportaciones()
 short CAportaciones::ObtenerAportaciones(char *sNss, char *dFechaIniPension, int opcion)
 {
 	char auxFechaPension[20] = {0};
-	char *f1;
-	char *f2;
-	char *f3;
+	std::string f1, f2, f3;
 	short shRet = DEFAULT__;
 	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [Nss: %s], [Inicio Pension: %s]------", __FUNCTION__, sNss, dFechaIniPension);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -62,7 +60,7 @@ short CAportaciones::ObtenerAportaciones(char *sNss, char *dFechaIniPension, int
 					f2 = subString(dFechaIniPension, 0, 2);
 					f3 = subString(dFechaIniPension, 6, 4);
 
-					snprintf(auxFechaPension, sizeof(auxFechaPension), "MDY(%s,%s,%s)", f1, f2, f3);
+					snprintf(auxFechaPension, sizeof(auxFechaPension), "MDY(%s,%s,%s)", f1.c_str(), f2.c_str(), f3.c_str());
 
 					CFnAportaciones xSelAportacion(&odbcIfx);
 					snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fn_obtener_aportaciones_posteriores_rt( '%s', %s, %i);", sNss, auxFechaPension, opcion);

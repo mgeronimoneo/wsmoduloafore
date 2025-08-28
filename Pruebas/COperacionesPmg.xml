@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:COperacionesPmg>
+      <inParam>
+        <Nss>12345678901</Nss>
+        <Secuencia>0001</Secuencia>
+        <Folio>1234</Folio>
+        <iOpcion>1</iOpcion>
+      </inParam>
+    </urn:COperacionesPmg>
+  </soapenv:Body>
+</soapenv:Envelope>

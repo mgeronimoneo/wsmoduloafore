@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+  <soapenv:Header/>
+  <soapenv:Body>
+    <urn:ValidarConvivenciaMarcaOperativa>
+      <inParam>
+        <TipoTrabajador>Imss</TipoTrabajador>
+        <Opcion>1</Opcion>
+        <Nss>12345678901</Nss>
+        <TipoRetiro>Desempleo</TipoRetiro>
+      </inParam>
+    </urn:ValidarConvivenciaMarcaOperativa>
+  </soapenv:Body>
+</soapenv:Envelope>
