@@ -334,6 +334,7 @@ void CConsultarResolucionTotalIssste::conexionInformix()
 
 		// Se prepara y se intenta abrir la conexión a Informix.
 		snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
+		CUtileriasAfo::grabarLogx(cRutaLog, cIpInfx);
 		shRet = CBaseDato::abrirConexionInfx(&odbcInformix, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
 	}
 }

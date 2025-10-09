@@ -119,7 +119,7 @@ void CMovimientosCuentas::obtenerIpInformix()
 	short shRet = DEFAULT__;
 	char cSqlText[100] = {0};
 
-	snprintf(cSql, sizeof(cSql) Text, "SELECT TRIM(concepto) FROM pafhardcode WHERE tipo1 = 1 AND tipo2 = 0 AND tipo3 = 1");
+	snprintf(cSqlText, sizeof(cSqlText), "SELECT TRIM(concepto) FROM pafhardcode WHERE tipo1 = 1 AND tipo2 = 0 AND tipo3 = 1");
 	snprintf(cTexto, sizeof(cTexto), "[%s] Funcion : %s", __FUNCTION__, cSqlText);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 

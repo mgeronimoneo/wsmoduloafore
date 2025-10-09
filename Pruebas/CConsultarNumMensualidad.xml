@@ -3,7 +3,7 @@
   <soapenv:Body>
     <urn:CConsultarNumMensualidad>
       <inParam>
-        <Nss>12345678901</Nss>
+        <Nss>72724203087</Nss>
       </inParam>
     </urn:CConsultarNumMensualidad>
   </soapenv:Body>

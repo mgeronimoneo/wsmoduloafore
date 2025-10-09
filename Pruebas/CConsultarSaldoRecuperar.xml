@@ -3,7 +3,7 @@
   <soapenv:Body>
     <urn:CConsultarSaldoRecuperar>
       <inParam>
-        <Nss>12345678901</Nss>
+        <Nss>15947705735</Nss>
       </inParam>
     </urn:CConsultarSaldoRecuperar>
   </soapenv:Body>

@@ -3,8 +3,8 @@
   <soapenv:Body>
     <urn:consultarAportaciones>
       <inParam>
-        <Nss>67865820145</Nss>
-        <FechaIniPension>2024-01-01</FechaIniPension>
+        <Nss>01209822723</Nss>
+        <FechaIniPension>01-01-2025</FechaIniPension>
         <iOpcion>1</iOpcion>
       </inParam>
     </urn:consultarAportaciones>

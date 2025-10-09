@@ -3,7 +3,7 @@
   <soapenv:Body>
     <urn:consultarAfiliado>
       <in>
-        <iFolioServicio>100</iFolioServicio>
+        <iFolioServicio>16791063</iFolioServicio>
       </in>
     </urn:consultarAfiliado>
   </soapenv:Body>

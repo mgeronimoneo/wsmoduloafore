@@ -1,9 +1,10 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:urn="urn:wsModuloAfore">
   <soapenv:Header/>
   <soapenv:Body>
     <urn:consultarSaldos>
       <inParam>
-        <Nss>12345678901</Nss>
+        <Nss>23139328837</Nss>
       </inParam>
     </urn:consultarSaldos>
   </soapenv:Body>

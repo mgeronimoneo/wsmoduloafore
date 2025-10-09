@@ -126,7 +126,7 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImss(short shOpcion
 						stResolucionTotalImss.iFolio = xSelResolTotalImss.iFolio;
 
 						// Se prepara y graba en el log.
-						snprintf(cTexto, "iTipoPrestacion BD: %i, iTipoPrestacion: %i", stResolucionTotalImss.iTipoPrestacion, xSelResolTotalImss.iTipoPrestacion);
+						snprintf(cTexto, sizeof(cTexto), "iTipoPrestacion BD: %i, iTipoPrestacion: %i", stResolucionTotalImss.iTipoPrestacion, xSelResolTotalImss.iTipoPrestacion);
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 						snprintf(stResolucionTotalImss.cSecPension, sizeof(stResolucionTotalImss.cSecPension), "%s", xSelResolTotalImss.cSecPension);
@@ -253,7 +253,7 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImssBD(short shOpci
 					stResolucionTotalImss.iFolio = xSelResolTotalImss.iFolio;
 
 					// Se prepara y graba en el log.
-					snprintf(cTexto, "iTipoPrestacion BD: %i, iTipoPrestacion: %i", stResolucionTotalImss.iTipoPrestacion, xSelResolTotalImss.iTipoPrestacion);
+					snprintf(cTexto, sizeof(cTexto), "iTipoPrestacion BD: %i, iTipoPrestacion: %i", stResolucionTotalImss.iTipoPrestacion, xSelResolTotalImss.iTipoPrestacion);
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 					snprintf(stResolucionTotalImss.cSecPension, sizeof(stResolucionTotalImss.cSecPension), "%s", xSelResolTotalImss.cSecPension);
@@ -397,7 +397,7 @@ short CConsultarResolucionTotalImss::ConsultarResolucionTotalImssNuevos(short sh
 			{
 				// Creamos una instancia de la clase CFnConsultarResolucion para la gestion del resultado de la consulta.
 				CFnConsultarResolucionTotalImss xSelResolTotalImss(&odbcPg);
-				snprintf(cSql, sizeof(cTexto), "SELECT iExisteresolucion,iAfiliado,cRegimen,cTipoSeguro,cTipoPension,sTipoPrestacion,cNombreDatamart,iFolio,cSecPension,dFechaIni,dFechaPago,sSemanasCotizadas,sDiagDatamart,sEstadoSubViv,dFechaResol,cDesRegimen,cDesTipoPension,cDesTipoPresta,cDesTipoRetiro,cDesTipoSeguro,cDescEdoSubviv,iIdMovimiento FROM  fnvalidardatamartimssrt(%i,'%s','%s',%i::SMALLINT)", shOpcion, cNssx, cCurpx, idocumento);
+				snprintf(cSql, sizeof(cSql), "SELECT iExisteresolucion,iAfiliado,cRegimen,cTipoSeguro,cTipoPension,sTipoPrestacion,cNombreDatamart,iFolio,cSecPension,dFechaIni,dFechaPago,sSemanasCotizadas,sDiagDatamart,sEstadoSubViv,dFechaResol,cDesRegimen,cDesTipoPension,cDesTipoPresta,cDesTipoRetiro,cDesTipoSeguro,cDescEdoSubviv,iIdMovimiento FROM  fnvalidardatamartimssrt(%i,'%s','%s',%i::SMALLINT)", shOpcion, cNssx, cCurpx, idocumento);
 
 				// Ejecutamos la consulta
 				if (xSelResolTotalImss.Exec(cSql))

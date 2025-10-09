@@ -20,33 +20,33 @@ short CValidarResolusionImss::ValidarResolucionImss(char *cNssx, int iTipoRetiro
 	short shRet = DEFAULT__;
 	int iFlagReplica = -1;
 
-	snprintf(cTexto, sizeof(cTexto) "[%s] ------ Inicia [Nss: %s]------", __FUNCTION__, cNssx);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [Nss: %s]------", __FUNCTION__, cNssx);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	shRet = CUtileriasAfo::leerArchivoCnf((char *)IP_SERV_AFO_DAT, cBuff, SIZE_BUFF_DAT, cOutTexto);
 	if (shRet == OK__)
 	{
 		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
-		
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-		snprintf(cTexto, sizeof(cTexto) "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 		if (shRet != OK__)
 		{
-			snprintf(cTexto, sizeof(cTexto) "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			strncpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT - 20);
 			cIpServAfo[SIZE_BUFF_DAT - 20 - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-			snprintf(cTexto, sizeof(cTexto) "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 			if (shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				snprintf(cTexto, sizeof(cTexto) "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
@@ -56,7 +56,7 @@ short CValidarResolusionImss::ValidarResolucionImss(char *cNssx, int iTipoRetiro
 			shRet = CBaseDato::consultarNumero(&odbcPg, cSql, iFlagReplica, cOutTexto);
 			if (shRet != OK__)
 			{
-				snprintf(cTexto, sizeof(cTexto) "[%s] Excep. validar replica: %i %s", __FUNCTION__, shRet, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Excep. validar replica: %i %s", __FUNCTION__, shRet, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 			if (iFlagReplica == 0)
@@ -100,14 +100,14 @@ short CValidarResolusionImss::ValidarResolucionImss(char *cNssx, int iTipoRetiro
 	else
 	{
 		shRet = ERR_LEER_ARCHIVO_CNF;
-		snprintf(cTexto, sizeof(cTexto) "[%s] Error al leer archivo dat: %s [%s]", __FUNCTION__, cOutTexto, (char *)IP_SERV_AFO_DAT);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al leer archivo dat: %s [%s]", __FUNCTION__, cOutTexto, (char *)IP_SERV_AFO_DAT);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 
-	snprintf(cTexto, sizeof(cTexto) "[%s] Retorno: %i", __FUNCTION__, shRet);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Retorno: %i", __FUNCTION__, shRet);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
-	snprintf(cTexto, sizeof(cTexto) "[%s] ------ Termina [Nss: %s]------", __FUNCTION__, cNssx);
+	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Termina [Nss: %s]------", __FUNCTION__, cNssx);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	return shRet;
 }
@@ -119,7 +119,7 @@ short CValidarResolusionImss::validarResolucionBd(char *cNss, int iTipoRetirox)
 {
 	short shRet = DEFAULT__;
 	char cAnio[6] = {0}, cMes[4] = {0}, cDia[4] = {0};
-	snprintf(cTexto, sizeof(cTexto) "[%s] validar resolucion en BD: %s", __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] validar resolucion en BD: %s", __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	snprintf(cSql, sizeof(cSql), "select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
 	memset(cOutTexto, 0, sizeof(cOutTexto));
@@ -179,19 +179,19 @@ short CValidarResolusionImss::validarResolucionBd(char *cNss, int iTipoRetirox)
 		else
 		{
 			shRet = ERR_CNX_BASE_DATO;
-			snprintf(cTexto, sizeof(cTexto) "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpInfx, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpInfx, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}
 	else if (shRet == ERR_NO_HAY_REG_BD)
 	{
-		snprintf(cTexto, sizeof(cTexto) "[%s] Error: %s", __FUNCTION__, cOutTexto);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error: %s", __FUNCTION__, cOutTexto);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	else
 	{
 		shRet = ERR_EXEC_SQL;
-		snprintf(cTexto, sizeof(cTexto) "[%s] Error al consultar control: %s", __FUNCTION__, cOutTexto);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar control: %s", __FUNCTION__, cOutTexto);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	return shRet;

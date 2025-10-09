@@ -116,6 +116,7 @@ short CConsultarResolusion::ConsultarResolusion(char *cNssx, int iTipoRetirox)
 }
 short CConsultarResolusion::ConsultarResolusionBD(char *cNssx, int iTipoRetirox)
 {
+	char cSql[512] = {0};	
 	short shRet = DEFAULT__;
 	char cAnio[6] = {0}, cMes[4] = {0}, cDia[4] = {0};
 	snprintf(cTexto, sizeof(cTexto), "[%s] validar fecha datamart en BD: %s", __FUNCTION__, cNssx);
@@ -134,13 +135,16 @@ short CConsultarResolusion::ConsultarResolusionBD(char *cNssx, int iTipoRetirox)
 		{
 			CFnConsultarResolucion xSelResol(&odbcIfx);
 			if (iTipoRetirox == CVE_RET_DESEMPLEO_IMSS)
+			{
 				snprintf(cSql, sizeof(cSql), "SELECT limit 1 nss, nvl(to_char(fecha_ini_vigencia,'%cY-%cm-%cd'), '1900-01-01'), nvl(to_char(fecha_fin_vigencia,'%cY-%cm-%cd'), '1900-01-01'), num_resolucion "
-											 " FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 6 ORDER BY fecha_ini_vigencia DESC;",
-						 37, 37, 37, 37, 37, 37, cNssx);
+						" FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 6 ORDER BY fecha_ini_vigencia DESC;", 37,37,37,37,37,37,cNssx);
+			}
 			else
+			{
 				snprintf(cSql, sizeof(cSql), "SELECT limit 1 nss, nvl(to_char(fecha_ini_vigencia,'%cY-%cm-%cd'), '1900-01-01'), nvl(to_char(fecha_fin_vigencia,'%cY-%cm-%cd'), '1900-01-01'), num_resolucion "
 											 " FROM ret_parcial_resol WHERE nss = '%s' AND TODAY BETWEEN fecha_ini_vigencia AND fecha_fin_vigencia AND diag_procesar IN ('400', '106') and tipo_prestacion = 7 ORDER BY fecha_ini_vigencia DESC;",
 						 37, 37, 37, 37, 37, 37, cNssx);
+			}
 			if (xSelResol.Exec(cSql))
 			{
 				xSelResol.activarCols();

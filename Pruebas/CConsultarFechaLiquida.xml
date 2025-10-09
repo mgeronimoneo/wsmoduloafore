@@ -3,7 +3,7 @@
   <soapenv:Body>
     <urn:CConsultarFechaLiquida>
       <inParam>
-        <Nss>12345678901</Nss>
+        <Nss>72724203087</Nss>
       </inParam>
     </urn:CConsultarFechaLiquida>
   </soapenv:Body>

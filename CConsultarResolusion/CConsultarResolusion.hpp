@@ -16,7 +16,7 @@ class CConsultarResolusion
 				cIpServAfo[17],
 				cIpInfx[100],
 				cRutaLog[128],
-				cSql[256],
+				cSql[356],
 				cBuff[SIZE_BUFF_DAT];
 		C_ODBC	odbcPg,
 				odbcIfx;

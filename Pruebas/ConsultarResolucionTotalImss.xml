@@ -4,8 +4,8 @@
     <urn:ConsultarResolucionTotalImss>
       <inParam>
         <Opcion>1</Opcion>
-        <Nss>12345678901</Nss>
-        <Curp>CURP123456HDFLRS01</Curp>
+        <Nss>72724203087</Nss>
+        <Curp>EISM530523HGRSLG04</Curp>
       </inParam>
     </urn:ConsultarResolucionTotalImss>
   </soapenv:Body>

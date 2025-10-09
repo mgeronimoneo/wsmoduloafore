@@ -164,14 +164,14 @@ APORTACION_POSTERIORES *CAportaciones::Aportaciones()
 	return &strAportaciones;
 }
 
-std::string CAportaciones::subString(const std::string& cadena, int comienzo, int longitud)
+std::string CAportaciones::subString(const std::string &cadena, int comienzo, int longitud)
 {
-    if (comienzo < 0 || comienzo >= static_cast<int>(cadena.size()))
-        return "";
+	if (comienzo < 0 || comienzo >= static_cast<int>(cadena.size()))
+		return "";
 
-    // Si longitud es 0 o excede el tamaño restante, ajusta para llegar al final de la cadena
-    if (longitud == 0 || comienzo + longitud > static_cast<int>(cadena.size()))
-        longitud = static_cast<int>(cadena.size()) - comienzo;
+	// Si longitud es 0 o excede el tamaño restante, ajusta para llegar al final de la cadena
+	if (longitud == 0 || comienzo + longitud > static_cast<int>(cadena.size()))
+		longitud = static_cast<int>(cadena.size()) - comienzo;
 
-    return cadena.substr(comienzo, longitud);
+	return cadena.substr(comienzo, longitud);
 }

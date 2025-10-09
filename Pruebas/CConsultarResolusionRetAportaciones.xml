@@ -3,8 +3,8 @@
   <soapenv:Body>
     <urn:CConsultarResolusionRetAportaciones>
       <inParam>
-        <Curp>CURP123456HDFLRS01</Curp>
-        <Nss>12345678901</Nss>
+        <Curp>EISM530523HGRSLG04</Curp>
+        <Nss>72724203087</Nss>
       </inParam>
     </urn:CConsultarResolusionRetAportaciones>
   </soapenv:Body>

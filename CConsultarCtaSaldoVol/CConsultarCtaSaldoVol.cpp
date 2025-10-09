@@ -193,10 +193,10 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			else
 			{
 				shRet = ERR_EXEC_SQL;
-				snprintf(cTexto, "[%s] Error al consultar info Shm: %s", __FUNCTION__, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar info Shm: %s", __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				banderaShm = DEFAULT__;
-				snprintf(cTexto, "valor de Bandera: %i", banderaShm);
+				snprintf(cTexto, sizeof(cTexto), "valor de Bandera: %i", banderaShm);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
@@ -204,13 +204,13 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 	else
 	{
 		shRet = ERR_LEER_ARCHIVO_CNF;
-		snprintf(cTexto, "[%s] Error al leer archivo dat: %s [%s]", __FUNCTION__, cOutTexto, (char *)IP_ADMONAFO_DAT);
+		snprintf(cTexto, sizeof(cTexto), "[%s] Error al leer archivo dat: %s [%s]", __FUNCTION__, cOutTexto, (char *)IP_ADMONAFO_DAT);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	}
 	short shCont = 0;
 	int iTotalReg = 0;
 
-	snprintf(cTexto, "[%s] Buscar Cta_saldo_vol en BD: %s", __FUNCTION__, cNss);
+	snprintf(cTexto, sizeof(cTexto), "[%s] Buscar Cta_saldo_vol en BD: %s", __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	odbcPg.Close();
 
@@ -218,7 +218,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 
 	if (shRet == OK__)
 	{
-		snprintf(cSql, "select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
+		snprintf(cSql, sizeof(cSql), "select valor from controlwsmoduloafore where idcontrol=%i", CTRL_SVR_INFORMIX);
 		memset(cOutTexto, 0, sizeof(cOutTexto));
 		shRet = CBaseDato::consultarTexto(&odbcPg, cSql, cOutTexto);
 		if (shRet == OK__)
@@ -234,16 +234,16 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 
 			if (shRet == OK__)
 			{
-				snprintf(cSql, "SELECT count(folio)::int FROM cta_saldo_vol WHERE nss = '%s'", cNss);
+				snprintf(cSql, sizeof(cSql), "SELECT count(folio)::int FROM cta_saldo_vol WHERE nss = '%s'", cNss);
 				CUtileriasAfo::grabarLogx(cRutaLog, cSql);
 				shRet = CBaseDato::consultarNumero(&odbcIfx, cSql, iTotalReg, cOutTexto);
 				if (shRet == OK__)
 				{
 
-					snprintf(cTexto, "TotalRegs: %i", iTotalReg);
+					snprintf(cTexto, sizeof(cTexto), "TotalRegs: %i", iTotalReg);
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
-					stSalVol.arrCtaSaldoVol = calloc(iTotalReg, sizeof(SALDO_VOL_SUB_EST));
+					stSalVol.arrCtaSaldoVol = (SALDO_VOL_SUB_EST *)calloc(iTotalReg, sizeof(SALDO_VOL_SUB_EST));
 					if (stSalVol.arrCtaSaldoVol != NULL)
 					{
 						free(stSalVol.arrCtaSaldoVol);
@@ -254,16 +254,16 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 					// validar si mememoria está cargada
 					if (banderaShm == OK__)
 					{
-						snprintf(cTexto, "Entra aconsultar con fecha de dia anterior: %i", banderaShm);
+						snprintf(cTexto, sizeof(cTexto), "Entra a consultar con fecha de dia anterior: %i", banderaShm);
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-						snprintf(cSql, "EXECUTE FUNCTION fn_obtenerinfo_saldovol('%s',1);", cNss);
+						snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fn_obtenerinfo_saldovol('%s',1);", cNss);
 						CUtileriasAfo::grabarLogx(cRutaLog, cSql);
 					}
 					else
 					{
-						snprintf(cTexto, "Entra a consultar todos los registro: %i", banderaShm);
+						snprintf(cTexto, sizeof(cTexto), "Entra a consultar todos los registro: %i", banderaShm);
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-						snprintf(cSql, "EXECUTE FUNCTION fn_obtenerinfo_saldovol('%s');", cNss);
+						snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fn_obtenerinfo_saldovol('%s');", cNss);
 						CUtileriasAfo::grabarLogx(cRutaLog, cSql);
 					}
 
@@ -289,13 +289,13 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 							memset(stSalVol.arrCtaSaldoVol[shCont].cUsuario, 0, sizeof(stSalVol.arrCtaSaldoVol[shCont].cUsuario));
 							memmove(stSalVol.arrCtaSaldoVol[shCont].cUsuario, xSelSaldoVol.usuario, sizeof(xSelSaldoVol.usuario));
 
-							snprintf(cTexto, "Folio [%i] Saldo acciones [%f]", xSelSaldoVol.folio, xSelSaldoVol.saldoAcciones);
+							snprintf(cTexto, sizeof(cTexto), "Folio [%i] Saldo acciones [%f]", xSelSaldoVol.folio, xSelSaldoVol.saldoAcciones);
 							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-							snprintf(cTexto, "fechaSaldo [%s] fechaValor [%s]", xSelSaldoVol.fechaSaldo, xSelSaldoVol.fechaValor);
+							snprintf(cTexto, sizeof(cTexto), "fechaSaldo [%s] fechaValor [%s]", xSelSaldoVol.fechaSaldo, xSelSaldoVol.fechaValor);
 							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-							snprintf(cTexto, "Fecha Conversion [%s]", xSelSaldoVol.fechaConversion);
+							snprintf(cTexto, sizeof(cTexto), "Fecha Conversion [%s]", xSelSaldoVol.fechaConversion);
 							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
-							snprintf(cTexto, "se ejecuto correctamente funcion");
+							snprintf(cTexto, sizeof(cTexto), "se ejecuto correctamente funcion");
 							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
 							shCont++;
@@ -304,7 +304,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 						{
 							shRet = OK__;
 							shRegistros = shCont;
-							snprintf(cTexto, "[%s] Total Reg. leidos: %i", __FUNCTION__, shCont);
+							snprintf(cTexto, sizeof(cTexto), "[%s] Total Reg. leidos: %i", __FUNCTION__, shCont);
 							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 						}
 						else
@@ -314,7 +314,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 					{
 						shRet = ERR_EXEC_SQL;
 						xSelSaldoVol.odbc->GetLastError(xSelSaldoVol.GetHstmt());
-						snprintf(cTexto, "[%s] Err: %s", __FUNCTION__, xSelSaldoVol.odbc->LastErrStr());
+						snprintf(cTexto, sizeof(cTexto), "[%s] Err: %s", __FUNCTION__, xSelSaldoVol.odbc->LastErrStr());
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 					}
 				}
@@ -322,19 +322,19 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			else
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				snprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpInfx, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpInfx, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}
 		else if (shRet == ERR_NO_HAY_REG_BD)
 		{
-			snprintf(cTexto, "[%s] Error: %s", __FUNCTION__, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error: %s", __FUNCTION__, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 		else
 		{
 			shRet = ERR_EXEC_SQL;
-			snprintf(cTexto, "[%s] Error al consultar control: %s", __FUNCTION__, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al consultar control: %s", __FUNCTION__, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		}
 	}
@@ -352,24 +352,24 @@ short CConsultarCtaSaldoVol::abrirConexionServAfo()
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
 
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-		snprintf(cTexto, "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
+		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 		shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 		if (shRet != OK__)
 		{
-			snprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
+			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpServAfo, 0, sizeof(cIpServAfo));
 			strncpy(cIpServAfo, &cBuff[20], SIZE_BUFF_DAT - 20);
 			cIpServAfo[sizeof(cIpServAfo)] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
-			snprintf(cTexto, "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
+			snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			shRet = CBaseDato::abrirConexion(&odbcPg, cIpServAfo, (char *)USR_BD_SYSSERVAFO, (char *)BD_SERV_AFORE, cOutTexto);
 			if (shRet != OK__)
 			{
 				shRet = ERR_CNX_BASE_DATO;
-				snprintf(cTexto, "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpServAfo, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			}
 		}

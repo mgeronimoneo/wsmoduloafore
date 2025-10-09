@@ -3,8 +3,8 @@
   <soapenv:Body>
     <urn:ConsultarResolucionTotalIssste>
       <inParam>
-        <Curp>CURP123456HDFLRS01</Curp>
-        <TipoRetiro>Desempleo</TipoRetiro>
+        <Curp>EISM530523HGRSLG04</Curp>
+        <TipoRetiro>1024</TipoRetiro>
       </inParam>
     </urn:ConsultarResolucionTotalIssste>
   </soapenv:Body>
