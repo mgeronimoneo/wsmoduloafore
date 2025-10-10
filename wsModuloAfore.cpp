@@ -127,39 +127,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAfiliado(struct soap *, ns2__ParamConsul
 			break;
 		}
 	}
-
-	// Liberación manual de memoria para evitar fugas
-	if (_param_1.out)
-	{
-		if (_param_1.out->EstadoProc)
-		{
-			if (_param_1.out->EstadoProc->DescripcionEstado)
-				delete[] _param_1.out->EstadoProc->DescripcionEstado;
-			delete _param_1.out->EstadoProc;
-		}
-		if (_param_1.out->datosAfiliado)
-		{
-			if (_param_1.out->datosAfiliado->cApellidoPaterno)
-				delete[] _param_1.out->datosAfiliado->cApellidoPaterno;
-			if (_param_1.out->datosAfiliado->cApellidoMaterno)
-				delete[] _param_1.out->datosAfiliado->cApellidoMaterno;
-			if (_param_1.out->datosAfiliado->cNombre)
-				delete[] _param_1.out->datosAfiliado->cNombre;
-			if (_param_1.out->datosAfiliado->cCurp)
-				delete[] _param_1.out->datosAfiliado->cCurp;
-			if (_param_1.out->datosAfiliado->cNss)
-				delete[] _param_1.out->datosAfiliado->cNss;
-			if (_param_1.out->datosAfiliado->cEntidadNacimiento)
-				delete[] _param_1.out->datosAfiliado->cEntidadNacimiento;
-			if (_param_1.out->datosAfiliado->cFechaNacimiento)
-				delete[] _param_1.out->datosAfiliado->cFechaNacimiento;
-			if (_param_1.out->datosAfiliado->cFechaServicio)
-				delete[] _param_1.out->datosAfiliado->cFechaServicio;
-			delete _param_1.out->datosAfiliado;
-		}
-		delete _param_1.out;
-	}
-
 	return SOAP_OK;
 }
 
@@ -211,178 +178,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldos(struct soap *, ns2__ParametroNss 
 	{
 		snprintf(_param_2.outSaldos->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
+
 	_param_2.outSaldos->EstadoProc->Estado = shRet;
-
-	// Libera los campos dinámicos de cada subestructura antes de liberar la principal
-
-	// 1. Libera los char* dentro de cada ns2__SaldoSubCuenta
-	if (_param_2.outSaldos && _param_2.outSaldos->ListaSaldos && _param_2.outSaldos->ListaSaldos->__ptrSaldo)
-	{
-		for (int i = 0; i < _param_2.outSaldos->ListaSaldos->__size; ++i)
-		{
-			ns2__SaldoSubCuenta *saldo = _param_2.outSaldos->ListaSaldos->__ptrSaldo[i];
-			if (saldo)
-			{
-				if (saldo->SaldoAccion)
-				{
-					delete[] saldo->SaldoAccion;
-					saldo->SaldoAccion = NULL;
-				}
-				if (saldo->SaldoPesos)
-				{
-					delete[] saldo->SaldoPesos;
-					saldo->SaldoPesos = NULL;
-				}
-				delete saldo;
-				_param_2.outSaldos->ListaSaldos->__ptrSaldo[i] = NULL;
-			}
-		}
-		// 2. Libera el arreglo de punteros
-		delete[] _param_2.outSaldos->ListaSaldos->__ptrSaldo;
-		_param_2.outSaldos->ListaSaldos->__ptrSaldo = NULL;
-	}
-
-	// 3. Libera ListaSaldos
-	if (_param_2.outSaldos && _param_2.outSaldos->ListaSaldos)
-	{
-		delete _param_2.outSaldos->ListaSaldos;
-		_param_2.outSaldos->ListaSaldos = NULL;
-	}
-
-	// 4. Libera EstadoProc->DescripcionEstado
-	if (_param_2.outSaldos && _param_2.outSaldos->EstadoProc && _param_2.outSaldos->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_2.outSaldos->EstadoProc->DescripcionEstado;
-		_param_2.outSaldos->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 5. Libera EstadoProc
-	if (_param_2.outSaldos && _param_2.outSaldos->EstadoProc)
-	{
-		delete _param_2.outSaldos->EstadoProc;
-		_param_2.outSaldos->EstadoProc = NULL;
-	}
-
-	// 6. Libera Nss
-	if (_param_2.outSaldos && _param_2.outSaldos->Nss)
-	{
-		delete[] _param_2.outSaldos->Nss;
-		_param_2.outSaldos->Nss = NULL;
-	}
-
-	// 7. Libera el objeto principal
-	if (_param_2.outSaldos)
-	{
-		delete _param_2.outSaldos;
-		_param_2.outSaldos = NULL;
-	}
-	return SOAP_OK;
-}
-
-SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerFolioServicio(struct soap *, ns2__FoliadorServicio *inFoliador, struct ns2__ObtenerFolioServicioResponse &_param_3)
-{
-	short shRet = DEFAULT__;
-	CFoliadorServicios objFolioServ;
-	_param_3.outFolioServ = new ns2__FolioServicio();
-	_param_3.outFolioServ->EstadoProc = new ns2__EstadoProceso();
-	_param_3.outFolioServ->EstadoProc->DescripcionEstado = new char[LONG_DESCRIPCION];
-
-	memset(_param_3.outFolioServ->EstadoProc->DescripcionEstado, 0, LONG_DESCRIPCION);
-	shRet = objFolioServ.ObtenerFolio(inFoliador->TipoServicio);
-	if (shRet == OK__)
-	{
-		snprintf(_param_3.outFolioServ->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
-		_param_3.outFolioServ->Folio = objFolioServ.Folio();
-	}
-	else
-		snprintf(_param_3.outFolioServ->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
-
-	_param_3.outFolioServ->EstadoProc->Estado = shRet;
-
-	// 1. Liberar el campo dinámico DescripcionEstado
-	if (_param_3.outFolioServ && _param_3.outFolioServ->EstadoProc && _param_3.outFolioServ->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_3.outFolioServ->EstadoProc->DescripcionEstado;
-		_param_3.outFolioServ->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 2. Liberar EstadoProc
-	if (_param_3.outFolioServ && _param_3.outFolioServ->EstadoProc)
-	{
-		delete _param_3.outFolioServ->EstadoProc;
-		_param_3.outFolioServ->EstadoProc = NULL;
-	}
-
-	// 3. Liberar el objeto principal
-	if (_param_3.outFolioServ)
-	{
-		delete _param_3.outFolioServ;
-		_param_3.outFolioServ = NULL;
-	}
-	return SOAP_OK;
-}
-
-SOAP_FMAC5 int SOAP_FMAC6 ns2__ValidarConvivenciaMarcaOperativa(struct soap *, ns2__ConvivenciaMarcas *inParam, struct ns2__ValidarConvivenciaMarcaOperativaResponse &_param_4)
-{
-	short shRet = DEFAULT__;
-	CValidarConvivenciaMarca objConvMarca;
-
-	_param_4.outParam = new ns2__RespuestaConvivenciaMarca();
-	_param_4.outParam->EstadoProc = new ns2__EstadoProceso();
-	_param_4.outParam->EstadoProc->DescripcionEstado = new char[LONG_DESCRIPCION];
-	_param_4.outParam->ConvivenciaMarca = new ns2__ValidaConvivenciaMarcas();
-	_param_4.outParam->ConvivenciaMarca->Descripcion = new char[LONG_DESCRIPCION];
-	memset(_param_4.outParam->EstadoProc->DescripcionEstado, 0, LONG_DESCRIPCION);
-
-	shRet = objConvMarca.ValidarConvivencia(inParam->Opcion, inParam->TipoTrabajador, inParam->Nss, inParam->TipoRetiro);
-	if (shRet == OK__)
-	{
-		memset(_param_4.outParam->ConvivenciaMarca->Descripcion, 0, LONG_DESCRIPCION);
-		snprintf(_param_4.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
-		_param_4.outParam->ConvivenciaMarca->Codigo = objConvMarca.ConviveMarcas()->shCodigo;
-		_param_4.outParam->ConvivenciaMarca->TieneMarca = objConvMarca.ConviveMarcas()->shTieneMarca;
-		snprintf(_param_4.outParam->ConvivenciaMarca->Descripcion, sizeof(LONG_DESCRIPCION), "%s", objConvMarca.ConviveMarcas()->cMensaje);
-	}
-	else
-		snprintf(_param_4.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
-
-	_param_4.outParam->EstadoProc->Estado = shRet;
-
-	// 1. Liberar ConvivenciaMarca->Descripcion
-	if (_param_4.outParam && _param_4.outParam->ConvivenciaMarca && _param_4.outParam->ConvivenciaMarca->Descripcion)
-	{
-		delete[] _param_4.outParam->ConvivenciaMarca->Descripcion;
-		_param_4.outParam->ConvivenciaMarca->Descripcion = NULL;
-	}
-
-	// 2. Liberar ConvivenciaMarca
-	if (_param_4.outParam && _param_4.outParam->ConvivenciaMarca)
-	{
-		delete _param_4.outParam->ConvivenciaMarca;
-		_param_4.outParam->ConvivenciaMarca = NULL;
-	}
-
-	// 3. Liberar EstadoProc->DescripcionEstado
-	if (_param_4.outParam && _param_4.outParam->EstadoProc && _param_4.outParam->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_4.outParam->EstadoProc->DescripcionEstado;
-		_param_4.outParam->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 4. Liberar EstadoProc
-	if (_param_4.outParam && _param_4.outParam->EstadoProc)
-	{
-		delete _param_4.outParam->EstadoProc;
-		_param_4.outParam->EstadoProc = NULL;
-	}
-
-	// 5. Liberar estructura principal
-	if (_param_4.outParam)
-	{
-		delete _param_4.outParam;
-		_param_4.outParam = NULL;
-	}
-
 	return SOAP_OK;
 }
 
@@ -406,34 +203,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ObtenerSaldoDiarioRetiroParcial(struct soap *, ns
 
 	_param_5.outParam->EstadoProc->Estado = shRet;
 	snprintf(_param_5.outParam->SaldoPesos, sizeof(_param_5.outParam->SaldoPesos), "%.02f", objSdoDiario.SaldoDiario());
-
-	// 1. Liberar EstadoProc->DescripcionEstado
-	if (_param_5.outParam && _param_5.outParam->EstadoProc && _param_5.outParam->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_5.outParam->EstadoProc->DescripcionEstado;
-		_param_5.outParam->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 2. Liberar EstadoProc
-	if (_param_5.outParam && _param_5.outParam->EstadoProc)
-	{
-		delete _param_5.outParam->EstadoProc;
-		_param_5.outParam->EstadoProc = NULL;
-	}
-
-	// 3. Liberar SaldoPesos
-	if (_param_5.outParam && _param_5.outParam->SaldoPesos)
-	{
-		delete[] _param_5.outParam->SaldoPesos;
-		_param_5.outParam->SaldoPesos = NULL;
-	}
-
-	// 4. Liberar estructura principal
-	if (_param_5.outParam)
-	{
-		delete _param_5.outParam;
-		_param_5.outParam = NULL;
-	}
 
 	return SOAP_OK;
 }
@@ -475,178 +244,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ValidarResolucionImss_(struct soap *, ns2__Parame
 		snprintf(_param_6.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_6.outParam->EstadoProc->Estado = shRet;
-
-	// 1. Liberar ResolucionImss->Descripcion
-	if (_param_6.outParam && _param_6.outParam->ResolucionImss && _param_6.outParam->ResolucionImss->Descripcion)
-	{
-		delete[] _param_6.outParam->ResolucionImss->Descripcion;
-		_param_6.outParam->ResolucionImss->Descripcion = NULL;
-	}
-
-	// 2. Liberar ResolucionImss->FechaProximaSolicitud
-	if (_param_6.outParam && _param_6.outParam->ResolucionImss && _param_6.outParam->ResolucionImss->FechaProximaSolicitud)
-	{
-		delete[] _param_6.outParam->ResolucionImss->FechaProximaSolicitud;
-		_param_6.outParam->ResolucionImss->FechaProximaSolicitud = NULL;
-	}
-
-	// 3. Liberar ResolucionImss->FechaVigencia
-	if (_param_6.outParam && _param_6.outParam->ResolucionImss && _param_6.outParam->ResolucionImss->FechaVigencia)
-	{
-		delete[] _param_6.outParam->ResolucionImss->FechaVigencia;
-		_param_6.outParam->ResolucionImss->FechaVigencia = NULL;
-	}
-
-	// 4. Liberar ResolucionImss->FechaVigenciaAnterior
-	if (_param_6.outParam && _param_6.outParam->ResolucionImss && _param_6.outParam->ResolucionImss->FechaVigenciaAnterior)
-	{
-		delete[] _param_6.outParam->ResolucionImss->FechaVigenciaAnterior;
-		_param_6.outParam->ResolucionImss->FechaVigenciaAnterior = NULL;
-	}
-
-	// 5. Liberar ResolucionImss
-	if (_param_6.outParam && _param_6.outParam->ResolucionImss)
-	{
-		delete _param_6.outParam->ResolucionImss;
-		_param_6.outParam->ResolucionImss = NULL;
-	}
-
-	// 6. Liberar EstadoProc->DescripcionEstado
-	if (_param_6.outParam && _param_6.outParam->EstadoProc && _param_6.outParam->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_6.outParam->EstadoProc->DescripcionEstado;
-		_param_6.outParam->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 7. Liberar EstadoProc
-	if (_param_6.outParam && _param_6.outParam->EstadoProc)
-	{
-		delete _param_6.outParam->EstadoProc;
-		_param_6.outParam->EstadoProc = NULL;
-	}
-
-	// 8. Liberar estructura principal
-	if (_param_6.outParam)
-	{
-		delete _param_6.outParam;
-		_param_6.outParam = NULL;
-	}
-
-	return SOAP_OK;
-}
-
-SOAP_FMAC5 int SOAP_FMAC6 ns2__MontosFechasDatamart_(struct soap *, ns2__ParametroNssTipoRetiro *inParam, struct ns2__MontosFechasDatamartResponse &_param_7)
-{
-	short shRet = DEFAULT__;
-	CMontosFechasDatamart objMontos;
-
-	_param_7.outParam = new ns2__RespuestaMontosFechasDatamart();
-	_param_7.outParam->EstadoProc = new ns2__EstadoProceso();
-	_param_7.outParam->EstadoProc->DescripcionEstado = new char[LONG_DESCRIPCION];
-	_param_7.outParam->MontosFechaDat = new ns2__MontosFechasDatamart();
-	_param_7.outParam->MontosFechaDat->FechaInicioVigencia = new char[SIZE_FECHA];
-	_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo = new char[SIZE_FECHA];
-	_param_7.outParam->MontosFechaDat->Nss = new char[SIZE_NSS + 2];
-	_param_7.outParam->MontosFechaDat->SalarioBaseA = new char[SIZE_DECIMAL_];
-	_param_7.outParam->MontosFechaDat->SalarioBaseB = new char[SIZE_DECIMAL_];
-	_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC = new char[SIZE_DECIMAL_];
-	_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado = new char[SIZE_DECIMAL_];
-
-	shRet = objMontos.MontosFechasDatamart(inParam->Nss, inParam->TipoRetiro);
-	if (shRet == OK__)
-	{
-		snprintf(_param_7.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "EXITO");
-
-		snprintf(_param_7.outParam->MontosFechaDat->FechaInicioVigencia, sizeof(_param_7.outParam->MontosFechaDat->FechaInicioVigencia), "%s", objMontos.MontosDatamart()->cFechaIniVigencia);
-		snprintf(_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo, sizeof(_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo), "%s", objMontos.MontosDatamart()->cFechaMatDes);
-		snprintf(_param_7.outParam->MontosFechaDat->Nss, sizeof(_param_7.outParam->MontosFechaDat->Nss), "%s", objMontos.MontosDatamart()->cNss);
-		snprintf(_param_7.outParam->MontosFechaDat->SalarioBaseA, sizeof(_param_7.outParam->MontosFechaDat->SalarioBaseA), "%.02f", objMontos.MontosDatamart()->dSalarioBaseA);
-		snprintf(_param_7.outParam->MontosFechaDat->SalarioBaseB, sizeof(_param_7.outParam->MontosFechaDat->SalarioBaseB), "%.02f", objMontos.MontosDatamart()->DSalarioBaseB);
-		snprintf(_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC, sizeof(_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC), "%.02f", objMontos.MontosDatamart()->dUltimas250SemanasSbc);
-		snprintf(_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado, sizeof(_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado), "%.02f", objMontos.MontosDatamart()->dUltimaSbc);
-	}
-	else
-		snprintf(_param_7.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
-
-	_param_7.outParam->EstadoProc->Estado = shRet;
-
-	// 1. Liberar MontosFechaDat->FechaInicioVigencia
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->FechaInicioVigencia)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->FechaInicioVigencia;
-		_param_7.outParam->MontosFechaDat->FechaInicioVigencia = NULL;
-	}
-
-	// 2. Liberar MontosFechaDat->FechaMatrimonioDesempleo
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo;
-		_param_7.outParam->MontosFechaDat->FechaMatrimonioDesempleo = NULL;
-	}
-
-	// 3. Liberar MontosFechaDat->Nss
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->Nss)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->Nss;
-		_param_7.outParam->MontosFechaDat->Nss = NULL;
-	}
-
-	// 4. Liberar MontosFechaDat->SalarioBaseA
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->SalarioBaseA)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->SalarioBaseA;
-		_param_7.outParam->MontosFechaDat->SalarioBaseA = NULL;
-	}
-
-	// 5. Liberar MontosFechaDat->SalarioBaseB
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->SalarioBaseB)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->SalarioBaseB;
-		_param_7.outParam->MontosFechaDat->SalarioBaseB = NULL;
-	}
-
-	// 6. Liberar MontosFechaDat->Ultimas250SemanasSBC
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC;
-		_param_7.outParam->MontosFechaDat->Ultimas250SemanasSBC = NULL;
-	}
-
-	// 7. Liberar MontosFechaDat->UltimoSalarioBaseCotizado
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat && _param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado)
-	{
-		delete[] _param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado;
-		_param_7.outParam->MontosFechaDat->UltimoSalarioBaseCotizado = NULL;
-	}
-
-	// 8. Liberar MontosFechaDat
-	if (_param_7.outParam && _param_7.outParam->MontosFechaDat)
-	{
-		delete _param_7.outParam->MontosFechaDat;
-		_param_7.outParam->MontosFechaDat = NULL;
-	}
-
-	// 9. Liberar EstadoProc->DescripcionEstado
-	if (_param_7.outParam && _param_7.outParam->EstadoProc && _param_7.outParam->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_7.outParam->EstadoProc->DescripcionEstado;
-		_param_7.outParam->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 10. Liberar EstadoProc
-	if (_param_7.outParam && _param_7.outParam->EstadoProc)
-	{
-		delete _param_7.outParam->EstadoProc;
-		_param_7.outParam->EstadoProc = NULL;
-	}
-
-	// 11. Liberar estructura principal
-	if (_param_7.outParam)
-	{
-		delete _param_7.outParam;
-		_param_7.outParam = NULL;
-	}
-
 	return SOAP_OK;
 }
 
@@ -680,56 +277,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarResolucion(struct soap *, ns2__Parametro
 		snprintf(_param_8.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_8.outParam->EstadoProc->Estado = shRet;
-
-	// 1. Liberar Resolucion->Nss
-	if (_param_8.outParam && _param_8.outParam->Resolucion && _param_8.outParam->Resolucion->Nss)
-	{
-		delete[] _param_8.outParam->Resolucion->Nss;
-		_param_8.outParam->Resolucion->Nss = NULL;
-	}
-
-	// 2. Liberar Resolucion->FechaInicioVigencia
-	if (_param_8.outParam && _param_8.outParam->Resolucion && _param_8.outParam->Resolucion->FechaInicioVigencia)
-	{
-		delete[] _param_8.outParam->Resolucion->FechaInicioVigencia;
-		_param_8.outParam->Resolucion->FechaInicioVigencia = NULL;
-	}
-
-	// 3. Liberar Resolucion->FechaFinVigencia
-	if (_param_8.outParam && _param_8.outParam->Resolucion && _param_8.outParam->Resolucion->FechaFinVigencia)
-	{
-		delete[] _param_8.outParam->Resolucion->FechaFinVigencia;
-		_param_8.outParam->Resolucion->FechaFinVigencia = NULL;
-	}
-
-	// 4. Liberar Resolucion
-	if (_param_8.outParam && _param_8.outParam->Resolucion)
-	{
-		delete _param_8.outParam->Resolucion;
-		_param_8.outParam->Resolucion = NULL;
-	}
-
-	// 5. Liberar EstadoProc->DescripcionEstado
-	if (_param_8.outParam && _param_8.outParam->EstadoProc && _param_8.outParam->EstadoProc->DescripcionEstado)
-	{
-		delete[] _param_8.outParam->EstadoProc->DescripcionEstado;
-		_param_8.outParam->EstadoProc->DescripcionEstado = NULL;
-	}
-
-	// 6. Liberar EstadoProc
-	if (_param_8.outParam && _param_8.outParam->EstadoProc)
-	{
-		delete _param_8.outParam->EstadoProc;
-		_param_8.outParam->EstadoProc = NULL;
-	}
-
-	// 7. Liberar estructura principal
-	if (_param_8.outParam)
-	{
-		delete _param_8.outParam;
-		_param_8.outParam = NULL;
-	}
-
 	return SOAP_OK;
 }
 
@@ -768,32 +315,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarComplementoResolucion(struct soap *, ns2
 	else
 		snprintf(_param_9.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
-	_param_9.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación manual de memoria
-	if (_param_9.outParam)
-	{
-		if (_param_9.outParam->EstadoProc)
-		{
-			if (_param_9.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_9.outParam->EstadoProc->DescripcionEstado;
-			delete _param_9.outParam->EstadoProc;
-		}
-		if (_param_9.outParam->ResolucionComplemento)
-		{
-			if (_param_9.outParam->ResolucionComplemento->MontoPagado)
-				delete[] _param_9.outParam->ResolucionComplemento->MontoPagado;
-			if (_param_9.outParam->ResolucionComplemento->MontoPagadoComplemento)
-				delete[] _param_9.outParam->ResolucionComplemento->MontoPagadoComplemento;
-			if (_param_9.outParam->ResolucionComplemento->SaldoRCV)
-				delete[] _param_9.outParam->ResolucionComplemento->SaldoRCV;
-			if (_param_9.outParam->ResolucionComplemento->SaldoRCVAnterior)
-				delete[] _param_9.outParam->ResolucionComplemento->SaldoRCVAnterior;
-			delete _param_9.outParam->ResolucionComplemento;
-		}
-		delete _param_9.outParam;
-	}
-
+	_param_9.outParam->EstadoProc->Estado = shRet;	
 	return SOAP_OK;
 }
 
@@ -884,51 +406,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImss(struct soap *, ns2__
 		snprintf(_param_10.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_10.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación manual de memoria para evitar fugas
-	if (_param_10.outParam)
-	{
-		if (_param_10.outParam->EstadoProc)
-		{
-			if (_param_10.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_10.outParam->EstadoProc->DescripcionEstado;
-			delete _param_10.outParam->EstadoProc;
-		}
-		if (_param_10.outParam->ResolTotalImss)
-		{
-			if (_param_10.outParam->ResolTotalImss->Regimen)
-				delete[] _param_10.outParam->ResolTotalImss->Regimen;
-			if (_param_10.outParam->ResolTotalImss->TipoSeguro)
-				delete[] _param_10.outParam->ResolTotalImss->TipoSeguro;
-			if (_param_10.outParam->ResolTotalImss->TipoPension)
-				delete[] _param_10.outParam->ResolTotalImss->TipoPension;
-			if (_param_10.outParam->ResolTotalImss->NombreDatamart)
-				delete[] _param_10.outParam->ResolTotalImss->NombreDatamart;
-			if (_param_10.outParam->ResolTotalImss->SecPension)
-				delete[] _param_10.outParam->ResolTotalImss->SecPension;
-			if (_param_10.outParam->ResolTotalImss->FechaInicio)
-				delete[] _param_10.outParam->ResolTotalImss->FechaInicio;
-			if (_param_10.outParam->ResolTotalImss->FechaPago)
-				delete[] _param_10.outParam->ResolTotalImss->FechaPago;
-			if (_param_10.outParam->ResolTotalImss->FechaResolucion)
-				delete[] _param_10.outParam->ResolTotalImss->FechaResolucion;
-			if (_param_10.outParam->ResolTotalImss->DescRegimen)
-				delete[] _param_10.outParam->ResolTotalImss->DescRegimen;
-			if (_param_10.outParam->ResolTotalImss->DescTipoPension)
-				delete[] _param_10.outParam->ResolTotalImss->DescTipoPension;
-			if (_param_10.outParam->ResolTotalImss->DescTipoPrestacion)
-				delete[] _param_10.outParam->ResolTotalImss->DescTipoPrestacion;
-			if (_param_10.outParam->ResolTotalImss->DescTipoRetiro)
-				delete[] _param_10.outParam->ResolTotalImss->DescTipoRetiro;
-			if (_param_10.outParam->ResolTotalImss->DescTipoSeguro)
-				delete[] _param_10.outParam->ResolTotalImss->DescTipoSeguro;
-			if (_param_10.outParam->ResolTotalImss->DescEdoSubViv)
-				delete[] _param_10.outParam->ResolTotalImss->DescEdoSubViv;
-			delete _param_10.outParam->ResolTotalImss;
-		}
-		delete _param_10.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -968,26 +445,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__COperacionesPmg(struct soap *, ns2__ParamOperacio
 	{
 		snprintf(_param_11.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
+
 	_param_11.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación manual de memoria para evitar fugas
-	if (_param_11.outParam)
-	{
-		if (_param_11.outParam->EstadoProc)
-		{
-			if (_param_11.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_11.outParam->EstadoProc->DescripcionEstado;
-			delete _param_11.outParam->EstadoProc;
-		}
-		if (_param_11.outParam->ResolOperacionPmg)
-		{
-			if (_param_11.outParam->ResolOperacionPmg->Mensaje)
-				delete[] _param_11.outParam->ResolOperacionPmg->Mensaje;
-			delete _param_11.outParam->ResolOperacionPmg;
-		}
-		delete _param_11.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1012,26 +471,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__movimientosCuentas(struct soap *, ns2__ParamMovim
 		snprintf(_param_12.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_12.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación manual de memoria para evitar fugas
-	if (_param_12.outParam)
-	{
-		if (_param_12.outParam->EstadoProc)
-		{
-			if (_param_12.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_12.outParam->EstadoProc->DescripcionEstado;
-			delete _param_12.outParam->EstadoProc;
-		}
-		if (_param_12.outParam->RespMovimientosCuentas)
-		{
-			// ATENCIÓN: solo liberar Movimientos si fue asignado con new/new[] aquí.
-			// Si lo administra la clase CMovimientosCuentas, NO lo borres aquí.
-			// Ejemplo: delete[] _param_12.outParam->RespMovimientosCuentas->Movimientos;
-			delete _param_12.outParam->RespMovimientosCuentas;
-		}
-		delete _param_12.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1129,53 +568,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalIssste(struct soap *, ns2
 		snprintf(_param_13.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_13.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_13.outParam)
-	{
-		if (_param_13.outParam->EstadoProc)
-		{
-			if (_param_13.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_13.outParam->EstadoProc->DescripcionEstado;
-			delete _param_13.outParam->EstadoProc;
-		}
-		if (_param_13.outParam->RespResolucionTotalIssste)
-		{
-			if (_param_13.outParam->RespResolucionTotalIssste->Nss)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->Nss;
-			if (_param_13.outParam->RespResolucionTotalIssste->NssIssste)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->NssIssste;
-			if (_param_13.outParam->RespResolucionTotalIssste->Curp)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->Curp;
-			if (_param_13.outParam->RespResolucionTotalIssste->SecPension)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->SecPension;
-			if (_param_13.outParam->RespResolucionTotalIssste->NombreDatamart)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->NombreDatamart;
-			if (_param_13.outParam->RespResolucionTotalIssste->PaternoDatamart)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->PaternoDatamart;
-			if (_param_13.outParam->RespResolucionTotalIssste->MaternoDatamart)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->MaternoDatamart;
-			if (_param_13.outParam->RespResolucionTotalIssste->NumConcesion)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->NumConcesion;
-			if (_param_13.outParam->RespResolucionTotalIssste->TipoRetiro)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->TipoRetiro;
-			if (_param_13.outParam->RespResolucionTotalIssste->Regimen)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->Regimen;
-			if (_param_13.outParam->RespResolucionTotalIssste->TipoSeguro)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->TipoSeguro;
-			if (_param_13.outParam->RespResolucionTotalIssste->TipoPension)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->TipoPension;
-			if (_param_13.outParam->RespResolucionTotalIssste->CvePension)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->CvePension;
-			if (_param_13.outParam->RespResolucionTotalIssste->FechaInicioPen)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->FechaInicioPen;
-			if (_param_13.outParam->RespResolucionTotalIssste->FechaResolucion)
-				delete[] _param_13.outParam->RespResolucionTotalIssste->FechaResolucion;
-			delete _param_13.outParam->RespResolucionTotalIssste;
-		}
-		delete _param_13.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1211,20 +603,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPmg(struct soap *, ns2__ParametroS
 	}
 	_param_14.outSaldosPmg->EstadoProc->Estado = shRet;
 
-	// Liberación de memoria dinámica
-	if (_param_14.outSaldosPmg)
-	{
-		if (_param_14.outSaldosPmg->EstadoProc)
-		{
-			if (_param_14.outSaldosPmg->EstadoProc->DescripcionEstado)
-				delete[] _param_14.outSaldosPmg->EstadoProc->DescripcionEstado;
-			delete _param_14.outSaldosPmg->EstadoProc;
-		}
-		if (_param_14.outSaldosPmg->SaldosPmg)
-			delete _param_14.outSaldosPmg->SaldosPmg;
-		delete _param_14.outSaldosPmg;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1255,20 +633,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAportaciones(struct soap *, ns2__ParamAp
 		snprintf(_param_15.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 	}
 	_param_15.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_15.outParam)
-	{
-		if (_param_15.outParam->EstadoProc)
-		{
-			if (_param_15.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_15.outParam->EstadoProc->DescripcionEstado;
-			delete _param_15.outParam->EstadoProc;
-		}
-		if (_param_15.outParam->RespAportacionesPosteriores)
-			delete _param_15.outParam->RespAportacionesPosteriores;
-		delete _param_15.outParam;
-	}
 
 	return SOAP_OK;
 }
@@ -1360,51 +724,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImssRI(struct soap *, ns2
 		snprintf(_param_16.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_16.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_16.outParam)
-	{
-		if (_param_16.outParam->EstadoProc)
-		{
-			if (_param_16.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_16.outParam->EstadoProc->DescripcionEstado;
-			delete _param_16.outParam->EstadoProc;
-		}
-		if (_param_16.outParam->ResolTotalImss)
-		{
-			if (_param_16.outParam->ResolTotalImss->Regimen)
-				delete[] _param_16.outParam->ResolTotalImss->Regimen;
-			if (_param_16.outParam->ResolTotalImss->TipoSeguro)
-				delete[] _param_16.outParam->ResolTotalImss->TipoSeguro;
-			if (_param_16.outParam->ResolTotalImss->TipoPension)
-				delete[] _param_16.outParam->ResolTotalImss->TipoPension;
-			if (_param_16.outParam->ResolTotalImss->NombreDatamart)
-				delete[] _param_16.outParam->ResolTotalImss->NombreDatamart;
-			if (_param_16.outParam->ResolTotalImss->SecPension)
-				delete[] _param_16.outParam->ResolTotalImss->SecPension;
-			if (_param_16.outParam->ResolTotalImss->FechaInicio)
-				delete[] _param_16.outParam->ResolTotalImss->FechaInicio;
-			if (_param_16.outParam->ResolTotalImss->FechaPago)
-				delete[] _param_16.outParam->ResolTotalImss->FechaPago;
-			if (_param_16.outParam->ResolTotalImss->FechaResolucion)
-				delete[] _param_16.outParam->ResolTotalImss->FechaResolucion;
-			if (_param_16.outParam->ResolTotalImss->DescRegimen)
-				delete[] _param_16.outParam->ResolTotalImss->DescRegimen;
-			if (_param_16.outParam->ResolTotalImss->DescTipoPension)
-				delete[] _param_16.outParam->ResolTotalImss->DescTipoPension;
-			if (_param_16.outParam->ResolTotalImss->DescTipoPrestacion)
-				delete[] _param_16.outParam->ResolTotalImss->DescTipoPrestacion;
-			if (_param_16.outParam->ResolTotalImss->DescTipoRetiro)
-				delete[] _param_16.outParam->ResolTotalImss->DescTipoRetiro;
-			if (_param_16.outParam->ResolTotalImss->DescTipoSeguro)
-				delete[] _param_16.outParam->ResolTotalImss->DescTipoSeguro;
-			if (_param_16.outParam->ResolTotalImss->DescEdoSubViv)
-				delete[] _param_16.outParam->ResolTotalImss->DescEdoSubViv;
-			delete _param_16.outParam->ResolTotalImss;
-		}
-		delete _param_16.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1467,36 +786,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSieforeCtaRegimen(struct soap *, ns2__Pa
 		snprintf(_param_17.outParam->EstadoProc->DescripcionEstado, sizeof(LONG_DESCRIPCION), "PROCESO EJECUTADO CON ERROR");
 
 	_param_17.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_17.outParam)
-	{
-		if (_param_17.outParam->EstadoProc)
-		{
-			if (_param_17.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_17.outParam->EstadoProc->DescripcionEstado;
-			delete _param_17.outParam->EstadoProc;
-		}
-		if (_param_17.outParam->ListaSiefore)
-		{
-			if (_param_17.outParam->ListaSiefore->__ptrSiefore)
-			{
-				for (int i = 0; i < _param_17.outParam->ListaSiefore->__size; i++)
-				{
-					if (_param_17.outParam->ListaSiefore->__ptrSiefore[i])
-					{
-						if (_param_17.outParam->ListaSiefore->__ptrSiefore[i]->Nss)
-							delete[] _param_17.outParam->ListaSiefore->__ptrSiefore[i]->Nss;
-						delete _param_17.outParam->ListaSiefore->__ptrSiefore[i];
-					}
-				}
-				delete[] _param_17.outParam->ListaSiefore->__ptrSiefore;
-			}
-			delete _param_17.outParam->ListaSiefore;
-		}
-		delete _param_17.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1597,50 +886,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarSaldoVol(struct soap *, ns2__ParametroNs
 	}
 
 	_param_18.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_18.outParam)
-	{
-		if (_param_18.outParam->EstadoProc)
-		{
-			if (_param_18.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_18.outParam->EstadoProc->DescripcionEstado;
-			delete _param_18.outParam->EstadoProc;
-		}
-		if (_param_18.outParam->ListaSaldoVol)
-		{
-			if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol)
-			{
-				for (int i = 0; i < _param_18.outParam->ListaSaldoVol->__size; i++)
-				{
-					if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i])
-					{
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cNss)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cNss;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cFechaValor)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cFechaValor;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cFechaConversion)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cFechaConversion;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->iMontoEnPesos)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->iMontoEnPesos;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->iMontoEnAcciones)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->iMontoEnAcciones;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->iSaldoAcciones)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->iSaldoAcciones;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cFechaSaldo)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cFechaSaldo;
-						if (_param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cUsuario)
-							delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i]->cUsuario;
-						delete _param_18.outParam->ListaSaldoVol->__ptrSaldovol[i];
-					}
-				}
-				delete[] _param_18.outParam->ListaSaldoVol->__ptrSaldovol;
-			}
-			delete _param_18.outParam->ListaSaldoVol;
-		}
-		delete _param_18.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1686,29 +931,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultaSaldoVivienda(struct soap *, ns2__ParamCo
 	}
 
 	_param_19.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_19.outParam)
-	{
-		if (_param_19.outParam->EstadoProc)
-		{
-			if (_param_19.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_19.outParam->EstadoProc->DescripcionEstado;
-			delete _param_19.outParam->EstadoProc;
-		}
-		if (_param_19.outParam->ConsultarSaldoViv)
-		{
-			if (_param_19.outParam->ConsultarSaldoViv->sNss)
-				delete[] _param_19.outParam->ConsultarSaldoViv->sNss;
-			if (_param_19.outParam->ConsultarSaldoViv->dMontoAccionViv)
-				delete[] _param_19.outParam->ConsultarSaldoViv->dMontoAccionViv;
-			if (_param_19.outParam->ConsultarSaldoViv->dMontoPesosViv)
-				delete[] _param_19.outParam->ConsultarSaldoViv->dMontoPesosViv;
-			delete _param_19.outParam->ConsultarSaldoViv;
-		}
-		delete _param_19.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1741,21 +963,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultaAportacionesPosteriores(struct soap *, ns
 	}
 
 	_param_20.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_20.outParam)
-	{
-		if (_param_20.outParam->EstadoProc)
-		{
-			if (_param_20.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_20.outParam->EstadoProc->DescripcionEstado;
-			delete _param_20.outParam->EstadoProc;
-		}
-		if (_param_20.outParam->RespAportacionesPosteriores)
-			delete _param_20.outParam->RespAportacionesPosteriores;
-		delete _param_20.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1770,14 +977,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarResolusionRetAportaciones(struct soap *
 	shRet = objAportaciones.ConsultarResolusion(inParam->Curp, inParam->Nss);
 
 	_param_1.outParam->Solicitante->iTipoSolicitante = objAportaciones.Resolucion();
-
-	// Liberación de memoria dinámica
-	if (_param_1.outParam)
-	{
-		if (_param_1.outParam->Solicitante)
-			delete _param_1.outParam->Solicitante;
-		delete _param_1.outParam;
-	}
 
 	return SOAP_OK;
 }
@@ -1802,21 +1001,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarSaldoRecuperar(struct soap *, ns2__Para
 	}
 
 	_param_21.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_21.outParam)
-	{
-		if (_param_21.outParam->EstadoProc)
-		{
-			if (_param_21.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_21.outParam->EstadoProc->DescripcionEstado;
-			delete _param_21.outParam->EstadoProc;
-		}
-		if (_param_21.outParam->Saldo)
-			delete _param_21.outParam->Saldo;
-		delete _param_21.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1839,21 +1023,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarFechaLiquida(struct soap *, ns2__Parame
 	}
 
 	_param_22.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_22.outParam)
-	{
-		if (_param_22.outParam->EstadoProc)
-		{
-			if (_param_22.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_22.outParam->EstadoProc->DescripcionEstado;
-			delete _param_22.outParam->EstadoProc;
-		}
-		if (_param_22.outParam->Fecha)
-			delete _param_22.outParam->Fecha;
-		delete _param_22.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1876,21 +1045,6 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__CConsultarNumMensualidad(struct soap *, ns2__Para
 	}
 
 	_param_23.outParam->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_23.outParam)
-	{
-		if (_param_23.outParam->EstadoProc)
-		{
-			if (_param_23.outParam->EstadoProc->DescripcionEstado)
-				delete[] _param_23.outParam->EstadoProc->DescripcionEstado;
-			delete _param_23.outParam->EstadoProc;
-		}
-		if (_param_23.outParam->Mensualidad)
-			delete _param_23.outParam->Mensualidad;
-		delete _param_23.outParam;
-	}
-
 	return SOAP_OK;
 }
 
@@ -1944,40 +1098,5 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPenMinGar(struct soap *, ns2__Para
 	}
 
 	_param_24.outSaldos->EstadoProc->Estado = shRet;
-
-	// Liberación de memoria dinámica
-	if (_param_24.outSaldos)
-	{
-		if (_param_24.outSaldos->EstadoProc)
-		{
-			if (_param_24.outSaldos->EstadoProc->DescripcionEstado)
-				delete[] _param_24.outSaldos->EstadoProc->DescripcionEstado;
-			delete _param_24.outSaldos->EstadoProc;
-		}
-		if (_param_24.outSaldos->Nss)
-			delete[] _param_24.outSaldos->Nss;
-
-		if (_param_24.outSaldos->ListaSaldos)
-		{
-			if (_param_24.outSaldos->ListaSaldos->__ptrSaldo)
-			{
-				for (int i = 0; i < _param_24.outSaldos->ListaSaldos->__size; ++i)
-				{
-					if (_param_24.outSaldos->ListaSaldos->__ptrSaldo[i])
-					{
-						if (_param_24.outSaldos->ListaSaldos->__ptrSaldo[i]->SaldoAccion)
-							delete[] _param_24.outSaldos->ListaSaldos->__ptrSaldo[i]->SaldoAccion;
-						if (_param_24.outSaldos->ListaSaldos->__ptrSaldo[i]->SaldoPesos)
-							delete[] _param_24.outSaldos->ListaSaldos->__ptrSaldo[i]->SaldoPesos;
-						delete _param_24.outSaldos->ListaSaldos->__ptrSaldo[i];
-					}
-				}
-				delete[] _param_24.outSaldos->ListaSaldos->__ptrSaldo;
-			}
-			delete _param_24.outSaldos->ListaSaldos;
-		}
-		delete _param_24.outSaldos;
-	}
-
 	return SOAP_OK;
 }
