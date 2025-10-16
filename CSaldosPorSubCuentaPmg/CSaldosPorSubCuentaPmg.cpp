@@ -22,6 +22,7 @@ CSaldosPorSubCuentaPmg::~CSaldosPorSubCuentaPmg()
 	odbcPg.Close();
 	odbcIfx.Close();
 }
+
 short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *cSecuenciax, int iSubVivx)
 {
 	short shRet = DEFAULT__;
@@ -47,7 +48,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
 			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
 			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-			
+
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -133,6 +134,7 @@ short CSaldosPorSubCuentaPmg::consultarSaldoPorSubcuentaPmg(char *cNssx, char *c
 
 	return shRet;
 }
+
 short CSaldosPorSubCuentaPmg::obtenerRetroactivoPgs()
 {
 	short shRet = DEFAULT__, iEstatusConsulta = 0;
@@ -244,11 +246,13 @@ short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 	snprintf(stSaldoDiario.cNss, SIZE_NSS, "%s", cNss);
 
 	stSaldoBuscar = (SALDO_CUENTA_PMG *)bsearch(&stSaldoDiario, (void *)shmSaldoDiario, stInfShmSaldoDiario.iTotalReg, sizeof(SALDO_CUENTA_PMG), compararNssEnSaldoCuenta);
+
 	if (stSaldoBuscar != NULL)
 	{
-		for (i = 0; i <= 20; i++)
+		for (i = 0; i <= NUM_SUBCTAS_PMG; i++)
 		{
 			shCuenta = shmSaldoDiario->arrSubCtaPmg[i].shSubCuenta;
+
 			if (shCuenta == 1 || shCuenta == 2 || shCuenta == 5 || shCuenta == 6 || shCuenta == 9)
 			{
 				// stSaldosPmg.dSaldoDia = stSaldosPmg.dSaldoDia + shmSaldoDiario->arrSubCtaPmg[i].dMontoAccion;
@@ -279,10 +283,12 @@ short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 	}
 	return shRet;
 }
+
 SALDOS_PMG *CSaldosPorSubCuentaPmg::SaldoPorSubcuentaPmg()
 {
 	return &stSaldosPmg;
 }
+
 short CSaldosPorSubCuentaPmg::ConsultarSaldoBD()
 {
 	short shRet = DEFAULT__, shCont = 0, shSubcuenta = 0;
@@ -362,6 +368,7 @@ short CSaldosPorSubCuentaPmg::ConsultarSaldoBD()
 	}
 	return shRet;
 }
+
 short CSaldosPorSubCuentaPmg::abrirConexionServAfo()
 {
 	short shRet = DEFAULT__;
@@ -370,7 +377,7 @@ short CSaldosPorSubCuentaPmg::abrirConexionServAfo()
 	{
 		strncpy(cIpServAfo, cBuff, sizeof(cIpServAfo) - 1);
 		cIpServAfo[sizeof(cIpServAfo) - 1] = '\0';
-		
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpServAfo);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipServiciosAfore: %s", __FUNCTION__, cIpServAfo);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -398,7 +405,6 @@ short CSaldosPorSubCuentaPmg::abrirConexionServAfo()
 }
 
 // 418i
-
 short CSaldosPorSubCuentaPmg::obtenerFechaLiquidaPmg(char *cNssx)
 {
 	short shRet = DEFAULT__;

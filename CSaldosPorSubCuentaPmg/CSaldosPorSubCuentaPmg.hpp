@@ -13,6 +13,8 @@
 #include "../clasessql/CSaldoCuentaPmg.hpp"
 #include "../COperacionesPmg/COperacionesPmg.hpp"
 
+#define NUM_SUBCTAS_PMG 20
+
 class CSaldosPorSubCuentaPmg
 {
 private:

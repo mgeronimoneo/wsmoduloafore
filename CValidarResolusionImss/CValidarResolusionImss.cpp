@@ -146,19 +146,19 @@ short CValidarResolusionImss::validarResolucionBd(char *cNss, int iTipoRetirox)
 				{
 					stValResImss.iRetorno = xSelValRes.retorno;
 					stValResImss.iDiagProcesar = xSelValRes.diagnosticoProcesar;
-					memcpy(cDia, xSelValRes.fecha_vigencia, 2);
-					memcpy(cMes, &xSelValRes.fecha_vigencia[3], 2);
-					memcpy(cAnio, &xSelValRes.fecha_vigencia[6], 4);
+					memmove(cDia, xSelValRes.fecha_vigencia, 2);
+					memmove(cMes, &xSelValRes.fecha_vigencia[3], 2);
+					memmove(cAnio, &xSelValRes.fecha_vigencia[6], 4);
 					snprintf(stValResImss.cFechaVigencia, sizeof(stValResImss.cFechaVigencia), "%s-%s-%s", cAnio, cMes, cDia);
 
-					memcpy(cDia, xSelValRes.fecha_vigencia_ant, 2);
-					memcpy(cMes, &xSelValRes.fecha_vigencia_ant[3], 2);
-					memcpy(cAnio, &xSelValRes.fecha_vigencia_ant[6], 4);
+					memmove(cDia, xSelValRes.fecha_vigencia_ant, 2);
+					memmove(cMes, &xSelValRes.fecha_vigencia_ant[3], 2);
+					memmove(cAnio, &xSelValRes.fecha_vigencia_ant[6], 4);
 					snprintf(stValResImss.cFechaVigenciaAnterior, sizeof(stValResImss.cFechaVigenciaAnterior), "%s-%s-%s", cAnio, cMes, cDia);
 
-					memcpy(cDia, xSelValRes.fecha_proxima_sol, 2);
-					memcpy(cMes, &xSelValRes.fecha_proxima_sol[3], 2);
-					memcpy(cAnio, &xSelValRes.fecha_proxima_sol[6], 4);
+					memmove(cDia, xSelValRes.fecha_proxima_sol, 2);
+					memmove(cMes, &xSelValRes.fecha_proxima_sol[3], 2);
+					memmove(cAnio, &xSelValRes.fecha_proxima_sol[6], 4);
 					snprintf(stValResImss.cFechaProximaSolicitud, sizeof(stValResImss.cFechaProximaSolicitud), "%s-%s-%s", cAnio, cMes, cDia);
 
 					snprintf(stValResImss.cMensaje, sizeof(stValResImss.cMensaje), "%s", xSelValRes.mensaje);

@@ -40,6 +40,8 @@
 
 void logSoap();
 void obtenerIpRemoto(char *cOutIp);
+int is_file_accessible(const char *filename);
+int is_path_allowed(const char *path);
 
 struct soap soap;
 char	cIpCliente[17],
