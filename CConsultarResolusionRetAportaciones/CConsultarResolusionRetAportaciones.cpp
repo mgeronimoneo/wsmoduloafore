@@ -134,7 +134,7 @@ short CConsultarResolusionRetAportaciones::ConsultarResolusionBD(char *cCurpx, c
 {
 	short shRet = DEFAULT__;
 	int iTipoSeguro = 0;
-	char cAnio[6] = {0}, cMes[4] = {0}, cDia[4] = {0}, cTipoPension[2] = {0};
+	char cAnio[6] = {0}, cMes[4] = {0}, cDia[4] = {0}, cTipoPension[4] = {0};
 	snprintf(cTexto, sizeof(cTexto), "[%s] validar registro en BD CURP: %s NSS: %s", __FUNCTION__, cCurpx, cNssx);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 	snprintf(cSql, sizeof(cSql), "SELECT valor FROM controlwsmoduloafore WHERE idcontrol=%i;", CTRL_SVR_INFORMIX);
@@ -163,6 +163,7 @@ short CConsultarResolusionRetAportaciones::ConsultarResolusionBD(char *cCurpx, c
 				{
 					iTipoSeguro = xSelResol.iOpcion;
 					snprintf(cTipoPension, sizeof(cTipoPension), "%s", xSelResol.tTipo_Pension);
+					CUtileriasAfo::grabarLogx(cRutaLog, cTipoPension);
 					shRet = CConsultarResolusionRetAportaciones::obtenerTipoSolicitante(iTipoSeguro, cTipoPension);
 					// shRet=OK__;
 				}

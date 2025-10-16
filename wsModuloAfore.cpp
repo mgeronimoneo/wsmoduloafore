@@ -54,7 +54,7 @@ void obtenerIpRemoto(char *cOutIp)
 	iTam = sizeof(struct sockaddr);
 	if (getpeername(1, (struct sockaddr *)&sa, &iTam) == 0)
 	{
-		snprintf(cOutIp, sizeof(cOutIp), "%d.%d.%d.%d", sa.sa_data[2] & 0xFF, sa.sa_data[3] & 0xFF, sa.sa_data[4] & 0xFF, sa.sa_data[5] & 0xFF);
+		snprintf(cOutIp, 20, "%d.%d.%d.%d", sa.sa_data[2] & 0xFF, sa.sa_data[3] & 0xFF, sa.sa_data[4] & 0xFF, sa.sa_data[5] & 0xFF);
 	}
 }
 
@@ -1189,4 +1189,35 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarSaldosPenMinGar(struct soap *, ns2__Para
 	_param_24.outSaldos->EstadoProc->Estado = shRet;
 
 	return SOAP_OK;
+}
+
+// Verificar que el archivo es seguro para leer
+int is_file_accessible(const char *filename) {
+    struct stat st;
+    
+    if (stat(filename, &st) != 0) return 0;
+    
+    // Verificar que no es un enlace simbÃ³lico
+    if (S_ISLNK(st.st_mode)) return 0;
+    
+    // Verificar permisos del usuario actual
+    if (st.st_uid == getuid()) {
+        return (st.st_mode & S_IRUSR); // Usuario tiene permiso de lectura
+    }
+    if (st.st_gid == getgid()) {
+        return (st.st_mode & S_IRGRP); // Grupo tiene permiso de lectura
+    }
+    return (st.st_mode & S_IROTH); // Otros tienen permiso de lectura
+}
+
+// Validar que el archivo estÃ¡ en un directorio permitido
+int is_path_allowed(const char *path) {
+    const char *allowed_dirs[] = {RUTA_LOGX};
+    
+    for (int i = 0; i < sizeof(allowed_dirs)/sizeof(allowed_dirs[0]); i++) {
+        if (strncmp(path, allowed_dirs[i], strnlen(allowed_dirs[i], 500)) == 0) {
+            return 1;
+        }
+    }
+    return 0;
 }
