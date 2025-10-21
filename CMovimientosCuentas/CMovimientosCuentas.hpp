@@ -10,23 +10,24 @@
 
 class CMovimientosCuentas
 {
-	private:
-		char	cTexto[1024],
-				cOutTexto[768],
-				cIpServAfo[17],
-				cIpInfx[100],
-				cRutaLog[128],
-				cSql[256],
-				cBuff[SIZE_BUFF_DAT];
-		int 	iMovimientos;
-		C_ODBC	odbcPg, odbcInformix;
-	public:
-		CMovimientosCuentas();
-		~CMovimientosCuentas();
-		short ObtenerMovimientos(char* sNss);
-		int  movimientos();
-		void obtenerIpInformix();
-		void abrirConexionInformix();
+private:
+	char cTexto[1024],
+		cOutTexto[768],
+		cIpServAfo[17],
+		cIpInfx[100],
+		cRutaLog[128],
+		cSql[256],
+		cBuff[SIZE_BUFF_DAT];
+	int iMovimientos;
+	C_ODBC odbcPg, odbcInformix;
+
+public:
+	CMovimientosCuentas();
+	~CMovimientosCuentas();
+	short ObtenerMovimientos(char *sNss);
+	int movimientos();
+	void obtenerIpInformix();
+	void abrirConexionInformix();
 };
 
 #endif

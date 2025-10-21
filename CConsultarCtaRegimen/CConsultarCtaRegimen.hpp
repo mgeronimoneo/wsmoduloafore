@@ -12,33 +12,33 @@
 class CConsultarCtaRegimen
 {
 private:
-	char	cTexto[1024],
-			cOutTexto[768],
-			cIpAdmon[17],
-			cIpServAfo[17],
-			cIpInfx[100],
-			cRutaLog[128],
-			cSql[256],
-			cBuff[SIZE_BUFF_DAT],
-			cNss[SIZE_NSS+2];
-	short 	shRegistros;
-			
-	SHM_INFOX	stInfShmSiefore;
-	SIEFORE		*shmSiefore,
-					stSiefore;
-	//CBaseDato	objBd;
-	C_ODBC		odbcPg,
-	odbcIfx;
+	char cTexto[1024],
+		cOutTexto[768],
+		cIpAdmon[17],
+		cIpServAfo[17],
+		cIpInfx[100],
+		cRutaLog[128],
+		cSql[256],
+		cBuff[SIZE_BUFF_DAT],
+		cNss[SIZE_NSS + 2];
+	short shRegistros;
+
+	SHM_INFOX stInfShmSiefore;
+	SIEFORE *shmSiefore,
+		stSiefore;
+	// CBaseDato	objBd;
+	C_ODBC odbcPg,
+		odbcIfx;
 
 	short buscarSieforeCta();
 	short ConsultarSieforeBD();
-	short abrirConexionServAfo();	
-	
+	short abrirConexionServAfo();
+
 public:
 	CConsultarCtaRegimen();
 	~CConsultarCtaRegimen();
 	short consultarSieforeCtaRegimen(char *cNssx);
 	short registrosctaregimen();
-	SIEFORE* RespSiefore();
+	SIEFORE *RespSiefore();
 };
 #endif

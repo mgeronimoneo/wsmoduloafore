@@ -1,10 +1,10 @@
 #include "funcionescomparar.hpp"
 
-int	compararNssMaestroAfiliado(const void *nssBuscar, const void *nssMuestra)
+int compararNssMaestroAfiliado(const void *nssBuscar, const void *nssMuestra)
 {
 	int iRet;
-	MAESTRO_AFILIADO	*ptrNssBuscar,
-						*ptrNssMuestra;
+	MAESTRO_AFILIADO *ptrNssBuscar,
+		*ptrNssMuestra;
 	ptrNssBuscar = (MAESTRO_AFILIADO *)nssBuscar;
 	ptrNssMuestra = (MAESTRO_AFILIADO *)nssMuestra;
 	iRet = memcmp(ptrNssBuscar->cNss, ptrNssMuestra->cNss, SIZE_NSS);
@@ -14,8 +14,8 @@ int	compararNssMaestroAfiliado(const void *nssBuscar, const void *nssMuestra)
 int compararNssEnSaldoCuenta(const void *nssBuscar, const void *nssMuestra)
 {
 	int iRet;
-	SALDO_CUENTA	*ptrNssBuscar,
-						*ptrNssMuestra;
+	SALDO_CUENTA *ptrNssBuscar,
+		*ptrNssMuestra;
 	ptrNssBuscar = (SALDO_CUENTA *)nssBuscar;
 	ptrNssMuestra = (SALDO_CUENTA *)nssMuestra;
 	iRet = memcmp(ptrNssBuscar->cNss, ptrNssMuestra->cNss, SIZE_NSS);
@@ -26,8 +26,8 @@ int compararNssEnSaldoCuenta(const void *nssBuscar, const void *nssMuestra)
 int compararNssCtaRegimen(const void *nssBuscar, const void *nssMuestra)
 {
 	int iRet;
-	SIEFORE		*ptrNssBuscar,
-						*ptrNssMuestra;
+	SIEFORE *ptrNssBuscar,
+		*ptrNssMuestra;
 	ptrNssBuscar = (SIEFORE *)nssBuscar;
 	ptrNssMuestra = (SIEFORE *)nssMuestra;
 	iRet = memcmp(ptrNssBuscar->cNss, ptrNssMuestra->cNss, SIZE_NSS);
@@ -38,8 +38,8 @@ int compararNssCtaRegimen(const void *nssBuscar, const void *nssMuestra)
 int compararNssCtaSaldoVol(const void *nssBuscar, const void *nssMuestra)
 {
 	int iRet;
-	SALDO_VOL		*ptrNssBuscar,
-						*ptrNssMuestra;
+	SALDO_VOL *ptrNssBuscar,
+		*ptrNssMuestra;
 	ptrNssBuscar = (SALDO_VOL *)nssBuscar;
 	ptrNssMuestra = (SALDO_VOL *)nssMuestra;
 	iRet = memcmp(ptrNssBuscar->cNss, ptrNssMuestra->cNss, SIZE_NSS);

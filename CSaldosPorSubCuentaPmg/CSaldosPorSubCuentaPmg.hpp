@@ -18,41 +18,42 @@
 class CSaldosPorSubCuentaPmg
 {
 private:
-	char	cTexto[1024],
-			cOutTexto[768],
-			cIpAdmon[17],
-			cIpServAfo[17],
-			cIpInfx[100],
-			cRutaLog[128],
-			cSql[256],
-			cBuff[SIZE_BUFF_DAT],
-			cNss[SIZE_NSS+2],
-			cSecuencia[4],
-			cFechaLiquida[102];
-	int 	iSubViv;
-	double 	dSaldoDia,
-			dRetroactivo,
-			dDevengado;
-	SHM_INFOX	stInfShmSaldoDiario;
-	SALDO_CUENTA_PMG	*shmSaldoDiario,
-					stSaldoDiario;
-	SALDOS_PMG		stSaldosPmg;
-	//CBaseDato	objBd;
-	C_ODBC		odbcPg,
-				odbcIfx;
+	char cTexto[1024],
+		cOutTexto[768],
+		cIpAdmon[17],
+		cIpServAfo[17],
+		cIpInfx[100],
+		cRutaLog[128],
+		cSql[256],
+		cBuff[SIZE_BUFF_DAT],
+		cNss[SIZE_NSS + 2],
+		cSecuencia[4],
+		cFechaLiquida[102];
+	int iSubViv;
+	double dSaldoDia,
+		dRetroactivo,
+		dDevengado;
+	SHM_INFOX stInfShmSaldoDiario;
+	SALDO_CUENTA_PMG *shmSaldoDiario,
+		stSaldoDiario;
+	SALDOS_PMG stSaldosPmg;
+	// CBaseDato	objBd;
+	C_ODBC odbcPg,
+		odbcIfx;
 
 	short buscarSaldoDiario();
 	short obtenerRetroactivoPgs();
 	short obtenerRetroactivoInf();
 	short ConsultarSaldoBD();
 	short abrirConexionServAfo();
+
 public:
 	CSaldosPorSubCuentaPmg();
 	~CSaldosPorSubCuentaPmg();
 	short consultarSaldoPorSubcuentaPmg(char *cNssx, char *cSecuenciax, int iSubVivx);
-	SALDOS_PMG* SaldoPorSubcuentaPmg();
+	SALDOS_PMG *SaldoPorSubcuentaPmg();
 	short obtenerFechaLiquidaPmg(char *cNssx);
-	char* RespuestaFecha();
+	char *RespuestaFecha();
 };
 
 #endif

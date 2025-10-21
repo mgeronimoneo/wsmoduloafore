@@ -13,29 +13,29 @@
 
 class CConsultarAfiliado
 {
-	private:
-		char	cTexto[1024],
-				cRutaLog[100],
-				cBuffDat[SIZE_BUFF_DAT],
-				cIpPg[17],
-				cSql[512];
-		C_ODBC	odbcSafreAf, odbcAdmonAfo;
+private:
+	char cTexto[1024],
+		cRutaLog[100],
+		cBuffDat[SIZE_BUFF_DAT],
+		cIpPg[17],
+		cSql[512];
+	C_ODBC odbcSafreAf, odbcAdmonAfo;
 
-		SHM_INFOX shmInfoMaestroAfiliado;
-		MAESTRO_AFILIADO * shmMaestroAfiliado;
-		DATOS_TRABAJADOR_EXP_IDEN stDatosTrabajador;
+	SHM_INFOX shmInfoMaestroAfiliado;
+	MAESTRO_AFILIADO *shmMaestroAfiliado;
+	DATOS_TRABAJADOR_EXP_IDEN stDatosTrabajador;
 
-		short obtenerConexionBaseDato();
-		short obtenerFechaCorteShmMaestroAfiliado(char * cOutFechaCorte);
-		void formatoFechaConSeparador(char * pcFecha, char * cOutFechaMDY, char pcSeparador);
-	public:
-		CConsultarAfiliado();
-		~CConsultarAfiliado();
+	short obtenerConexionBaseDato();
+	short obtenerFechaCorteShmMaestroAfiliado(char *cOutFechaCorte);
+	void formatoFechaConSeparador(char *pcFecha, char *cOutFechaMDY, char pcSeparador);
 
-		short consultarAfiliado(char* cNombres, char* cPaterno, char* cMaterno, short shEstadoNac, char* cFechaNac);
-		short obtenerInformacionTrabajador(long lFolioServicio);
-		DATOS_TRABAJADOR_EXP_IDEN * getInformacionTrabajador();
+public:
+	CConsultarAfiliado();
+	~CConsultarAfiliado();
 
+	short consultarAfiliado(char *cNombres, char *cPaterno, char *cMaterno, short shEstadoNac, char *cFechaNac);
+	short obtenerInformacionTrabajador(long lFolioServicio);
+	DATOS_TRABAJADOR_EXP_IDEN *getInformacionTrabajador();
 };
 
 #endif

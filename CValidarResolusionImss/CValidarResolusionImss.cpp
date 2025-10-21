@@ -135,7 +135,7 @@ short CValidarResolusionImss::validarResolucionBd(char *cNss, int iTipoRetirox)
 		{
 			CFnValidarResolucionImss xSelValRes(&odbcIfx);
 			if (iTipoRetirox == CVE_RET_DESEMPLEO_IMSS)
-				snprintf(cSql, sizeof(cSql), "SELECT nvl(unnamed_col_1,'01/01/1900'), nvl(unnamed_col_2,'01/01/1900'), nvl(unnamed_col_3,'01/01/1900'), unnamed_col_4,nvl(unnamed_col_5,''),nvl(unnamed_col_6,0) FROM table(fn_validar_resolucion_desempleo('%s')) ;", cNss);
+				snprintf(cSql, sizeof(cSql), "SELECT nvl(unnamed_col_1,'01/01/1900'), nvl(unnamed_col_2,'01/01/1900'), nvl(unnamed_col_3,'01/01/1900'), unnamed_col_4,nvl(unnamed_col_5,''),nvl(unnamed_col_6,0) FROM table(fn_validar_resolucion_desempleo('%s'));", cNss);
 			else
 				snprintf(cSql, sizeof(cSql), "select '01/01/1900','01/01/1900','01/01/1900', unnamed_col_1, case when unnamed_col_1=0 then 'NO HAY RETIRO' else 'TIENE UN RETIRO' end::char(50), 0 from table(fn_ExisteRetiro(2,'%s'))", cNss);
 

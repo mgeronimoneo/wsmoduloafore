@@ -155,9 +155,8 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			snprintf(cTexto, sizeof(cTexto), "[%s] Error al abrir cnx[%s]: %s", __FUNCTION__, cIpAdmon, cOutTexto);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
-			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
+			strncpy(cIpAdmon, &cBuff[20], sizeof(cIpAdmon) - 1);
 			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -174,7 +173,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			shRet = CBaseDato::consultarInfoShm(&odbcPg, ID_SALDO_CUENTA_DIARIO, stInfShmSaldoVolCta, cOutTexto);
 			if (shRet == OK__)
 			{
-				snprintf(cTexto, sizeof(cTexto), "[%s] se encontró la memoria 18001 : id=%i regs=%i  bytesx  = %ld ", __FUNCTION__,
+				snprintf(cTexto, sizeof(cTexto), "[%s] se encontrÃ³ la memoria 18001 : id=%i regs=%i  bytesx  = %ld ", __FUNCTION__,
 						 stInfShmSaldoVolCta.iIdShm, stInfShmSaldoVolCta.iTotalReg, sizeof(SALDO_VOL) * stInfShmSaldoVolCta.iTotalReg);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				// bandera en 1
@@ -183,7 +182,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			}
 			else if (shRet == ERR_NO_HAY_REG_BD)
 			{
-				snprintf(cTexto, sizeof(cTexto), "[%s] Error no se encontró memoria: %s", __FUNCTION__, cOutTexto);
+				snprintf(cTexto, sizeof(cTexto), "[%s] Error no se encontrÃ³ memoria: %s", __FUNCTION__, cOutTexto);
 				CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 				// bandera en 0
 				banderaShm = DEFAULT__;
@@ -227,7 +226,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 			cIpInfx[sizeof(cIpInfx) - 1] = '\0';
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 
-			snprintf(cIpInfx, sizeof(cIpInfx), "%s;SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;", cIpInfx);
+			strcat(cIpInfx, ";SERVER=safre_tcp;Client Locale=en_us.CP1252;Database Locale=en_US.819;");
 			memset(cOutTexto, 0, sizeof(cOutTexto));
 			CUtileriasAfo::quitarEspacioDerecha(cIpInfx);
 			shRet = CBaseDato::abrirConexionInfx(&odbcIfx, cIpInfx, (char *)USR_BD_SAFRE_AF, (char *)BD_SAFRE_AF, (char *)PWD_BD_SAFRE_AF, cOutTexto);
@@ -239,22 +238,27 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 				shRet = CBaseDato::consultarNumero(&odbcIfx, cSql, iTotalReg, cOutTexto);
 				if (shRet == OK__)
 				{
-
 					snprintf(cTexto, sizeof(cTexto), "TotalRegs: %i", iTotalReg);
 					CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 
-					stSalVol.arrCtaSaldoVol = (SALDO_VOL_SUB_EST *)calloc(iTotalReg, sizeof(SALDO_VOL_SUB_EST));
-					if (stSalVol.arrCtaSaldoVol != NULL)
+					if (iTotalReg > 0)
 					{
-						free(stSalVol.arrCtaSaldoVol);
+						stSalVol.arrCtaSaldoVol = static_cast<SALDO_VOL_SUB_EST *>(calloc(static_cast<size_t>(iTotalReg), sizeof(SALDO_VOL_SUB_EST)));
+						if (!stSalVol.arrCtaSaldoVol)
+						{
+							snprintf(cTexto, sizeof(cTexto), "[%s] Error: No se pudo asignar memoria para arrCtaSaldoVol", __FUNCTION__);
+							CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
+						}
+					}
+					else
+					{
 						stSalVol.arrCtaSaldoVol = NULL;
 					}
-
 					CConsultarSaldoVol xSelSaldoVol(&odbcIfx);
 					// validar si mememoria está cargada
 					if (banderaShm == OK__)
 					{
-						snprintf(cTexto, sizeof(cTexto), "Entra a consultar con fecha de dia anterior: %i", banderaShm);
+						snprintf(cTexto, sizeof(cTexto), "Entra aconsultar con fecha de dia anterior: %i", banderaShm);
 						CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 						snprintf(cSql, sizeof(cSql), "EXECUTE FUNCTION fn_obtenerinfo_saldovol('%s',1);", cNss);
 						CUtileriasAfo::grabarLogx(cRutaLog, cSql);
@@ -269,7 +273,7 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 
 					if (xSelSaldoVol.Exec(cSql))
 					{
-						snprintf(stSalVol.cNss, SIZE_NSS, "%s", cNss);
+						memmove(stSalVol.cNss, cNss, SIZE_NSS);
 
 						xSelSaldoVol.activarCols();
 
@@ -277,15 +281,15 @@ short CConsultarCtaSaldoVol::ConsultarSaldoVolBD()
 						{
 							stSalVol.arrCtaSaldoVol[shCont].iFolio = xSelSaldoVol.folio;
 							stSalVol.arrCtaSaldoVol[shCont].iConsecutivoLote = xSelSaldoVol.consecutivoLote;
-							memmove(stSalVol.arrCtaSaldoVol[shCont].cNss, xSelSaldoVol.nss, sizeof(SIZE_NSS));
+							memmove(stSalVol.arrCtaSaldoVol[shCont].cNss, xSelSaldoVol.nss, SIZE_NSS);
 							stSalVol.arrCtaSaldoVol[shCont].iSiefore = xSelSaldoVol.siefore;
 							stSalVol.arrCtaSaldoVol[shCont].iSubCuenta = xSelSaldoVol.subCuenta;
-							memmove(stSalVol.arrCtaSaldoVol[shCont].cFechaValor, xSelSaldoVol.fechaValor, sizeof(SIZE_FECHA - 2));
-							memmove(stSalVol.arrCtaSaldoVol[shCont].cFechaConversion, xSelSaldoVol.fechaConversion, sizeof(SIZE_FECHA - 2));
+							memmove(stSalVol.arrCtaSaldoVol[shCont].cFechaValor, xSelSaldoVol.fechaValor, SIZE_FECHA - 2);
+							memmove(stSalVol.arrCtaSaldoVol[shCont].cFechaConversion, xSelSaldoVol.fechaConversion, SIZE_FECHA - 2);
 							stSalVol.arrCtaSaldoVol[shCont].iMontoEnPesos = xSelSaldoVol.montoEnPesos;
 							stSalVol.arrCtaSaldoVol[shCont].iMontoEnAcciones = xSelSaldoVol.montoEnAcciones;
 							stSalVol.arrCtaSaldoVol[shCont].iSaldoAcciones = xSelSaldoVol.saldoAcciones;
-							memmove(stSalVol.arrCtaSaldoVol[shCont].cFechaSaldo, xSelSaldoVol.fechaSaldo, sizeof(SIZE_FECHA - 2));
+							memmove(stSalVol.arrCtaSaldoVol[shCont].cFechaSaldo, xSelSaldoVol.fechaSaldo, SIZE_FECHA - 2);
 							memset(stSalVol.arrCtaSaldoVol[shCont].cUsuario, 0, sizeof(stSalVol.arrCtaSaldoVol[shCont].cUsuario));
 							memmove(stSalVol.arrCtaSaldoVol[shCont].cUsuario, xSelSaldoVol.usuario, sizeof(xSelSaldoVol.usuario));
 

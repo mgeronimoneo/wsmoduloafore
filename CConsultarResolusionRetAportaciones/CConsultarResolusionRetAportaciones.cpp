@@ -163,7 +163,6 @@ short CConsultarResolusionRetAportaciones::ConsultarResolusionBD(char *cCurpx, c
 				{
 					iTipoSeguro = xSelResol.iOpcion;
 					snprintf(cTipoPension, sizeof(cTipoPension), "%s", xSelResol.tTipo_Pension);
-					CUtileriasAfo::grabarLogx(cRutaLog, cTipoPension);
 					shRet = CConsultarResolusionRetAportaciones::obtenerTipoSolicitante(iTipoSeguro, cTipoPension);
 					// shRet=OK__;
 				}

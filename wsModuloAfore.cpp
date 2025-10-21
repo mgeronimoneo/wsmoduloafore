@@ -78,7 +78,7 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__consultarAfiliado(struct soap *, ns2__ParamConsul
 		stDatosAfil = objConsultaAfil.getInformacionTrabajador();
 
 		// Indicamos que todo se realizo con exito
-		sprintf(_param_1.out->EstadoProc->DescripcionEstado, "%s", "EXITO");
+		snprintf(_param_1.out->EstadoProc->DescripcionEstado, LONG_DESCRIPCION, "%s", "EXITO");
 		_param_1.out->EstadoProc->Estado = OK__;
 
 		// Se instancia el objeto donde se guardaran los datos que se regresara el webservice
@@ -797,8 +797,8 @@ SOAP_FMAC5 int SOAP_FMAC6 ns2__ConsultarResolucionTotalImssRI(struct soap *, ns2
 		_param_16.outParam->ResolTotalImss->SemanasCotizadas = stResolTotal->iSemanasCotizadas;
 		_param_16.outParam->ResolTotalImss->DiagDatamart = stResolTotal->iDiagDatamart;
 		_param_16.outParam->ResolTotalImss->EstadoSubViv = stResolTotal->iEstadoSubViv;
-		sprintf(_param_16.outParam->ResolTotalImss->FechaResolucion, "%s", stResolTotal->dFechaResolucion);
-		sprintf(_param_16.outParam->ResolTotalImss->DescRegimen, "%s", stResolTotal->cDescripRegimen);
+		snprintf(_param_16.outParam->ResolTotalImss->FechaResolucion, sizeof(stResolTotal->dFechaResolucion), "%s", stResolTotal->dFechaResolucion);
+		snprintf(_param_16.outParam->ResolTotalImss->DescRegimen, sizeof(stResolTotal->cDescripRegimen), "%s", stResolTotal->cDescripRegimen);
 		snprintf(_param_16.outParam->ResolTotalImss->DescTipoPension, sizeof(stResolTotal->cDescripTPension), "%s", stResolTotal->cDescripTPension);
 		snprintf(_param_16.outParam->ResolTotalImss->DescTipoPrestacion, sizeof(stResolTotal->cDescripTPresta), "%s", stResolTotal->cDescripTPresta);
 		snprintf(_param_16.outParam->ResolTotalImss->DescTipoRetiro, sizeof(stResolTotal->cDescripTRetiro), "%s", stResolTotal->cDescripTRetiro);

@@ -249,7 +249,7 @@ short CSaldosPorSubCuentaPmg::buscarSaldoDiario()
 
 	if (stSaldoBuscar != NULL)
 	{
-		for (i = 0; i <= NUM_SUBCTAS_PMG; i++)
+		for (i = 0; i < NUM_SUBCTAS_PMG; i++)
 		{
 			shCuenta = shmSaldoDiario->arrSubCtaPmg[i].shSubCuenta;
 

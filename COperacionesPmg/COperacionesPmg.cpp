@@ -525,7 +525,7 @@ short COperacionesPmg::obtenerNumMensualidad(char *cNssx)
 	{
 		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
 		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
+		
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

@@ -265,7 +265,7 @@ short CSaldosPorSubCuenta::consultarSaldoPorSubcuentaPMG(char *cNssx)
 			memset(cIpAdmon, 0, sizeof(cIpAdmon));
 			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
 			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-			
+
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

@@ -78,7 +78,7 @@ short CConsultarAfiliado::consultarAfiliado(char *cNombres, char *cPaterno, char
 short CConsultarAfiliado::obtenerInformacionTrabajador(long lFolioServicio)
 {
 	short shRet = DEFAULT__;
-	char cSql[512] = {0}, cMensaje[1024] = {0}, cNss[13] = {0}, cEstadoAux[3] = {0}, cFechaCorteMaestroAfiliado[12] = {0}, cFechaNacConSeparador[12] = {0}, cFechaNac[12] = {0}, cSep = 0;
+	char cSql[512] = {0}, cMensaje[2024] = {0}, cNss[13] = {0}, cEstadoAux[3] = {0}, cFechaCorteMaestroAfiliado[12] = {0}, cFechaNacConSeparador[12] = {0}, cFechaNac[12] = {0}, cSep = 0;
 	bool bBuscarEnBD = false;
 	MAESTRO_AFILIADO *ptrMaeAfilEnc = NULL, maeAfilBuscar;
 
@@ -245,7 +245,7 @@ short CConsultarAfiliado::obtenerConexionBaseDato()
 		 cIpAdmon[17] = {0},
 		 cIpSafreAf[50] = {0},
 		 cTexto[200] = {0},
-		 cMensaje[1024] = {0};
+		 cMensaje[2024] = {0};
 
 	snprintf(cMensaje, sizeof(cMensaje), "[%s][%s] Leyendo archivo de configuracion", __FILE__, __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cMensaje);

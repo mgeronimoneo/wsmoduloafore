@@ -11,23 +11,24 @@
 
 class CValidarResolusionImss
 {
-	private:
-		char	cTexto[1024],
-				cOutTexto[768],
-				cIpServAfo[17],
-				cIpInfx[100],
-				cRutaLog[128],
-				cSql[256],
-				cBuff[SIZE_BUFF_DAT];
-		C_ODBC	odbcPg,
-				odbcIfx;
-		VAL_RESOLUCION_IMSS	stValResImss;
-		short validarResolucionBd(char *cNss, int iTipoRetirox);
-	public:
-		CValidarResolusionImss();
-		~CValidarResolusionImss();
-		short ValidarResolucionImss(char *cNssx, int iTipoRetirox);
-		VAL_RESOLUCION_IMSS* ResolucionImss();
+private:
+	char cTexto[1024],
+		cOutTexto[768],
+		cIpServAfo[17],
+		cIpInfx[100],
+		cRutaLog[128],
+		cSql[256],
+		cBuff[SIZE_BUFF_DAT];
+	C_ODBC odbcPg,
+		odbcIfx;
+	VAL_RESOLUCION_IMSS stValResImss;
+	short validarResolucionBd(char *cNss, int iTipoRetirox);
+
+public:
+	CValidarResolusionImss();
+	~CValidarResolusionImss();
+	short ValidarResolucionImss(char *cNssx, int iTipoRetirox);
+	VAL_RESOLUCION_IMSS *ResolucionImss();
 };
 
 #endif

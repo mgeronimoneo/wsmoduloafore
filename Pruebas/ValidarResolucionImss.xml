@@ -3,8 +3,8 @@
   <soapenv:Body>
     <urn:ValidarResolucionImss>
       <inParam>
-        <Nss>12345678901</Nss>
-        <TipoRetiro>Desempleo</TipoRetiro>
+        <Nss>23089075578</Nss>
+        <TipoRetiro>1024</TipoRetiro>
       </inParam>
     </urn:ValidarResolucionImss>
   </soapenv:Body>
