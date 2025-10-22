@@ -3,9 +3,9 @@
   <soapenv:Body>
     <urn:COperacionesPmg>
       <inParam>
-        <Nss>12345678901</Nss>
-        <Secuencia>0001</Secuencia>
-        <Folio>1234</Folio>
+        <Nss>19765414156</Nss>
+        <Secuencia>01</Secuencia>
+        <Folio>0</Folio>
         <iOpcion>1</iOpcion>
       </inParam>
     </urn:COperacionesPmg>

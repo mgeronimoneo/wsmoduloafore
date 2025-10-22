@@ -44,7 +44,6 @@ short CConsultarCtaRegimen::consultarSieforeCtaRegimen(char *cNssx)
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
 			strncpy(cIpAdmon, &cBuff[20], sizeof(SIZE_BUFF_DAT - 20) - 1);
 			cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-			cIpAdmon[16] = {0};
 			CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 			snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 			CUtileriasAfo::grabarLogx(cRutaLog, cTexto);

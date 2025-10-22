@@ -38,7 +38,6 @@ short COperacionesPmg::ConsultaInsuficiencia(char *cNssx, char *cSecuenciax, int
 	{
 		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
 		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -213,6 +212,8 @@ short COperacionesPmg::ObtenerPagoMensualInfx()
 short COperacionesPmg::ConsultaInsuficienciaSaldo(char *cNssx, char *cSecuenciax, int lFolioDatamart)
 {
 	short shRet = DEFAULT__;
+	char cNss[SIZE_NSS + 2] = {0};
+	char cSecuencia[4] = {0};
 	snprintf(cNss, sizeof(cNss), "%s", cNssx);
 	snprintf(cSecuencia, sizeof(cSecuencia), "%s", cSecuenciax);
 	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Insuficiencia de saldo ------ ", __FUNCTION__);
@@ -259,6 +260,8 @@ short COperacionesPmg::ConsultaInsuficienciaSaldo(char *cNssx, char *cSecuenciax
 short COperacionesPmg::ConsultaInsuficienciaSaldoInf(char *cNssx, char *cSecuenciax, int lFolioDatamart)
 {
 	short shRet = DEFAULT__;
+	char cNss[SIZE_NSS + 2] = {0};
+	char cSecuencia[4] = {0};
 	snprintf(cNss, sizeof(cNss), "%s", cNssx);
 	snprintf(cSecuencia, sizeof(cSecuencia), "%s", cSecuenciax);
 	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Insuficiencia de saldo ------ ", __FUNCTION__);
@@ -516,6 +519,7 @@ short COperacionesPmg::buscarSaldoaRecuperar(char *cNssx)
 short COperacionesPmg::obtenerNumMensualidad(char *cNssx)
 {
 	short shRet = DEFAULT__;
+	char cNss[SIZE_NSS + 2] = {0};
 	snprintf(cNss, sizeof(cNss), "%s", cNssx);
 	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Inicia [Nss: %s]------", __FUNCTION__, cNss);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -525,7 +529,7 @@ short COperacionesPmg::obtenerNumMensualidad(char *cNssx)
 	{
 		strncpy(cIpAdmon, cBuff, sizeof(cIpAdmon) - 1);
 		cIpAdmon[sizeof(cIpAdmon) - 1] = '\0';
-		
+
 		CUtileriasAfo::quitarEspacioDerecha(cIpAdmon);
 		snprintf(cTexto, sizeof(cTexto), "[%s] ipAdmonAfore: %s", __FUNCTION__, cIpAdmon);
 		CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -559,6 +563,7 @@ short COperacionesPmg::obtenerNumMensualidad(char *cNssx)
 short COperacionesPmg::ConsultaMensualidadPost(char *cNssx)
 {
 	short shRet = DEFAULT__;
+	char cNss[SIZE_NSS + 2] = {0};
 	snprintf(cNss, sizeof(cNss), "%s", cNssx);
 	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Numero de Mensualidad ------ ", __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
@@ -619,6 +624,7 @@ short COperacionesPmg::ConsultaMensualidadPost(char *cNssx)
 short COperacionesPmg::ConsultaMensualidadInf(char *cNssx)
 {
 	short shRet = DEFAULT__;
+	char cNss[SIZE_NSS + 2] = {0};
 	snprintf(cNss, sizeof(cNss), "%s", cNssx);
 	snprintf(cTexto, sizeof(cTexto), "[%s] ------ Numero de Mensualidad ------ ", __FUNCTION__);
 	CUtileriasAfo::grabarLogx(cRutaLog, cTexto);
