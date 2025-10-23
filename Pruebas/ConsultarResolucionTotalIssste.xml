@@ -1,10 +1,11 @@
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:wsModuloAfore">
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:urn="urn:wsModuloAfore">
   <soapenv:Header/>
   <soapenv:Body>
     <urn:ConsultarResolucionTotalIssste>
       <inParam>
-        <Curp>EISM530523HGRSLG04</Curp>
-        <TipoRetiro>1024</TipoRetiro>
+        <Curp>CADL860824HDFLNX01</Curp>
+        <TipoRetiro>B</TipoRetiro>
       </inParam>
     </urn:ConsultarResolucionTotalIssste>
   </soapenv:Body>

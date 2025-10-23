@@ -15,6 +15,7 @@ CConsultarResolucionTotalIssste::~CConsultarResolucionTotalIssste()
 }
 short CConsultarResolucionTotalIssste::consultaDatamart(char *cCurp, char *cRetiro)
 {
+	char cSql[512] = {0};
 	shRet = MSJ_DEFAULT__;
 	int iFlagReplica = 0;
 
